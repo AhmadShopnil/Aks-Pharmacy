@@ -53,7 +53,7 @@ export default function OfferSlider() {
       >
         {slides.map((img, index) => (
           <SwiperSlide key={index}>
-            <div className="w-full h-64 rounded-xl overflow-hidden shadow-md">
+            <div className="w-full h-64  overflow-hidden shadow-md">
               <img
                 src={img}
                 alt="Discount Item"

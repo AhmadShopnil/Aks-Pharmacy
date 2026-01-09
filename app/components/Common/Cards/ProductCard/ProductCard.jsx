@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 export default function ProductCard({ item }) {
@@ -8,7 +9,9 @@ export default function ProductCard({ item }) {
 
 
       {/* Image */}
-      <div className="w-full h-[270px] relative mb-4">
+      <Link 
+      href={"/products/1"}
+      className="w-full h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
@@ -20,7 +23,7 @@ export default function ProductCard({ item }) {
           fill
           className="object-cover"  // <-- changed from object-contain
         />
-      </div>
+      </Link>
 
       <div className='flex flex-col flex-1'>
 
