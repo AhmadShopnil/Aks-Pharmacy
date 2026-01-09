@@ -85,7 +85,7 @@ const renderMenu = (items, level = 0) => (
   ];
 
   return (
-    <section className="container mx-auto mt-4 px-4 grid grid-cols-12 gap-4 relative">
+    <section className=" mt-4  grid grid-cols-12 gap-4 relative">
       {/* LEFT MEGA MENU */}
       <div className="hidden lg:block col-span-3 bg-white rounded-lg shadow-sm overflow-y-auto max-h-[420px] relative">
         {/* Flash Sale */}
