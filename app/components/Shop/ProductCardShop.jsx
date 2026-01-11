@@ -25,9 +25,11 @@ export default function ProductCardShop({ item }) {
       <div className="flex flex-1 flex-col px-4 pb-4">
 
         {/* Title */}
-        <h3 className="mb-1 text-center text-base font-semibold line-clamp-2">
+        <Link
+        href={`/products/${item.id ?? 1}`}
+        className="mb-1 text-center text-base font-semibold line-clamp-2">
           {item.title}
-        </h3>
+        </Link>
 
         {/* Rating */}
         <div className="mb-2 text-center text-xl text-yellow-500">
@@ -51,7 +53,7 @@ export default function ProductCardShop({ item }) {
         {/* Button */}
         <div className="mt-auto flex justify-center">
           <button
-            className="rounded-full bg-[#1d81b3] px-8 py-2 font-semibold text-white transition hover:bg-blue-700 active:scale-95"
+            className="rounded-full bg-[#1d81b3] px-8 py-2 font-semibold text-white transition hover:bg-blue-700 active:scale-95 cursor-pointer"
             aria-label={`Add ${item.title} to cart`}
           >
             + Add to cart

@@ -5,13 +5,18 @@ import Container from "../Container";
 
 export default function Navbar() {
   return (
-    <header className="w-full bg-white shadow-sm sticky top-0 z-50">
+    <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 ">
       <Container className=" flex items-center gap-6 justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-8">
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer select-none">
-            <p className="font-extrabold text-4xl text-green-500 mr-4">AKS</p>
+           <Image
+           src="/images/logos/aks.png"
+           width={150}
+           height={70}
+           alt="logo"
+           />
           </div>
 
           {/* Delivery */}
