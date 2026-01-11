@@ -54,7 +54,7 @@ export default function CategoryTabs() {
             className="object-contain rounded-t-lg"
           /> */}
 
-          <p className="bg-white py-0.5  text-center text-sm font-medium rounded-b-lg">
+          <p className="bg-[#0784BB] text-white py-0.5  text-center text-sm font-medium rounded-b-lg">
             {cat.name}
           </p>
         </Link>

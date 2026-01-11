@@ -5,47 +5,12 @@ import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-import {
-  FaCapsules,
-  FaHeartbeat,
-  FaSpa,
-  FaBaby,
-  FaLeaf,
-  FaHome,
-  FaPills,
-  FaHospital,
-  FaPumpSoap,
-
-  FaSeedling,
-  FaBroom,
-} from "react-icons/fa";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import { megamenuFormat } from "@/helper/megamenuFormat";
 
-/* ---------------- ICON MAP ---------------- */
-const menuIcons = {
-  Medicine: FaPills,
-  Healthcare: FaHospital,
-  Beauty: FaPumpSoap,
-  "Sexual Wellness": FaHeartbeat,
-  "Baby & Mom Care": FaBaby,
-  Herbal: FaSeedling,
-  "Home Care": FaBroom,
-};
-
-// const menuIcons = {
-//   Medicine: FaCapsules,
-//   Healthcare: FaHeartbeat,
-//   Beauty: FaSpa,
-//   "Sexual Wellness": FaHeartbeat,
-//   "Baby & Mom Care": FaBaby,
-//   Herbal: FaLeaf,
-//   "Home Care": FaHome,
-// };
-
-/* ---------------- SAMPLE DATA ---------------- */
+/* ---------------- SAMPLE DATA (API SIMULATION) ---------------- */
 const menu = [
   {
     name: "Medicine",
@@ -95,29 +60,9 @@ const menu = [
   },
   { name: "Beauty" },
   { name: "Sexual Wellness" },
-    {
-    name: "Healthcare",
-    children: [
-      {
-        name: "Medical Devices",
-        children: [
-          { name: "BP Monitor" },
-          { name: "Thermometer" },
-          { name: "Nebulizer" },
-        ],
-      },
-      {
-        name: "Daily Essentials",
-        children: [
-          { name: "Face Mask" },
-          { name: "Hand Sanitizer" },
-          { name: "Gloves" },
-        ],
-      },
-    ],
-  },
   { name: "Baby & Mom Care" },
   { name: "Herbal" },
+  { name: "Home Care" },
     {
     name: "Healthcare",
     children: [
@@ -139,7 +84,69 @@ const menu = [
       },
     ],
   },
-  { name: "Home Care" },
+    {
+    name: "Healthcare",
+    children: [
+      {
+        name: "Medical Devices",
+        children: [
+          { name: "BP Monitor" },
+          { name: "Thermometer" },
+          { name: "Nebulizer" },
+        ],
+      },
+      {
+        name: "Daily Essentials",
+        children: [
+          { name: "Face Mask" },
+          { name: "Hand Sanitizer" },
+          { name: "Gloves" },
+        ],
+      },
+    ],
+  },
+    {
+    name: "Healthcare",
+    children: [
+      {
+        name: "Medical Devices",
+        children: [
+          { name: "BP Monitor" },
+          { name: "Thermometer" },
+          { name: "Nebulizer" },
+        ],
+      },
+      {
+        name: "Daily Essentials",
+        children: [
+          { name: "Face Mask" },
+          { name: "Hand Sanitizer" },
+          { name: "Gloves" },
+        ],
+      },
+    ],
+  },
+    {
+    name: "Healthcare",
+    children: [
+      {
+        name: "Medical Devices",
+        children: [
+          { name: "BP Monitor" },
+          { name: "Thermometer" },
+          { name: "Nebulizer" },
+        ],
+      },
+      {
+        name: "Daily Essentials",
+        children: [
+          { name: "Face Mask" },
+          { name: "Hand Sanitizer" },
+          { name: "Gloves" },
+        ],
+      },
+    ],
+  },
 ];
 
 /* ---------------- COMPONENT ---------------- */
@@ -175,40 +182,29 @@ export default function HeroWithMegaMenu() {
     <section className="mt-4 grid grid-cols-12 gap-4 relative">
       {/* LEFT MEGA MENU */}
       <div
-        className="hidden lg:block col-span-3 bg-white shadow-sm relative h-96 text-gray-600
+        className="hidden lg:block col-span-3 bg-white shadow-sm relative h-96
                    font-semibold text-[17px]"
         onMouseLeave={() => {
           setLevel1(null);
           setLevel2(null);
         }}
       >
-        {/* LEVEL 1 */}
+        {/* LEVEL 1 (SCROLLABLE) */}
         <ul className="divide-y h-full overflow-y-auto">
-          {formattedMenu.map((item,i) => {
-            const Icon = menuIcons[item.name] || FaCapsules;
-
-            return (
-              <li
-                key={i}
-                onMouseEnter={() => {
-                  setLevel1(item);
-                  setLevel2(null);
-                }}
-                className="flex items-center justify-between px-4 py-3
-                           hover:text-[#0784BB] cursor-pointer transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  {/* <li className="group ...">
-                    <Icon className="transition-transform duration-200 group-hover:scale-110" />
-                  </li> */}
-                  <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
-                  <span>{item.name}</span>
-                </div>
-
-                {item.children && <ChevronRight className="w-5 h-5" />}
-              </li>
-            );
-          })}
+          {formattedMenu?.map((item) => (
+            <li
+              key={item.name}
+              onMouseEnter={() => {
+                setLevel1(item);
+                setLevel2(null);
+              }}
+              className="flex items-center justify-between px-4 py-3
+                         hover:text-[#0784BB] cursor-pointer transition-colors"
+            >
+              <span>{item.name}</span>
+              {item.children && <ChevronRight className="w-4 h-4" />}
+            </li>
+          ))}
         </ul>
 
         {/* LEVEL 2 DRAWER */}
@@ -227,12 +223,12 @@ export default function HeroWithMegaMenu() {
                   <li
                     key={item.name}
                     onMouseEnter={() => setLevel2(item)}
-                    className="flex items-center justify-between px-4 py-2
+                    className="flex items-center justify-between px-4 py-3
                                hover:bg-[#0784BB] hover:text-white
                                cursor-pointer transition-colors"
                   >
                     <span>{item.name}</span>
-                    {item.children && <ChevronRight className="w-5 h-5" />}
+                    {item.children && <ChevronRight className="w-4 h-4" />}
                   </li>
                 ))}
               </ul>
@@ -240,7 +236,7 @@ export default function HeroWithMegaMenu() {
           )}
         </AnimatePresence>
 
-        {/* LEVEL 3 DRAWER */}
+        {/* LEVEL 3 DRAWER (MAX DEPTH) */}
         <AnimatePresence>
           {level2?.children && (
             <motion.div
@@ -255,7 +251,7 @@ export default function HeroWithMegaMenu() {
                 {level2.children.map((item) => (
                   <li
                     key={item.name}
-                    className="px-4 py-2 hover:bg-[#0784BB]
+                    className="px-4 py-3 hover:bg-[#0784BB]
                                hover:text-white cursor-pointer
                                transition-colors"
                   >
@@ -268,7 +264,7 @@ export default function HeroWithMegaMenu() {
         </AnimatePresence>
       </div>
 
-      {/* HERO SLIDER */}
+      {/* RIGHT HERO SLIDER */}
       <div className="col-span-12 lg:col-span-9">
         <Swiper
           modules={[Pagination, Autoplay]}
