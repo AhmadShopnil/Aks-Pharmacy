@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { addItem, selectCartItemById } from '@/lib/redux/features/cart/cartSlice';
 
-export default function ProductCard({ item }) {
+export default function SmallProductCard({ item }) {
   const dispatch = useAppDispatch();
   const [isAdding, setIsAdding] = useState(false);
   const cartItem = useAppSelector(selectCartItemById(item.id));
@@ -31,14 +31,14 @@ export default function ProductCard({ item }) {
   };
 
   return (
-    <div className="border p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-[520px] flex flex-col">
+    <div className="border p-3 border-gray-200 hover:shadow-lg transition duration-300 relative
+      h-[490px] flex flex-col rounded-lg">
 
 
       {/* Image */}
       <Link
         href={"/products/1"}
-        className="w-full h-[270px] relative mb-4">
+        className="w-full h-[240px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">

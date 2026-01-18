@@ -10,11 +10,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function OfferSlider() {
   const slides = [
-    "/images/medicine/2.jpg",
-    "/images/medicine/3.jpg",
-    "/images/medicine/2.jpg",
-    "/images/medicine/3.jpg",
-    "/images/medicine/2.jpg",
+    "/images/promotions/2.png",
+     "/images/promotions/3.png",
+      "/images/promotions/4.png",
+      "/images/promotions/5.png",
+      // "/images/promotions/6.png",
   ];
 
   return (

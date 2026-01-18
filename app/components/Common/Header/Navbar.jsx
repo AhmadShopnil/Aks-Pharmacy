@@ -1,7 +1,11 @@
+'use client';
+
 import React from "react";
 import Image from "next/image";
-import { ChevronDown, Search, User, ShoppingCart } from "lucide-react";
+import { ChevronDown, Search, User } from "lucide-react";
 import Container from "../Container";
+import CartButton from "../CartButton";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -10,19 +14,21 @@ export default function Navbar() {
         {/* Left Section */}
         <div className="flex items-center gap-8">
           {/* Logo */}
-          <div className="flex items-center gap-2 cursor-pointer select-none">
-           <Image
-           src="/images/logos/aks.png"
-           width={150}
-           height={70}
-           alt="logo"
-           />
-          </div>
+          <Link 
+          href='/'
+          className="flex items-center gap-2 cursor-pointer select-none">
+            <Image
+              src="/images/logos/aks.png"
+              width={150}
+              height={70}
+              alt="logo"
+            />
+          </Link>
 
           {/* Delivery */}
-          <div className="hidden md:flex flex-col leading-tight cursor-pointer">
-            <span className="text-xs text-gray-500">Delivery to</span>
-            <div className="flex items-center gap-1 text-sm font-semibold text-gray-700">
+          <div className="hidden md:flex flex-col leading-tight cursor-pointer text-black font-semibold">
+            <span className="text-sm ">Delivery to</span>
+            <div className="flex items-center gap-1 text-base  ">
               Bangladesh
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
@@ -50,20 +56,16 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-2 cursor-pointer text-sm text-gray-700">
+          <div className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold">
             <User className="w-6 h-6 text-gray-500" />
             <div className="leading-tight">
-              <p>Hello, User</p>
+              <p><span className="text-gray-500">Hello,</span> User</p>
               <p className="font-semibold">Account & Orders</p>
             </div>
           </div>
 
-          <div className="relative cursor-pointer">
-            <ShoppingCart className="w-6 h-6 text-gray-700" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              0
-            </span>
-          </div>
+          {/* Cart Button with Redux Integration */}
+          <CartButton />
         </div>
       </Container>
 

@@ -26,7 +26,7 @@ export default function CommonLayout({ children }) {
       >
         <div>
 
-          <div className="sticky">
+          <div className="sticky top-0 z-40">
             <Navbar />
           </div>
           {children}

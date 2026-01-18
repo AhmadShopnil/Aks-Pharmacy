@@ -11,14 +11,14 @@ import CategoryTabs from "@/app/components/Shop/CategoryTabs";
 
 export default function ShopPage() {
   return (
-    <div className="">
+    <div className=" pb-10">
       <Topsection />
 
 
       <Container className=" space-y-3">
         <ShopBanner />
-        <CategoryTabs/>
-        <FilterTabs />
+         <CategoryTabs/>
+      
 
         <div className="grid grid-cols-12 gap-6 mt-6 ">
           {/* Sidebar */}
@@ -28,6 +28,7 @@ export default function ShopPage() {
 
           {/* Products */}
           <div className="col-span-12 lg:col-span-10">
+             <FilterTabs />
             <ProductGrid />
           </div>
         </div>
