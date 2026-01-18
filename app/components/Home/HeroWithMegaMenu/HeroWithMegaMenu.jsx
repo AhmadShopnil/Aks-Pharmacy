@@ -175,13 +175,20 @@ export default function HeroWithMegaMenu() {
     <section className="mt-4 grid grid-cols-12 gap-4 relative">
       {/* LEFT MEGA MENU */}
       <div
-        className="hidden lg:block col-span-3 bg-white shadow-sm relative h-96 text-gray-600
-                   font-semibold text-[17px]"
+        className="hidden lg:block col-span-3 bg-white  relative h-[400px] text-gray-600
+                   font-semibold text-[17px] "
         onMouseLeave={() => {
           setLevel1(null);
           setLevel2(null);
         }}
       >
+          {/* Flash Sale */}
+      <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer o">
+        <div className="flex items-center gap-3 text-black font-semibold text-base italic">
+          <span className="text-yellow-500 text-xl">⚡</span> FLASH SALE
+        </div>
+        <span className="bg-[#1d81b3cc] text-white text-xs px-2 py-1 rounded-sm">1000+</span>
+      </div>
         {/* LEVEL 1 */}
         <ul className="divide-y h-full overflow-y-auto">
           {formattedMenu.map((item,i) => {
@@ -215,7 +222,7 @@ export default function HeroWithMegaMenu() {
         <AnimatePresence>
           {level1?.children && (
             <motion.div
-              className="absolute top-0 left-full h-full bg-white shadow-sm
+              className="absolute top-12 left-full h-full bg-white shadow-sm
                          border-l z-30 overflow-hidden"
               variants={drawerVariants}
               initial="hidden"
@@ -244,7 +251,7 @@ export default function HeroWithMegaMenu() {
         <AnimatePresence>
           {level2?.children && (
             <motion.div
-              className="absolute top-0 left-[calc(100%+16rem)] h-full
+              className="absolute top-12 left-[calc(100%+16rem)] h-full
                          bg-white shadow-sm border-l z-40 overflow-hidden"
               variants={drawerVariants}
               initial="hidden"
@@ -275,14 +282,14 @@ export default function HeroWithMegaMenu() {
           pagination={{ clickable: true }}
           autoplay={{ delay: 3000 }}
           loop
-          className="rounded-xl overflow-hidden shadow-sm"
+          className="overflow-hidden shadow-sm"
         >
           {slides.map((img, index) => (
             <SwiperSlide key={index}>
               <img
                 src={img}
                 alt="Hero Slide"
-                className="w-full h-64 lg:h-96 object-cover"
+                className="w-full h-64 lg:h-[400px] object-cover"
               />
             </SwiperSlide>
           ))}

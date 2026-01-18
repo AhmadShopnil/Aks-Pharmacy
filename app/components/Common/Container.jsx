@@ -4,5 +4,5 @@ import { cn } from "@/app/helper/cn";
 
 
 export default function Container({ children, className}) {
-  return <div className={cn("mx-auto max-w-[1660px] px-3 md:px-6 ", className)}>{children}</div>;
+  return <div className={cn("mx-auto max-w-[1700px] px-3 md:px-6 ", className)}>{children}</div>;
 }

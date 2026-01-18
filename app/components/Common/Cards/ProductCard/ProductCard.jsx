@@ -1,17 +1,44 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { addItem, selectCartItemById } from '@/lib/redux/features/cart/cartSlice';
 
 export default function ProductCard({ item }) {
+  const dispatch = useAppDispatch();
+  const [isAdding, setIsAdding] = useState(false);
+  const cartItem = useAppSelector(selectCartItemById(item.id));
+
+  const handleAddToCart = () => {
+    setIsAdding(true);
+
+    // Dispatch add to cart action
+    dispatch(addItem({
+      id: item.id,
+      title: item.title,
+      price: parseFloat(item.price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
+      img: item.img,
+      discount: item.discount,
+      quantity: 1,
+    }));
+
+    // Visual feedback
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 800);
+  };
+
   return (
     <div className="border p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
       h-[520px] flex flex-col">
 
 
       {/* Image */}
-      <Link 
-      href={"/products/1"}
-      className="w-full h-[270px] relative mb-4">
+      <Link
+        href={"/products/1"}
+        className="w-full h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
@@ -39,7 +66,7 @@ export default function ProductCard({ item }) {
 
         {/* Pricing */}
         <div className="mb-4 text-center">
-          
+
           {item.oldPrice && (
             <span className="line-through mr-2 text-gray-400">
               {item.oldPrice}
@@ -50,8 +77,15 @@ export default function ProductCard({ item }) {
 
         {/* Button */}
         <div className='w-full  flex justify-center'>
-          <button className="px-8 py-2 bg-[#1d81b3] text-white rounded-full font-semibold hover:bg-blue-700 transition ">
-            + Add to cart
+          <button
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            className={`px-8 py-2 rounded-full font-semibold transition ${isAdding
+                ? 'bg-green-600 text-white'
+                : 'bg-[#1d81b3] text-white hover:bg-blue-700'
+              }`}
+          >
+            {isAdding ? '✓ Added!' : cartItem ? `+ Add More (${cartItem.quantity})` : '+ Add to cart'}
           </button>
         </div>
       </div>

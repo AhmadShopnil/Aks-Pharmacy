@@ -1,18 +1,25 @@
+import { CollapsibleFilter } from "./CollapsibleFilter";
+
 export default function FilterSidebar() {
   return (
-    <div className="bg-white   space-y-6">
-      {/* Price Range */}
-      <div className="border p-4 rounded-md">
-        <h3 className="font-semibold mb-2">Price Range</h3>
-        <div className="flex items-center gap-2">
-          <input type="number" placeholder="Min" className="w-full border px-2 py-1 rounded" />
-          <input type="number" placeholder="Max" className="w-full border px-2 py-1 rounded" />
-        </div>
-      </div>
+    <div className="bg-white space-y-4">
 
-      {/* Delivery Time */}
-      <div className="border p-4 rounded-md">
-        <h3 className="font-semibold mb-2">Delivery Time</h3>
+      <CollapsibleFilter title="Price Range">
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            placeholder="Min"
+            className="w-full border px-2 py-1 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Max"
+            className="w-full border px-2 py-1 rounded"
+          />
+        </div>
+      </CollapsibleFilter>
+
+      <CollapsibleFilter title="Delivery Time">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2">
             <input type="checkbox" /> 1–2 hours
@@ -21,34 +28,30 @@ export default function FilterSidebar() {
             <input type="checkbox" /> 2–4 hours
           </label>
         </div>
-      </div>
+      </CollapsibleFilter>
 
-      {/* Category */}
-      <div className="border p-4 rounded-md">
-        <h3 className="font-semibold mb-2">Category</h3>
+      <CollapsibleFilter title="Category">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2"><input type="checkbox" /> Vegetables</label>
           <label className="flex gap-2"><input type="checkbox" /> Fruits</label>
           <label className="flex gap-2"><input type="checkbox" /> Dry Fruits</label>
         </div>
-      </div>
+      </CollapsibleFilter>
 
-      {/* Weight */}
-      <div className="border p-4 rounded-md">
-        <h3 className="font-semibold mb-2">Weight</h3>
+      <CollapsibleFilter title="Weight">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2"><input type="checkbox" /> 500g</label>
           <label className="flex gap-2"><input type="checkbox" /> 1kg</label>
         </div>
-      </div>
-       {/* Free Shiping */}
-      <div className="border p-4 rounded-md">
-        <h3 className="font-semibold mb-2">Free Shipping</h3>
+      </CollapsibleFilter>
+
+      <CollapsibleFilter title="Free Shipping">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2"><input type="checkbox" /> Yes</label>
           <label className="flex gap-2"><input type="checkbox" /> No</label>
         </div>
-      </div>
+      </CollapsibleFilter>
+
     </div>
   );
 }
