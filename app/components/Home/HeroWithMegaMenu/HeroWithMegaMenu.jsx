@@ -150,9 +150,10 @@ export default function HeroWithMegaMenu() {
   const formattedMenu = megamenuFormat(menu);
 
   const slides = [
-    "/images/medicine/1.jpg",
-    "/images/medicine/2.jpg",
-    "/images/medicine/3.jpg",
+    "images/banner/banner1.png",
+    // "/images/medicine/1.jpg",
+    // "/images/medicine/2.jpg",
+    // "/images/medicine/3.jpg",
   ];
 
   const drawerVariants = {
@@ -184,10 +185,10 @@ export default function HeroWithMegaMenu() {
       >
           {/* Flash Sale */}
       <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer o">
-        <div className="flex items-center gap-3 text-black font-semibold text-base italic">
-          <span className="text-yellow-500 text-xl">⚡</span> FLASH SALE
+        <div className="flex items-center gap-3 text-black font-extrabold  italic">
+          <span className="text-yellow-500 text-2xl ">⚡</span> FLASH SALE
         </div>
-        <span className="bg-[#1d81b3cc] text-white text-xs px-2 py-1 rounded-sm">1000+</span>
+        <span className="border border-[#1d81b3cc] text-[#1d81b3cc] text-sm px-2 py-1 rounded-sm font-semibold">1000+</span>
       </div>
         {/* LEVEL 1 */}
         <ul className="divide-y h-full overflow-y-auto">

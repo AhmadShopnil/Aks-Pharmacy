@@ -76,6 +76,24 @@ export default function ProductGridView({section_title}) {
       discount: "-23%",
       rating: 4,
     },
+    {
+      id: 8,
+      title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
+     img: "/images/medicine/6.jpg",
+      price: "550 ৳",
+      oldPrice: "900 ৳",
+      discount: "-39%",
+      rating: 5,
+    },
+    {
+      id: 9,
+      title: "Ordinary – Niacinamide 10% + Zinc 1% – 30ml",
+      img: "/images/medicine/7.jpg",
+      price: "1,220 ৳",
+      oldPrice: "1,300 ৳",
+      discount: "-6%",
+      rating: 5,
+    },
   ];
 
 
@@ -86,7 +104,7 @@ export default function ProductGridView({section_title}) {
         <h3 className="font-bold text-2xl md:text-3xl text-center mb-4">{section_title}</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
-          {products.map((item) => (
+          {products?.map((item) => (
          <ProductCard key={item?.id} item={item}/>
           ))}
         </div>
