@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-export default function Topsection() {
+export default function Topsection({slug}) {
     return (
         <div className="border-b py-2">
             <Container className="flex items-center justify-between">
@@ -18,7 +18,7 @@ export default function Topsection() {
                         className="mx-1 w-5 h-5 text-gray-400 relative top-px"
                     />
 
-                    <span className="font-semibold">Health Care</span>
+                    <span className="font-semibold">{slug}</span>
                 </div>
 
                 <div className="w-1/2 text-xl font-semibold">

@@ -77,7 +77,7 @@ export default function ProductGridView({section_title}) {
       rating: 4,
     },
     {
-      id: 8,
+      id: 10,
       title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
      img: "/images/medicine/6.jpg",
       price: "550 ৳",

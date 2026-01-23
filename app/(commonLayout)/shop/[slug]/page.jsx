@@ -9,10 +9,13 @@ import CategoryTabs from "@/app/components/Shop/CategoryTabs";
 
 
 
-export default function ShopPage() {
+export default function ShopPage({ params }) {
+// const { slug } = params
+
+const slug="Medicine"
   return (
     <div className=" pb-10">
-      <Topsection />
+      <Topsection slug={slug}/>
 
 
       <Container className=" space-y-3">
