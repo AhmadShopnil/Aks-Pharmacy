@@ -16,8 +16,8 @@ const ProfileForm = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto">
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+        <div className="">
+            <div className="bg-white dark:bg-zinc-900 rounded-md border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                 <div className="h-32 bg-zinc-100 dark:bg-zinc-800 relative">
                     <div className="absolute -bottom-12 left-8">
                         <div className="relative group">
@@ -93,7 +93,7 @@ const ProfileForm = () => {
                     <div className="flex justify-end pt-4">
                         <button
                             type="submit"
-                            className="px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2 shadow-xl"
+                            className="px-8 py-3 bg-[#1D81B3] dark:bg-white text-white dark:text-zinc-900 font-bold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2 shadow-xl"
                         >
                             <Save className="w-5 h-5" />
                             Save Changes

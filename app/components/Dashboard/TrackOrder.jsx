@@ -27,8 +27,8 @@ const TrackOrder = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto space-y-8">
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+        <div className=" space-y-8">
+            <div className="bg-white dark:bg-zinc-900 p-6 rounded-md border border-zinc-200 dark:border-zinc-800">
                 <h2 className="text-xl font-bold mb-6">Track Your Order</h2>
                 <form onSubmit={handleTrack} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -55,7 +55,7 @@ const TrackOrder = () => {
                     </div>
                     <button
                         type="submit"
-                        className="md:col-span-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold py-3 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                        className="md:col-span-2 bg-[#1D81B3] dark:bg-white text-white dark:text-zinc-900 font-bold py-3 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                     >
                         <Search className="w-5 h-5" />
                         Track Order

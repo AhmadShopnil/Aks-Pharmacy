@@ -16,6 +16,7 @@ const menuItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "My Orders", href: "/dashboard/orders", icon: ShoppingBag },
     { label: "Track Order", href: "/dashboard/track-order", icon: Search },
+    { label: "Addresses", href: "/dashboard/addresses", icon: MapPin },
     { label: "Profile", href: "/dashboard/profile", icon: User },
 ];
 
@@ -23,7 +24,10 @@ const DashboardSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <div className="w-full lg:w-64 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 sticky top-24">
+        <div className="w-full lg:w-64 h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 
+        rounded-md 
+        px-4 py-6
+         sticky top-24">
             <div className="space-y-1">
                 {menuItems?.map((item) => {
                     const isActive = pathname === item.href;
@@ -33,7 +37,7 @@ const DashboardSidebar = () => {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group",
+                                "flex items-center gap-3 px-4 py-3 rounded-sm transition-all duration-200 group",
                                 isActive
                                     ? "bg-[#1D81B3] text-white dark:bg-white dark:text-zinc-900 shadow-lg"
                                     : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"

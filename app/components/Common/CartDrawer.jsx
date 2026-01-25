@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import {
@@ -12,6 +12,9 @@ import {
     decrementQuantity,
 } from '@/lib/redux/features/cart/cartSlice';
 import { toggleCartDrawer, selectCartDrawerOpen } from '@/lib/redux/features/ui/uiSlice';
+import { addAddress } from '@/lib/redux/features/user/userSlice';
+import AddressModal from './AddressModal';
+import { MapPin, Plus } from 'lucide-react';
 
 /**
  * Cart Drawer Component
@@ -23,6 +26,12 @@ export default function CartDrawer() {
     const cartTotal = useAppSelector(selectCartTotal);
     const cartCount = useAppSelector(selectCartCount);
     const isOpen = useAppSelector(selectCartDrawerOpen);
+    const addresses = useAppSelector((state) => state.user.addresses);
+
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+    const [selectedAddressId, setSelectedAddressId] = useState(
+        addresses.find(addr => addr.isDefault)?.id || null
+    );
 
     const handleClose = () => {
         dispatch(toggleCartDrawer());
@@ -38,6 +47,11 @@ export default function CartDrawer() {
 
     const handleDecrement = (id) => {
         dispatch(decrementQuantity(id));
+    };
+
+    const handleAddAddress = (addressData) => {
+        dispatch(addAddress(addressData));
+        setIsAddressModalOpen(false);
     };
 
     if (!isOpen) return null;
@@ -134,6 +148,73 @@ export default function CartDrawer() {
                     )}
                 </div>
 
+                {/* Shipping Address Section */}
+                <div className="border-t border-zinc-200 p-4 bg-zinc-50">
+                    <h3 className="text-lg font-bold mb-3">Shipping Address</h3>
+
+                    {addresses.length === 0 ? (
+                        <div className="space-y-3">
+                            <p className="text-zinc-600 text-sm">You haven't added any address yet.</p>
+                            <button
+                                onClick={() => setIsAddressModalOpen(true)}
+                                className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition"
+                            >
+                                Add New Address
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {/* Address Selection */}
+                            <div className="space-y-2 max-h-40 overflow-y-auto">
+                                {addresses.map((address) => (
+                                    <div
+                                        key={address.id}
+                                        onClick={() => setSelectedAddressId(address.id)}
+                                        className={`p-3 border rounded-lg cursor-pointer transition ${selectedAddressId === address.id
+                                            ? 'border-teal-600 bg-teal-50'
+                                            : 'border-zinc-200 hover:border-zinc-300'
+                                            }`}
+                                    >
+                                        <div className="flex items-start gap-2">
+                                            <input
+                                                type="radio"
+                                                checked={selectedAddressId === address.id}
+                                                onChange={() => setSelectedAddressId(address.id)}
+                                                className="mt-1"
+                                            />
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-semibold text-sm">{address.label}</span>
+                                                    {address.isDefault && (
+                                                        <span className="text-xs bg-teal-600 text-white px-2 py-0.5 rounded">
+                                                            Default
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-zinc-600 mt-1">
+                                                    {address.name} | {address.phone}
+                                                </p>
+                                                <p className="text-xs text-zinc-500 mt-1">
+                                                    {address.address}, {address.city} - {address.zip}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Add New Address Button */}
+                            <button
+                                onClick={() => setIsAddressModalOpen(true)}
+                                className="w-full border-2 border-dashed border-teal-600 text-teal-600 py-3 rounded-lg font-semibold hover:bg-teal-50 transition flex items-center justify-center gap-2"
+                            >
+                                <Plus className="w-5 h-5" />
+                                Add New Address
+                            </button>
+                        </div>
+                    )}
+                </div>
+
                 {/* Footer */}
                 {cartItems.length > 0 && (
                     <div className="border-t p-4 space-y-3">
@@ -153,6 +234,13 @@ export default function CartDrawer() {
                     </div>
                 )}
             </div>
+
+            {/* Address Modal */}
+            <AddressModal
+                isOpen={isAddressModalOpen}
+                onClose={() => setIsAddressModalOpen(false)}
+                onSave={handleAddAddress}
+            />
         </>
     );
 }

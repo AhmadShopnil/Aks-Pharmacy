@@ -37,7 +37,7 @@ export default function ProductCard({ item }) {
 
       {/* Image */}
       <Link
-        href={"/products/1"}
+        href={`/products/${item?.title}`}
         className="w-full h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
@@ -55,9 +55,11 @@ export default function ProductCard({ item }) {
       <div className='flex flex-col flex-1'>
 
         {/* Title */}
-        <h3 className="text-base font-semibold mb-1 text-center">
+        <Link
+          href={`/products/${item?.title}`}
+          className="text-base font-semibold mb-1 text-center">
           {item.title}
-        </h3>
+        </Link>
 
         {/* Rating */}
         <div className="text-yellow-500 text-2xl mb-2 text-center">
@@ -81,8 +83,8 @@ export default function ProductCard({ item }) {
             onClick={handleAddToCart}
             disabled={isAdding}
             className={`px-8 py-2 rounded-full font-semibold transition cursor-pointer ${isAdding
-                ? 'bg-green-600 text-white'
-                : 'bg-[#1d81b3] text-white hover:bg-[#8CC540]'
+              ? 'bg-green-600 text-white'
+              : 'bg-[#1d81b3] text-white hover:bg-[#8CC540]'
               }`}
           >
             {isAdding ? '✓ Added!' : cartItem ? `+ Add More (${cartItem.quantity})` : '+ Add to cart'}

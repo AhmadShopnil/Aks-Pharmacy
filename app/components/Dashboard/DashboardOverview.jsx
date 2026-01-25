@@ -21,15 +21,15 @@ const DashboardOverview = () => {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">
+                <h2 className="text-3xl font-black text-gray-700 dark:text-white tracking-tight">
                     Welcome back, {demoUser.name.split(' ')[0]}! 👋
                 </h2>
-                <p className="text-zinc-500 mt-1">Here's what's happening with your account today.</p>
+                {/* <p className="text-zinc-500 mt-1">Here what happening with your account today.</p> */}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statCards.map((stat, index) => (
-                    <div key={index} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 relative overflow-hidden group">
+                    <div key={index} className="bg-white dark:bg-zinc-900 p-6 rounded-md border border-zinc-200 dark:border-zinc-800 relative overflow-hidden group">
                         <div className="flex justify-between items-start mb-4">
                             <div className={`p-3 rounded-xl ${stat.color} text-white`}>
                                 <stat.icon className="w-6 h-6" />
@@ -46,7 +46,7 @@ const DashboardOverview = () => {
                 ))}
             </div>
 
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800">
+            <div className="bg-white dark:bg-zinc-900 p-6 rounded-md border border-zinc-200 dark:border-zinc-800">
                 <OrderList />
             </div>
         </div>

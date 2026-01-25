@@ -152,9 +152,9 @@ export default function HeroWithMegaMenu() {
 
   const slides = [
     "images/banner/banner1.png",
-    // "/images/medicine/1.jpg",
-    // "/images/medicine/2.jpg",
-    // "/images/medicine/3.jpg",
+    "/images/medicine/1.jpg",
+    "/images/medicine/2.jpg",
+    "/images/medicine/3.jpg",
   ];
 
   const drawerVariants = {
