@@ -25,7 +25,7 @@ import "swiper/css/pagination";
 import { megamenuFormat } from "@/helper/megamenuFormat";
 import Link from "next/link";
 
-/* ---------------- ICON MAP ---------------- */
+
 const menuIcons = {
   Medicine: FaPills,
   Healthcare: FaHospital,
@@ -36,17 +36,6 @@ const menuIcons = {
   "Home Care": FaBroom,
 };
 
-// const menuIcons = {
-//   Medicine: FaCapsules,
-//   Healthcare: FaHeartbeat,
-//   Beauty: FaSpa,
-//   "Sexual Wellness": FaHeartbeat,
-//   "Baby & Mom Care": FaBaby,
-//   Herbal: FaLeaf,
-//   "Home Care": FaHome,
-// };
-
-/* ---------------- SAMPLE DATA ---------------- */
 const menu = [
   {
     name: "Medicine",
@@ -96,7 +85,7 @@ const menu = [
   },
   { name: "Beauty" },
   { name: "Sexual Wellness" },
-    {
+  {
     name: "Healthcare",
     children: [
       {
@@ -119,7 +108,7 @@ const menu = [
   },
   { name: "Baby & Mom Care" },
   { name: "Herbal" },
-    {
+  {
     name: "Healthcare",
     children: [
       {
@@ -143,7 +132,7 @@ const menu = [
   { name: "Home Care" },
 ];
 
-/* ---------------- COMPONENT ---------------- */
+
 export default function HeroWithMegaMenu() {
   const [level1, setLevel1] = useState(null);
   const [level2, setLevel2] = useState(null);
@@ -151,10 +140,10 @@ export default function HeroWithMegaMenu() {
   const formattedMenu = megamenuFormat(menu);
 
   const slides = [
-    "images/banner/banner1.png",
-    "/images/medicine/1.jpg",
-    "/images/medicine/2.jpg",
-    "/images/medicine/3.jpg",
+    "images/banner/1.jpeg",
+    "images/banner/2.jpeg",
+    "images/banner/3.jpeg",
+
   ];
 
   const drawerVariants = {
@@ -175,7 +164,7 @@ export default function HeroWithMegaMenu() {
 
   return (
     <section className="mt-4 grid grid-cols-12 gap-4 relative">
-      {/* LEFT MEGA MENU */}
+      {/* left mega menu */}
       <div
         className="hidden lg:block col-span-3 bg-white  relative h-[400px] text-gray-600
                    font-semibold text-[17px] "
@@ -184,16 +173,16 @@ export default function HeroWithMegaMenu() {
           setLevel2(null);
         }}
       >
-          {/* Flash Sale */}
-      <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer o">
-        <div className="flex items-center gap-3 text-black font-extrabold  italic">
-          <span className="text-yellow-500 text-2xl ">⚡</span> FLASH SALE
-        </div>
-        <span className="border border-[#1d81b3cc] text-[#1d81b3cc] text-sm px-2 py-1 rounded-sm font-semibold">1000+</span>
-      </div>
+        {/* Flash Sale */}
+        {/* <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer o">
+          <div className="flex items-center gap-3 text-black font-extrabold  italic">
+            <span className="text-yellow-500 text-2xl ">⚡</span> FLASH SALE
+          </div>
+          <span className="border border-[#1d81b3cc] text-[#1d81b3cc] text-sm px-2 py-1 rounded-sm font-semibold">1000+</span>
+        </div> */}
         {/* LEVEL 1 */}
         <ul className="divide-y h-full overflow-y-auto">
-          {formattedMenu.map((item,i) => {
+          {formattedMenu.map((item, i) => {
             const Icon = menuIcons[item.name] || FaCapsules;
 
             return (
@@ -224,7 +213,7 @@ export default function HeroWithMegaMenu() {
         <AnimatePresence>
           {level1?.children && (
             <motion.div
-              className="absolute top-12 left-full h-full bg-white shadow-sm
+              className="absolute top-0 left-full h-full bg-white shadow-sm
                          border-l z-30 overflow-hidden"
               variants={drawerVariants}
               initial="hidden"
@@ -253,7 +242,7 @@ export default function HeroWithMegaMenu() {
         <AnimatePresence>
           {level2?.children && (
             <motion.div
-              className="absolute top-12 left-[calc(100%+16rem)] h-full
+              className="absolute top-0 left-[calc(100%+16rem)] h-full
                          bg-white shadow-sm border-l z-40 overflow-hidden"
               variants={drawerVariants}
               initial="hidden"
@@ -268,10 +257,10 @@ export default function HeroWithMegaMenu() {
                                hover:text-white cursor-pointer
                                transition-colors"
                   >
-                   <Link
-                   href={`/shop/${item?.name}`}
-                   >
-                    {item.name}
+                    <Link
+                      href={`/shop/${item?.name}`}
+                    >
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -295,7 +284,7 @@ export default function HeroWithMegaMenu() {
               <img
                 src={img}
                 alt="Hero Slide"
-                className="w-full h-64 lg:h-[400px] object-cover"
+                className="w-full h-64 lg:h-[400px] object-fit"
               />
             </SwiperSlide>
           ))}
