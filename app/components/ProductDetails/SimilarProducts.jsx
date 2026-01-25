@@ -7,10 +7,10 @@ export default function SimilarProducts() {
   const scrollContainer = useRef(null)
 
   const products = [
-    { id: 1, name: "FitX-4", price: "৳500", image: "/images/items/17.jpg", badge: "Hot" },
+    { id: 1, name: "FitX-4", price: "৳500", image: "/images/items/17.jpg", badge: null },
     { id: 2, name: "Himalaya Lasuna", price: "৳600", image: "/images/items/18.jpg", badge: null },
-    { id: 3, name: "Neurozest NAC Supplement", price: "৳700", image: "/images/items/19.jpg", badge: "Hot" },
-    { id: 4, name: "Zatura Vitl D Ginseng Capsule", price: "৳800", image: "/images/items/20.jpg", badge: "Hot" },
+    { id: 3, name: "Neurozest NAC Supplement", price: "৳700", image: "/images/items/19.jpg", badge: null },
+    { id: 4, name: "Zatura Vitl D Ginseng Capsule", price: "৳800", image: "/images/items/20.jpg", badge: null },
     { id: 5, name: "NOW Supplements Fenugreek", price: "৳900", image: "/images/items/21.jpg", badge: null },
     { id: 6, name: "Bronson Milk Thistle Organic", price: "৳1000", image: "/images/items/22.jpg", badge: null },
   ]

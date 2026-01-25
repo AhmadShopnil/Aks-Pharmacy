@@ -18,14 +18,14 @@ export default function ProductDetailsLayout({ children }) {
 
         <div className="w-full flex  ">
           {/* Sidebar */}
-          <div className="min-h-full  w-[20%]  ">
+          <div className="hidden lg:block min-h-full  w-[20%]  ">
             <div className="fixed   h-full  w-[18%] border-r z-40 ">
               <MegaMenu />
             </div>
           </div>
 
           {/* Main Content */}
-          <div className=" w-[80%] min-h-screen overflow-y-auto  ">
+          <div className="w-full lg:w-[80%] min-h-screen overflow-y-auto  ">
             {children}
             <Footer />
           </div>
