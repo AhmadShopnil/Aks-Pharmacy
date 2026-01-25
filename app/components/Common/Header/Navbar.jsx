@@ -14,9 +14,9 @@ export default function Navbar() {
         {/* Left Section */}
         <div className="flex items-center gap-8">
           {/* Logo */}
-          <Link 
-          href='/'
-          className="flex items-center gap-2 cursor-pointer select-none">
+          <Link
+            href='/'
+            className="flex items-center gap-2 cursor-pointer select-none">
             <Image
               src="/images/logos/aks.png"
               width={150}
@@ -56,13 +56,13 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold">
+          <Link href="/dashboard" className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors">
             <User className="w-6 h-6 text-gray-500" />
             <div className="leading-tight">
               <p><span className="text-gray-500">Hello,</span> User</p>
               <p className="font-semibold">Account & Orders</p>
             </div>
-          </div>
+          </Link>
 
           {/* Cart Button with Redux Integration */}
           <CartButton />

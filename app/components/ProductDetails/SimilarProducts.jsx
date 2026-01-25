@@ -26,7 +26,7 @@ export default function SimilarProducts() {
   }
 
   return (
-    <div className="bg-pink-100 rounded-lg p-6 mb-6">
+    <div className="bg-[#8ac74038] rounded-lg p-6 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900">Similar Products</h2>
         <a href="#" className="text-teal-600 hover:text-teal-700 font-semibold text-sm">
@@ -37,7 +37,7 @@ export default function SimilarProducts() {
       <div className="relative">
         <div
           ref={scrollContainer}
-          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth"
+          className="flex gap-4 "
           style={{ scrollBehavior: "smooth" }}
         >
           {products.map((product) => (

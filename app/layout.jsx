@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Common/Header/Navbar";
-import Footer from "./components/Common/Footer/Footer";
+
 import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 import CartDrawer from "./components/Common/CartDrawer";
 
@@ -30,7 +29,7 @@ export default function RootLayout({ children }) {
           <CartDrawer />
           <div>
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </ReduxProvider>
       </body>

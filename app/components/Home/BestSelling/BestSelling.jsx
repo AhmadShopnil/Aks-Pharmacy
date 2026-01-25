@@ -4,7 +4,7 @@ import ProductGridView from '../ProductSections/ProductGridView'
 
 export default function BestSelling() {
   return (
-    <div>
+    <div className=''>
       <ProductGridView section_title={"Featured Products"} />
     </div>
   )

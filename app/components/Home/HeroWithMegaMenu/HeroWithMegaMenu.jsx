@@ -23,6 +23,7 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 import { megamenuFormat } from "@/helper/megamenuFormat";
+import Link from "next/link";
 
 /* ---------------- ICON MAP ---------------- */
 const menuIcons = {
@@ -151,9 +152,9 @@ export default function HeroWithMegaMenu() {
 
   const slides = [
     "images/banner/banner1.png",
-    // "/images/medicine/1.jpg",
-    // "/images/medicine/2.jpg",
-    // "/images/medicine/3.jpg",
+    "/images/medicine/1.jpg",
+    "/images/medicine/2.jpg",
+    "/images/medicine/3.jpg",
   ];
 
   const drawerVariants = {
@@ -267,7 +268,11 @@ export default function HeroWithMegaMenu() {
                                hover:text-white cursor-pointer
                                transition-colors"
                   >
+                   <Link
+                   href={`/shop/${item?.name}`}
+                   >
                     {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

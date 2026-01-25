@@ -4,7 +4,7 @@ import Container from "../Container";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0B5F66] text-white">
+    <footer className="bg-[#0B5F66] text-white ">
       <Container className=" py-12">
 
         {/* Top Grid */}
@@ -110,15 +110,15 @@ export default function Footer() {
         </div>
 
         <div className=" w-full h-30 flex justify-end">
-  <div className="mt-6">
-              <p className="font-semibold mb-2 ml-10">PAYMENTS ACCEPTED</p>
-              <Image
-                src="/images/payments/ssl_payments.png"
-                alt="Payments"
-                width={360}
-                height={40}
-              />
-            </div>
+          <div className="mt-6">
+            <p className="font-semibold mb-2 ml-10">PAYMENTS ACCEPTED</p>
+            <Image
+              src="/images/payments/ssl_payments.png"
+              alt="Payments"
+              width={360}
+              height={40}
+            />
+          </div>
 
         </div>
 
