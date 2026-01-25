@@ -31,7 +31,7 @@ export default function ProductCard({ item }) {
   };
 
   return (
-    <div className="border p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
+    <div className="border p-1 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
       h-[520px] flex flex-col">
 
 
@@ -57,17 +57,17 @@ export default function ProductCard({ item }) {
         {/* Title */}
         <Link
           href={`/products/${item?.title}`}
-          className="text-base font-semibold mb-1 text-center">
+          className="text-sm md:text-base font-semibold mb-1 text-center">
           {item.title}
         </Link>
 
         {/* Rating */}
-        <div className="text-yellow-500 text-2xl mb-2 text-center">
+        <div className="text-yellow-500 text-base md:text-2xl mb-2 text-center">
           {"★".repeat(item.rating)}
         </div>
 
         {/* Pricing */}
-        <div className="mb-4 text-center">
+        <div className="mb-4 text-center text-sm md:text-base">
 
           {item.oldPrice && (
             <span className="line-through mr-2 text-gray-400">
@@ -82,7 +82,7 @@ export default function ProductCard({ item }) {
           <button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className={`px-8 py-2 rounded-full font-semibold transition cursor-pointer ${isAdding
+            className={`px-4 py-1.5 md:px-8 md:py-2 text-xs md:text-base rounded-full font-semibold transition cursor-pointer ${isAdding
               ? 'bg-green-600 text-white'
               : 'bg-[#1d81b3] text-white hover:bg-[#8CC540]'
               }`}

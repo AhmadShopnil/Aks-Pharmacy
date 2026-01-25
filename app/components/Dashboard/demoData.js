@@ -36,8 +36,8 @@ export const demoOrders = [
 ];
 
 export const demoUser = {
-    name: "John Doe",
-    email: "john@example.com",
+    name: "Samrat Khan",
+    email: "test@example.com",
     phone: "+880 1712 345678",
     address: "House 12, Road 5, Dhanmondi, Dhaka",
     city: "Dhaka",

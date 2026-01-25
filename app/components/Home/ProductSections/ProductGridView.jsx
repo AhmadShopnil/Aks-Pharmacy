@@ -1,19 +1,19 @@
 import ProductCard from "../../Common/Cards/ProductCard/ProductCard";
 
 // ProductSection.jsx
-export default function ProductGridView({section_title}) {
- const products = [
-    
+export default function ProductGridView({ section_title }) {
+  const products = [
+
     {
       id: 4,
       title: "Aplb – Glutathione Niacinamide Beauty Tablet 30pcs",
-     img: "/images/medicine/4.jpg",
+      img: "/images/medicine/4.jpg",
       price: "780 ৳",
       oldPrice: "1,010 ৳",
       discount: "-23%",
       rating: 4,
     },
-       {
+    {
       id: 5,
       title: "Cosrx – Advanced Snail 92 All In One Cream",
       img: "/images/medicine/5.jpg",
@@ -25,7 +25,7 @@ export default function ProductGridView({section_title}) {
     {
       id: 6,
       title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
-     img: "/images/medicine/6.jpg",
+      img: "/images/medicine/6.jpg",
       price: "550 ৳",
       oldPrice: "900 ৳",
       discount: "-39%",
@@ -52,7 +52,7 @@ export default function ProductGridView({section_title}) {
     {
       id: 2,
       title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
-     img: "/images/medicine/2.jpg",
+      img: "/images/medicine/2.jpg",
       price: "550 ৳",
       oldPrice: "900 ৳",
       discount: "-39%",
@@ -70,7 +70,7 @@ export default function ProductGridView({section_title}) {
     {
       id: 8,
       title: "Aplb – Glutathione Niacinamide Beauty Tablet 30pcs",
-     img: "/images/medicine/8.jpg",
+      img: "/images/medicine/8.jpg",
       price: "780 ৳",
       oldPrice: "1,010 ৳",
       discount: "-23%",
@@ -79,7 +79,7 @@ export default function ProductGridView({section_title}) {
     {
       id: 10,
       title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
-     img: "/images/medicine/6.jpg",
+      img: "/images/medicine/6.jpg",
       price: "550 ৳",
       oldPrice: "900 ৳",
       discount: "-39%",
@@ -100,12 +100,12 @@ export default function ProductGridView({section_title}) {
   return (
     <section className="py-10">
       <div className="">
-   
+
         <h3 className="font-bold text-2xl md:text-3xl text-center mb-4">{section_title}</h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
           {products?.map((item) => (
-         <ProductCard key={item?.id} item={item}/>
+            <ProductCard key={item?.id} item={item} />
           ))}
         </div>
       </div>

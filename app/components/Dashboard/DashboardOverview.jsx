@@ -21,8 +21,8 @@ const DashboardOverview = () => {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-3xl font-black text-gray-700 dark:text-white tracking-tight">
-                    Welcome back, {demoUser.name.split(' ')[0]}! 👋
+                <h2 className="text-3xl font-black text-[#8CC640] dark:text-white tracking-tight">
+                    Welcome back, {demoUser.name.split(' ')[0]}!
                 </h2>
                 {/* <p className="text-zinc-500 mt-1">Here what happening with your account today.</p> */}
             </div>
