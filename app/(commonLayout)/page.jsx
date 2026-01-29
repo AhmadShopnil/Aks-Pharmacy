@@ -1,3 +1,4 @@
+import { getCategories, getSliders } from "@/lib/fetchApis";
 import Container from "../components/Common/Container";
 import BestSelling from "../components/Home/BestSelling/BestSelling";
 import HeroWithMegaMenu from "../components/Home/HeroWithMegaMenu/HeroWithMegaMenu";
@@ -7,13 +8,23 @@ import WeaklyDeals from "../components/Home/WeeklyDeals/WeeklyDeals";
 
 
 
-export default function Home() {
+export default async function Home() {
+
+
+  const heroSliders = await getSliders();
+  const productCategories = await getCategories("product_categories") || [];
+
+
+  // console.log("productCategories", productCategories)
+
+
+
   return (
     <div>
 
 
       <Container className="pb-10">
-        <HeroWithMegaMenu />
+        <HeroWithMegaMenu heroSliders={heroSliders} productCategories={productCategories} />
         <OfferSlider />
         <BestSelling />
         <Recommanded />

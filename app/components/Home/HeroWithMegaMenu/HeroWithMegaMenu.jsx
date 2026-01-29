@@ -8,21 +8,17 @@ import { Pagination, Autoplay } from "swiper/modules";
 import {
   FaCapsules,
   FaHeartbeat,
-  FaSpa,
   FaBaby,
-  FaLeaf,
-  FaHome,
   FaPills,
   FaHospital,
   FaPumpSoap,
-
   FaSeedling,
   FaBroom,
 } from "react-icons/fa";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { megamenuFormat } from "@/helper/megamenuFormat";
+import { formatCategories, megamenuFormat, } from "@/helper/megamenuFormat";
 import Link from "next/link";
 
 
@@ -133,11 +129,14 @@ const menu = [
 ];
 
 
-export default function HeroWithMegaMenu() {
+export default function HeroWithMegaMenu({heroSliders,productCategories}) {
   const [level1, setLevel1] = useState(null);
   const [level2, setLevel2] = useState(null);
 
   const formattedMenu = megamenuFormat(menu);
+  const formattedCategories=formatCategories(productCategories);
+
+  console.log("formattedCategories", formattedCategories)
 
   const slides = [
     "images/banner/1.jpeg",
@@ -182,8 +181,8 @@ export default function HeroWithMegaMenu() {
         </div> */}
         {/* LEVEL 1 */}
         <ul className="divide-y h-full overflow-y-auto">
-          {formattedMenu.map((item, i) => {
-            const Icon = menuIcons[item.name] || FaCapsules;
+          {formattedCategories?.map((item, i) => {
+            const Icon = menuIcons[item?.name] || FaCapsules;
 
             return (
               <li
@@ -200,10 +199,10 @@ export default function HeroWithMegaMenu() {
                     <Icon className="transition-transform duration-200 group-hover:scale-110" />
                   </li> */}
                   <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
-                  <span>{item.name}</span>
+                  <span>{item?.name}</span>
                 </div>
 
-                {item.children && <ChevronRight className="w-5 h-5" />}
+                {item?.child?.length>0 && <ChevronRight className="w-5 h-5" />}
               </li>
             );
           })}
@@ -211,7 +210,7 @@ export default function HeroWithMegaMenu() {
 
         {/* LEVEL 2 DRAWER */}
         <AnimatePresence>
-          {level1?.children && (
+          {level1?.child && (
             <motion.div
               className="absolute top-0 left-full h-full bg-white shadow-sm
                          border-l z-30 overflow-hidden"
@@ -221,16 +220,16 @@ export default function HeroWithMegaMenu() {
               exit="exit"
             >
               <ul>
-                {level1.children.map((item) => (
+                {level1?.child?.map((item) => (
                   <li
-                    key={item.name}
+                    key={item?.name}
                     onMouseEnter={() => setLevel2(item)}
                     className="flex items-center justify-between px-4 py-2
                                hover:bg-[#0784BB] hover:text-white
                                cursor-pointer transition-colors"
                   >
-                    <span>{item.name}</span>
-                    {item.children && <ChevronRight className="w-5 h-5" />}
+                    <span>{item?.name}</span>
+                    {item?.child?.length>0 && <ChevronRight className="w-5 h-5" />}
                   </li>
                 ))}
               </ul>
@@ -240,7 +239,7 @@ export default function HeroWithMegaMenu() {
 
         {/* LEVEL 3 DRAWER */}
         <AnimatePresence>
-          {level2?.children && (
+          {level2?.child && (
             <motion.div
               className="absolute top-0 left-[calc(100%+16rem)] h-full
                          bg-white shadow-sm border-l z-40 overflow-hidden"
@@ -250,9 +249,9 @@ export default function HeroWithMegaMenu() {
               exit="exit"
             >
               <ul>
-                {level2.children.map((item) => (
+                {level2?.child?.map((item) => (
                   <li
-                    key={item.name}
+                    key={item?.name}
                     className="px-4 py-2 hover:bg-[#0784BB]
                                hover:text-white cursor-pointer
                                transition-colors"
@@ -260,7 +259,7 @@ export default function HeroWithMegaMenu() {
                     <Link
                       href={`/shop/${item?.name}`}
                     >
-                      {item.name}
+                      {item?.name}
                     </Link>
                   </li>
                 ))}
@@ -279,10 +278,10 @@ export default function HeroWithMegaMenu() {
           loop
           className="overflow-hidden shadow-sm"
         >
-          {slides.map((img, index) => (
+          {heroSliders?.map((item, index) => (
             <SwiperSlide key={index}>
               <img
-                src={img}
+                src={item?.featured_image}
                 alt="Hero Slide"
                 className="w-full h-64 lg:h-[400px] object-fit"
               />

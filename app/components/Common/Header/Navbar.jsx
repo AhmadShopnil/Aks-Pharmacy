@@ -1,13 +1,16 @@
 'use client';
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ChevronDown, Search, User } from "lucide-react";
 import Container from "../Container";
 import CartButton from "../CartButton";
 import Link from "next/link";
+import AuthModal from "../../Auth/AuthModal";
 
 export default function Navbar() {
+
+  const [openAuth, setOpenAuth] = useState(false)
   return (
     <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 ">
       <Container className=" flex items-center gap-6 justify-between">
@@ -67,6 +70,13 @@ export default function Navbar() {
           {/* Cart Button with Redux Integration */}
           <CartButton />
         </div>
+
+        <button
+          onClick={() => setOpenAuth(true)}
+          className="rounded-md bg-teal-600 px-4 py-2 text-white"
+        >
+          Login / Register
+        </button>
       </Container>
 
       {/* Mobile Search */}
@@ -82,6 +92,10 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      <AuthModal
+        isOpen={openAuth}
+        onClose={() => setOpenAuth(false)}
+      />
     </header>
   );
 }
