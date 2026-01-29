@@ -66,21 +66,19 @@ const AuthModal = ({ isOpen, onClose }) => {
         <div className="mb-6 flex rounded-lg bg-gray-100 p-1">
           <button
             onClick={() => setMode("login")}
-            className={`w-1/2 rounded-md py-2 text-sm font-medium transition ${
-              mode === "login"
-                ? "bg-white text-[#1d81b3] shadow"
-                : "text-gray-500"
-            }`}
+            className={`w-1/2 rounded-md py-2 text-sm font-medium transition cursor-pointer ${mode === "login"
+              ? "bg-white text-[#1d81b3] shadow"
+              : "text-gray-500"
+              }`}
           >
             Login
           </button>
           <button
             onClick={() => setMode("register")}
-            className={`w-1/2 rounded-md py-2 text-sm font-medium transition ${
-              mode === "register"
-                ? "bg-white text-[#1d81b3] shadow"
-                : "text-gray-500"
-            }`}
+            className={`w-1/2 rounded-md py-2 text-sm font-medium transition cursor-pointer ${mode === "register"
+              ? "bg-white text-[#1d81b3] shadow"
+              : "text-gray-500"
+              }`}
           >
             Register
           </button>
@@ -150,8 +148,8 @@ const AuthModal = ({ isOpen, onClose }) => {
             {loading
               ? "Please wait..."
               : mode === "login"
-              ? "Login"
-              : "Create account"}
+                ? "Login"
+                : "Create account"}
           </button>
         </form>
       </div>

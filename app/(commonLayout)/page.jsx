@@ -5,6 +5,7 @@ import HeroWithMegaMenu from "../components/Home/HeroWithMegaMenu/HeroWithMegaMe
 import OfferSlider from "../components/Home/OfferSlider/OfferSlider";
 import Recommanded from "../components/Home/Recommanded/Recommanded";
 import WeaklyDeals from "../components/Home/WeeklyDeals/WeeklyDeals";
+import BrandSlider from "../components/Home/BrandsSlider/BrandSlider";
 
 
 
@@ -29,6 +30,7 @@ export default async function Home() {
         <BestSelling />
         <Recommanded />
         <WeaklyDeals />
+        <BrandSlider />
       </Container>
 
 

@@ -59,24 +59,27 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors">
+          <Link href="/dashboard" className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700
+           font-semibold hover:text-blue-600 transition-colors">
             <User className="w-6 h-6 text-gray-500" />
             <div className="leading-tight">
               <p><span className="text-gray-500">Hello,</span> User</p>
               <p className="font-semibold">Account & Orders</p>
             </div>
           </Link>
+          <button
+            onClick={() => setOpenAuth(true)}
+            className="text-base text-gray-700
+           font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer "
+          >
+            Login
+          </button>
 
           {/* Cart Button with Redux Integration */}
           <CartButton />
         </div>
 
-        <button
-          onClick={() => setOpenAuth(true)}
-          className="rounded-md bg-teal-600 px-4 py-2 text-white"
-        >
-          Login / Register
-        </button>
+
       </Container>
 
       {/* Mobile Search */}

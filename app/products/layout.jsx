@@ -18,8 +18,12 @@ export default function ProductDetailsLayout({ children }) {
 
         <div className="w-full flex  ">
           {/* Sidebar */}
-          <div className="hidden lg:block min-h-full  w-[20%]  ">
-            <div className="fixed   h-full  w-[18%] border-r z-40 ">
+          <div className="min-h-full lg:w-[20%]">
+            <div className="hidden lg:block fixed h-full w-[18%] border-r z-40">
+              <MegaMenu />
+            </div>
+            {/* On mobile, MegaMenu handles its own trigger */}
+            <div className="lg:hidden">
               <MegaMenu />
             </div>
           </div>
