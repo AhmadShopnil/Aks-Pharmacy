@@ -31,14 +31,14 @@ export default function ProductCard({ item }) {
   };
 
   return (
-    <div className="border p-1 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-[400px] md:h-[520px] flex flex-col">
+    <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
+      h-[360px] md:h-[520px] flex flex-col">
 
 
       {/* Image */}
       <Link
         href={`/products/${item?.title}`}
-        className="w-full h-[200px] md:h-[270px] relative mb-4">
+        className="w-full h-[140px] md:h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
@@ -54,7 +54,8 @@ export default function ProductCard({ item }) {
 
       <div className='flex flex-col flex-1 justify-between pb-2'>
 
-        {/* Title */}
+      <div className='text-center'>
+          {/* Title */}
         <Link
           href={`/products/${item?.title}`}
           className="text-sm md:text-base font-semibold mb-1 text-center">
@@ -77,6 +78,7 @@ export default function ProductCard({ item }) {
           <span className="font-bold text-pink-600">{item.price}</span>
         </div>
 
+      </div>
         {/* Button */}
         <div className='w-full  flex justify-center'>
           <button

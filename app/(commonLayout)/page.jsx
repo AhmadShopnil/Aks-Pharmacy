@@ -16,7 +16,7 @@ export default async function Home() {
   const productCategories = await getCategories("product_categories") || [];
 
 
-  console.log("heroSliders", heroSliders)
+  // console.log("heroSliders", heroSliders)
 
 
 

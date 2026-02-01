@@ -9,7 +9,7 @@ export default function RightSidePromotionalImage() {
         alt='week deals'
         width={400}
         height={600}
-        className='w-full'
+        className='w-full h-[400px] md:h-full'
         
         />
     </div>

@@ -25,6 +25,7 @@ export default function Navbar() {
               width={150}
               height={70}
               alt="logo"
+              className="w-[110px] md:w-[130px] lg:w-[150px]"
             />
           </Link>
 
@@ -83,8 +84,8 @@ export default function Navbar() {
       </Container>
 
       {/* Mobile Search */}
-      <div className="px-4 pb-3 lg:hidden">
-        <div className="bg-teal-50 flex items-center rounded-md overflow-hidden h-11 border border-teal-100">
+      <div className="px-4 pb-3 lg:hidden mt-2">
+        <div className="bg-teal-50 flex items-center rounded-md overflow-hidden h-10 border border-teal-100">
           <input
             type="text"
             placeholder="Search medicine, products..."

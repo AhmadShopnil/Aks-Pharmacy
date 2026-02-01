@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/Common/Header/Navbar";
 import Footer from "../components/Common/Footer/Footer";
+import MegaMenu from "../components/Common/Sidebar/MegaMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,9 @@ export default function CommonLayout({ children }) {
             <Navbar />
           </div>
           {children}
+          {/* <div className="lg:hidden">
+            <MegaMenu />
+          </div> */}
           <Footer />
         </div>
 

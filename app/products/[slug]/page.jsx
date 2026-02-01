@@ -10,8 +10,80 @@ import FrequentlyBoughtTogether from "@/app/components/ProductDetails/Frequently
 import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
 
+
+
+
+
+
+// export async function generateMetadata({ params }) {
+//   const { slug } = await params;
+
+//   // Normally: fetch product by slug
+//   const product = {
+//     name: "Ceevit",
+//     strength: "250mg",
+//     brand: "Square Pharmaceuticals PLC.",
+//     price: 18.5,
+//     images: ["/images/items/13.jpg"],
+//     description:
+//       "Ceevit (Vitamin C) is used for treatment and prevention of Vitamin C deficiency, scurvy, infection, fever and immune support."
+//   }
+
+//   const title = `${product?.name} ${product?.strength} | Buy Online in Bangladesh`
+//   const description = product?.description
+//   const url = `https://yourdomain.com/product/${slug}`
+
+//   return {
+//     title,
+//     description,
+
+//     keywords: [
+//       product.name,
+//       `${product?.name} ${product?.strength}`,
+//       "Vitamin C Tablet",
+//       "Buy Medicine Online",
+//       "Online Pharmacy Bangladesh"
+//     ],
+
+//     alternates: {
+//       canonical: url
+//     },
+
+//     openGraph: {
+//       title,
+//       description,
+//       url,
+//       siteName: "Your Pharmacy Name",
+//       images: [
+//         {
+//           url: product.images[0],
+//           width: 800,
+//           height: 800,
+//           alt: `${product.name} ${product.strength}`
+//         }
+//       ],
+//       locale: "en_US",
+//       type: "product"
+//     },
+
+//     twitter: {
+//       card: "summary_large_image",
+//       title,
+//       description,
+//       images: [product.images[0]]
+//     },
+
+//     robots: {
+//       index: true,
+//       follow: true
+//     }
+//   }
+// }
+
+
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
+
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -148,6 +220,7 @@ export default async function ProductDetailsPage({ params }) {
     }
   }
 
+
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
       <div className="container mx-auto px-4 py-8">
@@ -199,8 +272,6 @@ export default async function ProductDetailsPage({ params }) {
         </div>
 
         <div className="  pt-8">
-
-
           {/* Rating & Reviews */}
           <RatingAndReviews />
 
