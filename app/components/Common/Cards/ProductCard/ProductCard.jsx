@@ -32,13 +32,13 @@ export default function ProductCard({ item }) {
 
   return (
     <div className="border p-1 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-[520px] flex flex-col">
+      h-[400px] md:h-[520px] flex flex-col">
 
 
       {/* Image */}
       <Link
         href={`/products/${item?.title}`}
-        className="w-full h-[270px] relative mb-4">
+        className="w-full h-[200px] md:h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
@@ -52,7 +52,7 @@ export default function ProductCard({ item }) {
         />
       </Link>
 
-      <div className='flex flex-col flex-1'>
+      <div className='flex flex-col flex-1 justify-between pb-2'>
 
         {/* Title */}
         <Link

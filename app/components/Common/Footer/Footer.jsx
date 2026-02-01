@@ -90,8 +90,18 @@ export default function Footer() {
               <li>Points</li>
               <li>FAQs</li>
               <li>Shipping & Delivery</li>
-              <li>Terms & Conditions</li>
-              <li>Refund & Return Policy</li>
+              <li>
+                <Link
+                  href="/terms-and-conditions"
+                >
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/return-and-refund"
+                >Refund & Return Policy</Link>
+              </li>
               <li>Trade License</li>
               <li>Privacy Policy</li>
             </ul>

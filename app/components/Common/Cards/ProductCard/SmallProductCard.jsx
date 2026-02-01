@@ -32,13 +32,13 @@ export default function SmallProductCard({ item }) {
 
   return (
     <div className="border p-3 border-gray-200 hover:shadow-lg transition duration-300 relative
-      h-[490px] flex flex-col rounded-lg">
+      h-[420px]  md:h-[490px] flex flex-col rounded-lg">
 
 
       {/* Image */}
       <Link
         href={"/products/1"}
-        className="w-full h-[240px] relative mb-4">
+        className="w-full h-[200px] md:h-[240px] relative mb-4">
         {/* Discount Badge */}
         {item.discount && (<span
           className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
