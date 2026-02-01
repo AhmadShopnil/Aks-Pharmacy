@@ -1,6 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import Container from "../Container";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faYoutube,
+  faTwitter,
+  faPinterest,
+} from "@fortawesome/free-brands-svg-icons";
+
+
 
 export default function Footer() {
   return (
@@ -26,15 +36,52 @@ export default function Footer() {
             </ul>
 
             <div className="mt-6">
-              <p className="font-semibold mb-2">SHARE YOUR LOVE</p>
-              {/* <div className="flex gap-3">
-                <span className="w-8 h-8 border rounded-full flex items-center justify-center">f</span>
-                <span className="w-8 h-8 border rounded-full flex items-center justify-center">t</span>
-                <span className="w-8 h-8 border rounded-full flex items-center justify-center">▶</span>
-                <span className="w-8 h-8 border rounded-full flex items-center justify-center">📷</span>
-                <span className="w-8 h-8 border rounded-full flex items-center justify-center">P</span>
-              </div> */}
+              <p className="font-semibold mb-3">SHARE YOUR LOVE</p>
+
+              <div className="flex items-center gap-4 text-xl">
+                <Link
+                  href="https://www.facebook.com"
+                  target="_blank"
+                  className="hover:text-[#1877F2] text-white transition"
+                >
+                  <FontAwesomeIcon icon={faFacebook} />
+                </Link>
+
+                <Link
+                  href="https://www.instagram.com"
+                  target="_blank"
+                  className="hover:text-[#E4405F] transition"
+                >
+                  <FontAwesomeIcon icon={faInstagram} />
+                </Link>
+
+                <Link
+                  href="https://www.youtube.com"
+                  target="_blank"
+                  className="hover:text-[#FF0000] transition"
+                >
+                  <FontAwesomeIcon icon={faYoutube} />
+                </Link>
+
+                <Link
+                  href="https://www.twitter.com"
+                  target="_blank"
+                  className="hover:text-[#1DA1F2] transition"
+                >
+                  <FontAwesomeIcon icon={faTwitter} />
+                </Link>
+
+                <Link
+                  href="https://www.pinterest.com"
+                  target="_blank"
+                  className="hover:text-[#BD081C] transition"
+                >
+                  <FontAwesomeIcon icon={faPinterest} />
+                </Link>
+              </div>
             </div>
+
+
           </div>
 
           {/* Top Categories */}
@@ -73,8 +120,8 @@ export default function Footer() {
               <li>Makeup 101</li>
             </ul>
 
-            <div className="mt-6">
-              <p className="font-semibold mb-3 ">Download Our App</p>
+            <div className="mt-2">
+              <p className="font-semibold mb-2 ">Download Our App</p>
               <div className="flex gap-3 -ml-2.5">
                 <Image src="/images/footer/2.png" alt="Google Play" width={150} height={40} />
                 {/* <Image src="/app-store.png" alt="App Store" width={120} height={40} /> */}
@@ -119,9 +166,9 @@ export default function Footer() {
 
         </div>
 
-        <div className=" w-full h-30 flex justify-end">
-          <div className="mt-6">
-            <p className="font-semibold mb-2 ml-10">PAYMENTS ACCEPTED</p>
+        <div className=" w-full h-30 flex justify-end ">
+          <div className="">
+            <p className="font-semibold mb-1 ml-8">PAYMENTS ACCEPTED</p>
             <Image
               src="/images/payments/ssl_payments.png"
               alt="Payments"
@@ -136,7 +183,7 @@ export default function Footer() {
         <div className="border-t border-white/30 my-8"></div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between text-base text-white/80 gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between text-base xl:text-lg text-white/80 gap-4">
           <div className="flex gap-4">
             <Link href="#">Authenticity</Link>
             <Link href="#">Terms & Conditions</Link>
@@ -145,7 +192,7 @@ export default function Footer() {
             <Link href="#">FAQs</Link>
           </div>
 
-          <p>Copyright © 2025 AKS Pharmacy. All Rights Reserved</p>
+          <p>Copyright © 2026 AKS Pharmacy. All Rights Reserved</p>
         </div>
 
       </Container>
