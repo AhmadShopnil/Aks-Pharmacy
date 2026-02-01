@@ -61,7 +61,7 @@ export default function BrandSlider() {
                     >
                         {brands.map((brand) => (
                             <SwiperSlide key={brand.id}>
-                                <div className="h-auto  flex flex-col items-center justify-center bg-gray-50 rounded-xl border hover:shadow-md
+                                <div className="h-auto  flex flex-col items-center justify-center bg-gray-50 rounded-xl border-b-2 hover:shadow-md
                                  transition">
                                     <Image
                                         src={brand.image}

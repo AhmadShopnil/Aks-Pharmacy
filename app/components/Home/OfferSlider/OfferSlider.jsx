@@ -6,6 +6,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 export default function OfferSlider() {
   const slides = [
@@ -41,7 +42,7 @@ export default function OfferSlider() {
           modules={[Navigation]}
           navigation={{ prevEl: '#discount-prev', nextEl: '#discount-next' }}
           spaceBetween={20}
-          slidesPerView={4}
+          slidesPerView={1}
           loop={true}
           breakpoints={{
             320: { slidesPerView: 2 },   // Mobile: 2 slides
@@ -54,10 +55,12 @@ export default function OfferSlider() {
         >
           {slides.map((img, index) => (
             <SwiperSlide key={index}>
-              <img
+              <Image
                 src={img}
                 alt="Discount Item"
-                className="w-full h-auto object-contain"
+                width={500}
+                height={250}
+                className="w-[400px] h-auto object-cover"
               />
             </SwiperSlide>
           ))}

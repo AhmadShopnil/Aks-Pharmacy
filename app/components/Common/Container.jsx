@@ -1,4 +1,4 @@
-import { cn } from "@/app/helper/cn";
+import { cn } from "@/helper/cn";
 
 
 
