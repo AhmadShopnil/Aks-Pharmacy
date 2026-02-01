@@ -4,12 +4,12 @@ import RightSidePromotionalImage from './RightSidePromotionalImage'
 
 export default function WeaklyDeals() {
     return (
-        <div className='grid grid-cols-4 w-full '>
+        <div className='grid grid-cols-1 xl:grid-cols-4 w-full '>
 
             <div className='col-span-3 border border-gray-200 p-6 rounded-lg'>
                 <ProductList section_title={"WEEK DEALS"} />
             </div>
-            <div className='col-span-1'>
+            <div className='xl:col-span-1 '>
                 <RightSidePromotionalImage />
             </div>
 

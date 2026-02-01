@@ -131,7 +131,7 @@ export default function CartDrawer() {
                                                     <X className="w-4 h-4" />
                                                 </button>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-1">Pack Size: 1's Pack</p>
+                                            <p className="text-xs text-gray-500 mt-1">Pack Size: 1 Pack</p>
                                             <div className="flex justify-between items-end mt-2">
                                                 <div className="font-bold text-gray-900">
                                                     ${item.price.toFixed(2)}
@@ -156,7 +156,7 @@ export default function CartDrawer() {
                                 <h3 className="font-semibold text-gray-800 mb-3">Shipping Address</h3>
                                 {!selectedAddress ? (
                                     <div className="space-y-3">
-                                        <p className="text-sm text-gray-500">You haven't added any address yet.</p>
+                                        <p className="text-sm text-gray-500">You havent added any address yet.</p>
                                         <button
                                             onClick={() => setIsAddressModalOpen(true)}
                                             className="w-full bg-[#1d81b3] text-white font-medium py-2.5 rounded-lg hover:bg-[#166a94] transition"

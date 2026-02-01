@@ -16,8 +16,8 @@ export default function OfferSlider() {
   ];
 
   return (
-    <div className="w-full py-6">
-      <h3 className="font-bold text-2xl md:text-3xl text-center mb-6">
+    <div className="w-full py-3 lg:py-6 ">
+      <h3 className="font-bold text-2xl md:text-3xl text-center mb-2.5 sm:mb-4 md:mb-6">
         Especially For You
       </h3>
       <div className="relative w-full">
