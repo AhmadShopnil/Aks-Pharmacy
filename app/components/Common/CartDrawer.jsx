@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import {
     selectCartItems,
@@ -255,7 +256,17 @@ export default function CartDrawer() {
                             {/* Amount Payable */}
                             <div className="bg-white p-4 flex justify-between items-center text-sm font-bold border-b">
                                 <span>Amount Payable</span>
-                                <span className="text-[#1d81b3] text-lg">Tk{Math.round(finalPayable)}</span>
+                                <span className="text-[#0784BB] text-lg">Tk{Math.round(finalPayable)}</span>
+                            </div>
+
+                            <div className="p-4 flex gap-3">
+                                <Link
+                                    href="/cart"
+                                    onClick={handleClose}
+                                    className="flex-1 text-center py-3 border border-gray-200 rounded-lg font-bold text-gray-600 hover:bg-gray-50 transition"
+                                >
+                                    View Cart
+                                </Link>
                             </div>
 
                             {/* Terms */}

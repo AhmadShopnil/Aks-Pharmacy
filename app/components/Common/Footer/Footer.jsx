@@ -31,7 +31,7 @@ export default function Footer() {
             />
             <ul className="space-y-2 text-base">
               <li><Link href="#">Our Story</Link></li>
-              <li><Link href="#">Join Our Team</Link></li>
+              <li><Link href="/our-team">Join Our Team</Link></li>
               <li><Link href="#">Authenticity</Link></li>
             </ul>
 
@@ -105,7 +105,7 @@ export default function Footer() {
               <li>Offers</li>
               <li>Men’s Products</li>
               <li>Skin Concerns</li>
-              <li>New Arrival</li>
+              <li><Link href="/new-arrivals">New Arrival</Link></li>
               <li>Makeup</li>
             </ul>
           </div>
@@ -133,9 +133,9 @@ export default function Footer() {
           <div className="">
             <h4 className="font-semibold mb-4 text-yellow-600">HELP</h4>
             <ul className="space-y-2 text-base">
-              <li>Contact Us</li>
+              <li><Link href="/contact-us">Contact Us</Link></li>
               <li>Points</li>
-              <li>FAQs</li>
+              <li><Link href="/faq">FAQs</Link></li>
               <li>Shipping & Delivery</li>
               <li>
                 <Link
@@ -189,7 +189,7 @@ export default function Footer() {
             <Link href="#">Terms & Conditions</Link>
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Refund & Return Policy</Link>
-            <Link href="#">FAQs</Link>
+            <Link href="/faq">FAQs</Link>
           </div>
 
           <p>Copyright © 2026 AKS Pharmacy. All Rights Reserved</p>

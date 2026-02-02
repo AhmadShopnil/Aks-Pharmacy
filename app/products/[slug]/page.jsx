@@ -9,6 +9,7 @@ import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import FrequentlyBoughtTogether from "@/app/components/ProductDetails/FrequentlyBoughtTogether"
 import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
+import ProductQA from "@/app/components/ProductDetails/ProductQA"
 
 
 
@@ -274,6 +275,9 @@ export default async function ProductDetailsPage({ params }) {
         <div className="  pt-8">
           {/* Rating & Reviews */}
           <RatingAndReviews />
+
+          {/* Product Q&A */}
+          <ProductQA />
 
           {/* Similar Products */}
           <SimilarProducts />

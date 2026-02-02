@@ -1,17 +1,36 @@
 "use client"
-import { CheckCircle, Share2, Info, ChevronRight, ShoppingCart, Plus, Minus, Zap, ChevronLeft } from 'lucide-react'
+import { CheckCircle, Share2, Info, ChevronRight, ShoppingCart, Plus, Minus, Zap, ChevronLeft, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { useAppDispatch } from '@/lib/redux/hooks'
 import { addItem } from '@/lib/redux/features/cart/cartSlice'
+import { toggleWishlist, selectIsInWishlist } from '@/lib/redux/features/wishlist/wishlistSlice'
 import { showNotification } from '@/lib/redux/features/ui/uiSlice'
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Autoplay } from "swiper/modules"
+import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
 
 export default function ProductInfo({ product }) {
   const [quantity, setQuantity] = useState(1)
   const dispatch = useAppDispatch()
+  const isInWishlist = useAppSelector(selectIsInWishlist(product?.id))
+
+  const handleToggleWishlist = () => {
+    dispatch(toggleWishlist({
+      id: product.id,
+      title: product.name,
+      price: product.price,
+      img: product.images[0],
+      strength: product.strength,
+      brand: product.brand
+    }))
+
+    dispatch(showNotification({
+      message: `${product.name} ${isInWishlist ? 'removed from' : 'added to'} wishlist!`,
+      type: 'success'
+    }))
+  }
 
   const handleAddToCart = () => {
     dispatch(addItem({
@@ -38,9 +57,9 @@ export default function ProductInfo({ product }) {
       {/* Wholesale Banner */}
       <div className="bg-[#0784BB] text-white px-6 py-4 rounded-md flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
-          <Zap size={20} className="text-[#8CC540] fill-[#8CC540]" />
+
           <span className="font-bold text-sm md:text-md leading-snug">
-            সবার জন্য পাইকারী দামে পণ্য কিনতে রেজিস্টার করুন
+            পাইকারী দামে পণ্য কিনতে রেজিস্টার করুন
           </span>
         </div>
         <button className="bg-white text-[#0784BB] px-5 py-2 rounded-md text-sm font-black hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap ml-4">
@@ -49,7 +68,7 @@ export default function ProductInfo({ product }) {
       </div>
 
       {/* Meta info & Views */}
-      <div className="flex flex-wrap items-center justify-between gap-4 px-1">
+      {/* <div className="flex flex-wrap items-center justify-between gap-4 px-1">
         <div className="flex items-center gap-2 text-[#0784BB] bg-[#0784BB]/5 px-4 py-2 rounded-md font-bold text-sm border border-[#0784BB]/10">
           <Share2 size={16} className="rotate-180" />
           452,307 People recently viewed this
@@ -62,7 +81,7 @@ export default function ProductInfo({ product }) {
             <Share2 size={20} />
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Stats Card */}
       <div className="bg-white rounded-md p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-0">
@@ -134,14 +153,23 @@ export default function ProductInfo({ product }) {
             </div>
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            className="w-full bg-[#0784BB] font-semibold text-white py-2.5 rounded-md font-black text-xl flex items-center 
-            justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
-          >
-            <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
-            Add to Cart
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-[#0784BB] font-semibold text-white py-3 rounded-md font-black text-xl flex items-center 
+              justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
+            >
+              <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
+              Add to Cart
+            </button>
+            <button
+              onClick={handleToggleWishlist}
+              className={`p-3 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
+                }`}
+            >
+              <Heart size={24} className={isInWishlist ? 'fill-current' : ''} />
+            </button>
+          </div>
         </div>
       </div>
 

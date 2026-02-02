@@ -23,6 +23,12 @@ const AuthModal = ({ isOpen, onClose }) => {
     try {
       if (mode === "login") {
         await mockLogin(form)
+      } else if (mode === "forgot") {
+        // Mock sending reset link
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        alert("Reset link sent to your email!");
+        setMode("login");
+        return;
       } else {
         if (form.password !== form.password_confirmation) {
           throw { message: "Passwords do not match" }
@@ -53,12 +59,14 @@ const AuthModal = ({ isOpen, onClose }) => {
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-semibold text-gray-900">
-            {mode === "login" ? "Welcome Back" : "Create Account"}
+            {mode === "login" ? "Welcome Back" : mode === "forgot" ? "Reset Password" : "Create Account"}
           </h2>
           <p className="mt-1 text-sm text-gray-500">
             {mode === "login"
               ? "Login to continue ordering medicines"
-              : "Register to buy medicines safely online"}
+              : mode === "forgot"
+                ? "Enter your email to receive a reset link"
+                : "Register to buy medicines safely online"}
           </p>
         </div>
 
@@ -121,14 +129,16 @@ const AuthModal = ({ isOpen, onClose }) => {
             required
           />
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            className={inputClass}
-            onChange={handleChange}
-            required
-          />
+          {mode !== "forgot" && (
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className={inputClass}
+              onChange={handleChange}
+              required
+            />
+          )}
 
           {mode === "register" && (
             <input
@@ -141,17 +151,49 @@ const AuthModal = ({ isOpen, onClose }) => {
             />
           )}
 
-          <button
-            disabled={loading}
-            className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
-          >
-            {loading
-              ? "Please wait..."
-              : mode === "login"
-                ? "Login"
-                : "Create account"}
-          </button>
+          {mode === "login" && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setMode("forgot")}
+                className="text-xs font-semibold text-[#1d81b3] hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
+          {mode === "forgot" ? (
+            <button
+              disabled={loading}
+              className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
+            >
+              {loading ? "Please wait..." : "Send Reset Link"}
+            </button>
+          ) : (
+            <button
+              disabled={loading}
+              className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
+            >
+              {loading
+                ? "Please wait..."
+                : mode === "login"
+                  ? "Login"
+                  : "Create account"}
+            </button>
+          )}
         </form>
+
+        {mode === "forgot" && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => setMode("login")}
+              className="text-sm font-medium text-gray-500 hover:text-[#1d81b3] transition"
+            >
+              Back to Login
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

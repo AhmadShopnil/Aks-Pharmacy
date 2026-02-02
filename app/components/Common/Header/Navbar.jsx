@@ -6,6 +6,7 @@ import { ChevronDown, Search, User } from "lucide-react";
 import Container from "../Container";
 import CartButton from "../CartButton";
 import Link from "next/link";
+import WishlistButton from "../WishlistButton";
 import AuthModal from "../../Auth/AuthModal";
 
 export default function Navbar() {
@@ -52,7 +53,7 @@ export default function Navbar() {
               className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700"
             />
 
-            <button className="bg-[#1d81b3] h-full px-5 flex items-center justify-center text-white">
+            <button className="bg-[#0784BB] h-full px-5 flex items-center justify-center text-white">
               <Search className="w-5 h-5" />
             </button>
           </div>
@@ -75,6 +76,9 @@ export default function Navbar() {
           >
             Login
           </button>
+
+          {/* Wishlist Button */}
+          <WishlistButton />
 
           {/* Cart Button with Redux Integration */}
           <CartButton />

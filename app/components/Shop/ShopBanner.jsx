@@ -7,7 +7,8 @@ export default function ShopBanner() {
                 src="/images/banners/healthcare.png"
                 alt="Fresh Food"
                 width={1800}
-                height={600}
+                height={261}
+
             />
 
         </div>
