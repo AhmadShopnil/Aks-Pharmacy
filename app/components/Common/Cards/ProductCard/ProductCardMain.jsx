@@ -8,7 +8,7 @@ import { addItem, selectCartItemById } from '@/lib/redux/features/cart/cartSlice
 import { toggleWishlist, selectIsInWishlist } from '@/lib/redux/features/wishlist/wishlistSlice';
 import { Heart } from 'lucide-react';
 
-export default function ProductCard({ item }) {
+export default function ProductCardMain({ item }) {
   const dispatch = useAppDispatch();
   const [isAdding, setIsAdding] = useState(false);
   const cartItem = useAppSelector(selectCartItemById(item?.id));
@@ -53,7 +53,7 @@ export default function ProductCard({ item }) {
 
       {/* Image */}
       <Link
-        href={`/products/${item?.title}`}
+        href={`/products/${item?.slug}`}
         className="w-full h-[140px] md:h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item?.discount && (<span
@@ -61,10 +61,10 @@ export default function ProductCard({ item }) {
           {item.discount}
         </span>)}
         <Image
-          src={item?.img}
-          alt={item?.title}
+          src={item?.featured_image}
+          alt={item?.name || "product image"}
           fill
-          className="object-cover"  // <-- changed from object-contain
+          className="object-cover"
         />
 
 
@@ -83,9 +83,9 @@ export default function ProductCard({ item }) {
         <div className='text-center'>
           {/* Title */}
           <Link
-            href={`/products/${item?.title}`}
+            href={`/products/${item?.slug}`}
             className="text-sm md:text-base font-semibold mb-1 text-center">
-            {item?.title}
+            {item?.name}
           </Link>
 
           {/* Rating */}

@@ -224,7 +224,7 @@ export default async function ProductDetailsPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors">
@@ -242,8 +242,8 @@ export default async function ProductDetailsPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
           {/* LEFT CONTENT AREA */}
-          <div className="lg:col-span-7 flex flex-col gap-8">
-            <div className="w-full">
+          <div className="lg:col-span-7 flex flex-col gap-4 md:gap-8">
+            <div className="w-full ">
               <ProductGallery images={product.images} />
             </div>
 
@@ -272,21 +272,23 @@ export default async function ProductDetailsPage({ params }) {
 
         </div>
 
-        <div className="  pt-8">
+        <div className="pt-0  lg:pt-8 space-y-4 md:space-y-6  ">
           {/* Rating & Reviews */}
           <RatingAndReviews />
 
           {/* Product Q&A */}
           <ProductQA />
+      
 
-          {/* Similar Products */}
-          <SimilarProducts />
+            {/* Similar Products */}
+            <SimilarProducts />
 
-          {/* More from X Gold */}
-          <MoreProducts />
+            {/* More from X Gold */}
+            <MoreProducts />
 
-          {/* Frequently Bought Together */}
-          <FrequentlyBoughtTogether />
+            {/* Frequently Bought Together */}
+            <FrequentlyBoughtTogether />
+        
         </div>
 
       </div>

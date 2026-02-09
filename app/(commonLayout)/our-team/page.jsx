@@ -61,14 +61,14 @@ export default function OurTeamPage() {
             {/* Hero Section */}
             <div className="relative py-24 md:py-32 overflow-hidden bg-slate-900">
                 <div className="absolute inset-0 opacity-40">
-                    {/* <Image
+                    <Image
                         src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2000"
                         alt="Pharmacy Lab"
                         fill
                         className="object-cover"
                         priority
-                    /> */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0784BB] via-[#0784BB]/80 to-transparent" />
                 </div>
 
                 <Container className="relative z-10">
@@ -77,9 +77,9 @@ export default function OurTeamPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="max-w-3xl"
                     >
-                        <span className="text-emerald-400 font-bold tracking-widest uppercase text-sm mb-4 block">Meet the experts</span>
+                        <span className="text-[#8CC540] font-bold tracking-widest uppercase text-sm mb-4 block">Meet the experts</span>
                         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                            Dedicated to your <span className="text-emerald-400">health & wellness.</span>
+                            Dedicated to your <span className="text-[#8CC540]">health & wellness.</span>
                         </h1>
                         <p className="text-slate-300 text-lg md:text-xl leading-relaxed">
                             Our team of licensed pharmacists and healthcare professionals work
@@ -171,7 +171,7 @@ export default function OurTeamPage() {
             </div>
 
             {/* Join the team CTA */}
-            <div className="py-24 bg-emerald-600 relative overflow-hidden">
+            {/* <div className="py-24 bg-emerald-600 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500 rounded-full -ml-32 -mb-32 blur-3xl" />
 
@@ -185,7 +185,7 @@ export default function OurTeamPage() {
                         View Career Openings
                     </button>
                 </Container>
-            </div>
+            </div> */}
         </div>
     );
 }

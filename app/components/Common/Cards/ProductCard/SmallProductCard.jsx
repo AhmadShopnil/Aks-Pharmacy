@@ -5,11 +5,27 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { addItem, selectCartItemById } from '@/lib/redux/features/cart/cartSlice';
+import { toggleWishlist, selectIsInWishlist } from '@/lib/redux/features/wishlist/wishlistSlice';
+import { Heart } from 'lucide-react';
 
 export default function SmallProductCard({ item }) {
   const dispatch = useAppDispatch();
   const [isAdding, setIsAdding] = useState(false);
-  const cartItem = useAppSelector(selectCartItemById(item.id));
+  const cartItem = useAppSelector(selectCartItemById(item?.id));
+  const isInWishlist = useAppSelector(selectIsInWishlist(item?.id));
+
+  const handleToggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(toggleWishlist({
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      img: item.img,
+      discount: item.discount,
+      rating: item.rating
+    }));
+  };
 
   const handleAddToCart = () => {
     setIsAdding(true);
@@ -18,7 +34,7 @@ export default function SmallProductCard({ item }) {
     dispatch(addItem({
       id: item.id,
       title: item.title,
-      price: parseFloat(item.price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
+      price: parseFloat(item.price.replace(/[^0-9.-]+/g, '')),
       img: item.img,
       discount: item.discount,
       quantity: 1,
@@ -51,6 +67,14 @@ export default function SmallProductCard({ item }) {
           className="object-cover"  // <-- changed from object-contain
         />
       </Link>
+      {/* Wishlist Button */}
+      <button
+        onClick={handleToggleWishlist}
+        className={`absolute top-4 right-4 z-20 p-2 rounded-full shadow-md transition-all duration-300 group/wishlist ${isInWishlist ? 'bg-pink-50 text-pink-600' : 'bg-white/80 text-gray-400 hover:text-pink-600 hover:bg-white'
+          }`}
+      >
+        <Heart className={`w-5 h-5 ${isInWishlist ? 'fill-current' : 'group-hover/wishlist:scale-110'}`} />
+      </button>
 
       <div className='flex flex-col flex-1 justify-between'>
 

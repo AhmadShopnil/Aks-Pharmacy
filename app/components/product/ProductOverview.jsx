@@ -13,18 +13,18 @@ export default function ProductOverview({ product }) {
     <div className="bg-white rounded-md border border-gray-100 shadow-sm overflow-hidden">
 
       {/* Header */}
-      <div className="p-6 border-b bg-gray-50/30 flex flex-col md:flex-row justify-between gap-4">
+      <div className="p-3 md:p-6 border-b bg-gray-50/30 flex flex-col md:flex-row justify-between gap-4">
         <div className="flex items-center gap-2 ">
           <div className="text-[#0784BB] ">
             <FileText size={24} />
           </div>
-          <h2 className="text-2xl font-semibold text-[#0784BB]">
+          <h2 className="text-xl md:text-2xl font-semibold text-[#0784BB]">
             Product Overview of {product?.name}
           </h2>
         </div>
 
         {/* Language Switch */}
-        <div className="flex bg-white p-1 rounded-md border shadow-sm">
+        <div className="flex w-40 bg-white p-1 rounded-md border shadow-sm">
           <button
             onClick={() => setLang("bn")}
             className={`px-4 py-2 text-xs font-black rounded-md cursor-pointer ${lang === "bn"
@@ -48,13 +48,13 @@ export default function ProductOverview({ product }) {
 
       {/* HTML Content */}
       <div
-        className="p-8 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
+        className="p-3 md:p-8 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
 
       {/* Disclaimer */}
-      <div className="m-6 p-4 bg-amber-50 rounded-md border border-amber-100">
-        <p className="text-[10px] text-amber-900 font-bold italic opacity-80">
+      <div className=" p-2 md: bg-amber-50  border border-amber-100">
+        <p className="text-xs md:text-sm text-amber-900 font-bold italic opacity-80">
           DISCLAIMER: This information is for educational purposes only.
           Always consult a licensed healthcare professional.
         </p>

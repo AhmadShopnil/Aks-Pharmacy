@@ -8,10 +8,14 @@ import CartButton from "../CartButton";
 import Link from "next/link";
 import WishlistButton from "../WishlistButton";
 import AuthModal from "../../Auth/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/lib/redux/features/user/userSlice";
 
 export default function Navbar() {
 
   const [openAuth, setOpenAuth] = useState(false)
+  const dispatch = useDispatch();
+  const { isAuthenticated, profile } = useSelector((state) => state.user);
   return (
     <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 ">
       <Container className=" flex items-center gap-6 justify-between">
@@ -61,21 +65,30 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700
-           font-semibold hover:text-blue-600 transition-colors">
-            <User className="w-6 h-6 text-gray-500" />
-            <div className="leading-tight">
-              <p><span className="text-gray-500">Hello,</span> User</p>
-              <p className="font-semibold">Account & Orders</p>
+          {isAuthenticated ? (
+            <div className="hidden md:flex items-center gap-4">
+              <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors">
+                <User className="w-6 h-6 text-gray-500" />
+                <div className="leading-tight">
+                  <p><span className="text-gray-500">Hello,</span> {profile?.name || "User"}</p>
+                  <p className="font-semibold">Account & Orders</p>
+                </div>
+              </Link>
+              <button
+                onClick={() => dispatch(logout())}
+                className="text-sm text-red-600 font-semibold hover:text-red-800 transition-colors px-3 py-1 border border-red-200 rounded-md"
+              >
+                Logout
+              </button>
             </div>
-          </Link>
-          <button
-            onClick={() => setOpenAuth(true)}
-            className="text-base text-gray-700
-           font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer "
-          >
-            Login
-          </button>
+          ) : (
+            <button
+              onClick={() => setOpenAuth(true)}
+              className="text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer"
+            >
+              Login
+            </button>
+          )}
 
           {/* Wishlist Button */}
           <WishlistButton />

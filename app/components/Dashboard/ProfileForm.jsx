@@ -7,7 +7,21 @@ import { updateProfile } from "@/lib/redux/features/user/userSlice";
 const ProfileForm = () => {
     const dispatch = useDispatch();
     const userProfile = useSelector((state) => state.user.profile);
-    const [formData, setFormData] = useState(userProfile);
+    const [formData, setFormData] = useState(userProfile || {
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        zip: "",
+        country: ""
+    });
+
+    React.useEffect(() => {
+        if (userProfile) {
+            setFormData(userProfile);
+        }
+    }, [userProfile]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,7 +36,7 @@ const ProfileForm = () => {
                     <div className="absolute -bottom-12 left-8">
                         <div className="relative group">
                             <div className="w-24 h-24 rounded-2xl bg-white dark:bg-zinc-900 border-4 border-white dark:border-zinc-900 shadow-xl flex items-center justify-center text-3xl font-bold">
-                                {formData.name.charAt(0)}
+                                {formData?.name?.charAt(0) || "U"}
                             </div>
                             <button className="absolute bottom-0 right-0 p-1.5 bg-zinc-900 text-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Camera className="w-4 h-4" />
@@ -40,7 +54,7 @@ const ProfileForm = () => {
                             <input
                                 type="text"
                                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-zinc-900 outline-none transition-all"
-                                value={formData.name}
+                                value={formData?.name || ""}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
                         </div>
@@ -51,7 +65,7 @@ const ProfileForm = () => {
                             <input
                                 type="email"
                                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/50 text-zinc-500 cursor-not-allowed outline-none transition-all"
-                                value={formData.email}
+                                value={formData?.email || ""}
                                 readOnly
                             />
                         </div>
@@ -62,7 +76,7 @@ const ProfileForm = () => {
                             <input
                                 type="tel"
                                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-zinc-900 outline-none transition-all"
-                                value={formData.phone}
+                                value={formData?.phone || ""}
                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             />
                         </div>
@@ -73,7 +87,7 @@ const ProfileForm = () => {
                             <input
                                 type="text"
                                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-zinc-900 outline-none transition-all"
-                                value={formData.city}
+                                value={formData?.city || ""}
                                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                             />
                         </div>
@@ -84,7 +98,7 @@ const ProfileForm = () => {
                             <textarea
                                 rows="3"
                                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-zinc-900 outline-none transition-all resize-none"
-                                value={formData.address}
+                                value={formData?.address || ""}
                                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                             />
                         </div>

@@ -32,19 +32,19 @@ const categories = [
 
 export default function CategoryTabs() {
   return (
-    <div className="flex gap-3 flex-wrap">
+    <div className="flex flex-wrap gap-3 ">
       {categories.map((cat) => (
         <Link
           key={cat.id}
           href={`/shop/${cat.id}`}
-          className="border rounded-lg  hover:shadow-md transition"
+          className="border rounded-lg  hover:shadow-md transition w-[100px] h-auto md:w-[220px]  "
         >
            <Image
             src={cat.image}
             alt={cat.name}
             width={220}    
             height={200}   
-            className="w-[220px] h-[200px] rounded-t-lg"
+            className="w-full h-[85px] md:h-[200px]  rounded-t-lg"
           />
           {/* <Image
             src={cat.image}
@@ -54,7 +54,7 @@ export default function CategoryTabs() {
             className="object-contain rounded-t-lg"
           /> */}
 
-          <p className="bg-[#0784BB] text-white py-0.5  text-center text-sm font-medium rounded-b-lg">
+          <p className="bg-[#0784BB] text-white py-1  text-center text-[11px] md:text-sm font-medium rounded-b-lg">
             {cat.name}
           </p>
         </Link>

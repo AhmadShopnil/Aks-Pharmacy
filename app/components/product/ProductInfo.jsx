@@ -53,16 +53,16 @@ export default function ProductInfo({ product }) {
   const decrement = () => setQuantity(q => Math.max(1, q - 1))
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-2 md:gap-8">
       {/* Wholesale Banner */}
-      <div className="bg-[#0784BB] text-white px-6 py-4 rounded-md flex items-center justify-between shadow-lg">
+      <div className="bg-[#0784BB] text-white px-3 py-2 md:px-6 md:py-4 rounded-md flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
 
-          <span className="font-bold text-sm md:text-md leading-snug">
+          <span className="font-bold text-xs sm:text-sm md:text-md leading-snug">
             পাইকারী দামে পণ্য কিনতে রেজিস্টার করুন
           </span>
         </div>
-        <button className="bg-white text-[#0784BB] px-5 py-2 rounded-md text-sm font-black hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap ml-4">
+        <button className="bg-white text-[#0784BB] px-5 py-2 rounded-md text-xs md:text-sm font-black hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap ml-4">
           Register
         </button>
       </div>
@@ -84,7 +84,7 @@ export default function ProductInfo({ product }) {
       </div> */}
 
       {/* Main Stats Card */}
-      <div className="bg-white rounded-md p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-0">
+      <div className="bg-white rounded-md p-3 md:p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-0">
         {/* Title and Badge */}
         <div className="pb-6 border-b border-gray-200">
           <div className="flex items-center gap-2 mb-2">
@@ -119,44 +119,53 @@ export default function ProductInfo({ product }) {
         <div className="pt-6 flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <span className="text-xs uppercase font-black  text-gray-400">Available Pack</span>
-            <p className="text-[#8CC540] font-bold text-base">{product.attributes.packSize}</p>
+            <p className="text-[#8CC540] font-bold text-base">{product?.attributes.packSize}</p>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50 p-6 rounded-md">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50 p-2 md:p-6 rounded-md">
             <div className="flex flex-col">
               <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span>
               <div className="flex items-end gap-3">
-                <span className="text-4xl font-black text-gray-900 leading-none font-semibold">৳ {product.price.toFixed(2)}</span>
+                <span className="text-2xl md:text-4xl  text-gray-600 leading-none font-semibold">৳ {product.price.toFixed(2)}</span>
                 <div className="flex flex-col">
-                  <span className="text-sm text-gray-400 line-through font-bold">MRP ৳{product.mrp.toFixed(2)}</span>
+                  <span className="text-sm text-gray-400 line-through font-bold">MRP ৳{product?.mrp?.toFixed(2)}</span>
                   <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
-                    {product.discount}% OFF
+                    {product?.discount}% OFF
                   </span>
                 </div>
               </div>
             </div>
+            <div className="flex items-center justify-center md:justify-end">
+              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
+                <button
+                  onClick={decrement}
+                  aria-label="Decrease quantity"
+                  className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
+                >
+                  <Minus size={16} />
+                </button>
 
-            <div className="flex items-center gap-4 bg-white p-2 rounded-md border border-gray-100 shadow-sm">
-              <button
-                onClick={decrement}
-                className="w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-50 text-gray-900 transition-colors active:scale-90"
-              >
-                <Minus size={18} />
-              </button>
-              <span className="w-8 text-center font-black text-xl text-gray-900">{quantity}</span>
-              <button
-                onClick={increment}
-                className="w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-50 text-gray-900 transition-colors active:scale-90"
-              >
-                <Plus size={18} />
-              </button>
+                <div className="w-12 h-10 flex items-center justify-center text-base font-bold text-gray-800 border-x border-gray-300">
+                  {quantity}
+                </div>
+
+                <button
+                  onClick={increment}
+                  aria-label="Increase quantity"
+                  className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
             </div>
+
+        
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 ">
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-[#0784BB] font-semibold text-white py-3 rounded-md font-black text-xl flex items-center 
+              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-3 rounded-md text-base md:text-lg flex items-center 
               justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
             >
               <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
@@ -164,13 +173,14 @@ export default function ProductInfo({ product }) {
             </button>
             <button
               onClick={handleToggleWishlist}
-              className={`p-3 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
+              className={`py-2 md:py-3 px-3 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
                 }`}
             >
               <Heart size={24} className={isInWishlist ? 'fill-current' : ''} />
             </button>
           </div>
         </div>
+
       </div>
 
       {/* Promotional Offers */}

@@ -1,12 +1,24 @@
 "use client"
 
 import { useState } from "react"
-import { mockLogin, mockRegister } from "@/lib/AuthApi"
+import { useLoginMutation, useRegisterMutation } from "@/lib/redux/services/authApi"
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState("login")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+
+  // RTK Query Hooks
+  const [login, { isLoading: isLoginLoading, error: loginError }] = useLoginMutation();
+  const [register, { isLoading: isRegisterLoading, error: registerError }] = useRegisterMutation();
+
+  // Combine loading and error states for UI
+  const isLoading = isLoginLoading || isRegisterLoading;
+  // RTK Query errors can be objects, so we need to parse them
+  const apiError = loginError || registerError;
+  const errorMessage = apiError
+    ? (apiError.data?.message || apiError.message || "An unexpected error occurred")
+    : "";
+
+  const [localError, setLocalError] = useState("")
   const [form, setForm] = useState({})
 
   if (!isOpen) return null
@@ -17,29 +29,65 @@ const AuthModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    setError("")
+    setLocalError("")
 
     try {
       if (mode === "login") {
-        await mockLogin(form)
+        const result = await login({
+          email: form.email,
+          password: form.password
+        }).unwrap();
+
+        // On success, close modal. State is updated via matchers in userSlice
+        if (result.success !== false) {
+          onClose();
+        }
+
       } else if (mode === "forgot") {
-        // Mock sending reset link
+        // Mock sending reset link - typically would be another mutation
         await new Promise(resolve => setTimeout(resolve, 1000));
         alert("Reset link sent to your email!");
         setMode("login");
         return;
       } else {
         if (form.password !== form.password_confirmation) {
-          throw { message: "Passwords do not match" }
+          setLocalError("Passwords do not match")
+          return
         }
-        await mockRegister(form)
+
+        // Split full name
+        const fullName = form.full_name || form.name || "";
+        const nameParts = fullName.trim().split(/\s+/);
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+
+        const registerData = {
+          ...form,
+          first_name: firstName,
+          last_name: lastName,
+          // Ensure we send what API expects
+          full_name: fullName
+        }
+
+        const result = await register(registerData).unwrap();
+
+        if (result.success !== false) {
+       
+          if (result.token) {
+            onClose();
+          } else {
+            alert("Registration successful! Please login.");
+            setMode('login');
+          }
+        }
       }
-      onClose()
     } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+  
+      console.error("Auth failed:", err);
+
+      if (!apiError) {
+        setLocalError(err.message || "Operation failed");
+      }
     }
   }
 
@@ -93,9 +141,9 @@ const AuthModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Error */}
-        {error && (
+        {(localError || errorMessage) && (
           <div className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
-            {error}
+            {localError || errorMessage}
           </div>
         )}
 
@@ -165,17 +213,17 @@ const AuthModal = ({ isOpen, onClose }) => {
 
           {mode === "forgot" ? (
             <button
-              disabled={loading}
+              disabled={isLoading}
               className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
             >
-              {loading ? "Please wait..." : "Send Reset Link"}
+              {isLoading ? "Please wait..." : "Send Reset Link"}
             </button>
           ) : (
             <button
-              disabled={loading}
+              disabled={isLoading}
               className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
             >
-              {loading
+              {isLoading
                 ? "Please wait..."
                 : mode === "login"
                   ? "Login"
