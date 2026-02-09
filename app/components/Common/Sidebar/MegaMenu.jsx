@@ -356,7 +356,7 @@ export default function MegaMenu() {
                     <AnimatePresence>
                         {level1?.children && (
                             <motion.div
-                                className="absolute top-12 left-full h-full bg-white shadow-xl
+                                className="absolute top-0 left-full h-full bg-white shadow-xl
                              border-l z-30 overflow-hidden min-w-[256px]"
                                 variants={drawerVariants}
                                 initial="hidden"
@@ -385,7 +385,7 @@ export default function MegaMenu() {
                     <AnimatePresence>
                         {level2?.children && (
                             <motion.div
-                                className="absolute top-12 left-[calc(100%+16rem)] h-full
+                                className="absolute top-0 left-[calc(100%+16rem)] h-full
                              bg-white shadow-xl border-l z-40 overflow-hidden min-w-[256px]"
                                 variants={drawerVariants}
                                 initial="hidden"

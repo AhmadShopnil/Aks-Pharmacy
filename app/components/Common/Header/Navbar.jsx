@@ -6,11 +6,16 @@ import { ChevronDown, Search, User } from "lucide-react";
 import Container from "../Container";
 import CartButton from "../CartButton";
 import Link from "next/link";
+import WishlistButton from "../WishlistButton";
 import AuthModal from "../../Auth/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/lib/redux/features/user/userSlice";
 
 export default function Navbar() {
 
   const [openAuth, setOpenAuth] = useState(false)
+  const dispatch = useDispatch();
+  const { isAuthenticated, profile } = useSelector((state) => state.user);
   return (
     <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 ">
       <Container className=" flex items-center gap-6 justify-between">
@@ -25,6 +30,7 @@ export default function Navbar() {
               width={150}
               height={70}
               alt="logo"
+              className="w-[110px] md:w-[130px] lg:w-[150px]"
             />
           </Link>
 
@@ -51,7 +57,7 @@ export default function Navbar() {
               className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700"
             />
 
-            <button className="bg-[#1d81b3] h-full px-5 flex items-center justify-center text-white">
+            <button className="bg-[#0784BB] h-full px-5 flex items-center justify-center text-white">
               <Search className="w-5 h-5" />
             </button>
           </div>
@@ -59,21 +65,33 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="hidden md:flex items-center gap-2 cursor-pointer text-base text-gray-700
-           font-semibold hover:text-blue-600 transition-colors">
-            <User className="w-6 h-6 text-gray-500" />
-            <div className="leading-tight">
-              <p><span className="text-gray-500">Hello,</span> User</p>
-              <p className="font-semibold">Account & Orders</p>
+          {isAuthenticated ? (
+            <div className="hidden md:flex items-center gap-4">
+              <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors">
+                <User className="w-6 h-6 text-gray-500" />
+                <div className="leading-tight">
+                  <p><span className="text-gray-500">Hello,</span> {profile?.name || "User"}</p>
+                  <p className="font-semibold">Account & Orders</p>
+                </div>
+              </Link>
+              <button
+                onClick={() => dispatch(logout())}
+                className="text-sm text-red-600 font-semibold hover:text-red-800 transition-colors px-3 py-1 border border-red-200 rounded-md"
+              >
+                Logout
+              </button>
             </div>
-          </Link>
-          <button
-            onClick={() => setOpenAuth(true)}
-            className="text-base text-gray-700
-           font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer "
-          >
-            Login
-          </button>
+          ) : (
+            <button
+              onClick={() => setOpenAuth(true)}
+              className="text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer"
+            >
+              Login
+            </button>
+          )}
+
+          {/* Wishlist Button */}
+          <WishlistButton />
 
           {/* Cart Button with Redux Integration */}
           <CartButton />
@@ -83,8 +101,8 @@ export default function Navbar() {
       </Container>
 
       {/* Mobile Search */}
-      <div className="px-4 pb-3 lg:hidden">
-        <div className="bg-teal-50 flex items-center rounded-md overflow-hidden h-11 border border-teal-100">
+      <div className="px-4 pb-3 lg:hidden mt-2">
+        <div className="bg-teal-50 flex items-center rounded-md overflow-hidden h-10 border border-teal-100">
           <input
             type="text"
             placeholder="Search medicine, products..."

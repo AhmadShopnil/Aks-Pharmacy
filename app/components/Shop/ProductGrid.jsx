@@ -1,7 +1,8 @@
 // import ProductCard from "./ProductCard";
 
 
-import ProductCardShop from "./ProductCardShop";
+import ProductCard from "../Common/Cards/ProductCard/ProductCard";
+
 
 const products = [
 
@@ -105,7 +106,7 @@ export default function ProductGrid() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {products.map((item) => (
-             <ProductCardShop key={item?.id} item={item}/>
+             <ProductCard key={item?.id} item={item}/>
               ))}
     </div>
   );

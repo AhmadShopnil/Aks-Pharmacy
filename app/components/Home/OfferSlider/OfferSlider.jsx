@@ -25,27 +25,27 @@ export default function OfferSlider() {
 
         {/* Custom Navigation Buttons */}
         <button
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg hover:scale-110 transition"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white p-1 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
           id="discount-prev"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
         </button>
 
         <button
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg hover:scale-110 transition"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white p-1 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
           id="discount-next"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
         </button>
 
         <Swiper
           modules={[Navigation]}
           navigation={{ prevEl: '#discount-prev', nextEl: '#discount-next' }}
           spaceBetween={20}
-          slidesPerView={1}
+          slidesPerView={2}
           loop={true}
           breakpoints={{
-            320: { slidesPerView: 2 },   // Mobile: 2 slides
+            400: { slidesPerView: 2 },   // Mobile: 2 slides
             640: { slidesPerView: 2 },   // Small tablets: 2 slides
             768: { slidesPerView: 3 },   // Tablets: 3 slides
             1024: { slidesPerView: 3 },  // Desktop: 3 slides
@@ -53,14 +53,14 @@ export default function OfferSlider() {
           }}
           className="w-full"
         >
-          {slides.map((img, index) => (
+          {slides?.map((img, index) => (
             <SwiperSlide key={index}>
               <Image
                 src={img}
                 alt="Discount Item"
                 width={500}
                 height={250}
-                className="w-[400px] h-auto object-cover"
+                className="w-full lg:w-[400px] h-auto object-cover"
               />
             </SwiperSlide>
           ))}

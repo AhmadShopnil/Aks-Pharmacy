@@ -20,6 +20,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { formatCategories, megamenuFormat, } from "@/helper/megamenuFormat";
 import Link from "next/link";
+import HeroSlider from "./HeroSlider";
 
 
 const menuIcons = {
@@ -68,8 +69,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
   return (
     <section className="mt-4 grid grid-cols-12 gap-4 relative">
       {/* MOBILE CATEGORY STRIP */}
-      <div className="lg:hidden col-span-12 mb-2 p-3 bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="flex items-center justify-between mb-4 px-1">
+      <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <LayoutGrid className="w-5 h-5 text-[#0784BB]" />
             <h3 className="font-bold text-gray-800 text-lg">Categories</h3>
@@ -81,7 +82,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             All <ChevronRight size={14} />
           </button>
         </div>
-        <div className="flex gap-5 overflow-x-auto pb-2 scrollbar-hide px-1">
+        <div className="flex gap-5 overflow-x-auto  scrollbar-hide px-1">
           {formattedCategories?.map((cat, i) => {
             const Icon = menuIcons[cat.name] || FaCapsules;
             return (
@@ -240,7 +241,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
 
       {/* left mega menu */}
       <div
-        className="hidden lg:block col-span-3 bg-white relative h-[400px] text-gray-600
+        className="hidden lg:block col-span-3 bg-white relative lg:h-[320px] xl:h-[420px] text-gray-600
                    font-semibold text-[17px] rounded-l-xl shadow-sm"
         onMouseLeave={() => {
           setLevel1(null);
@@ -339,6 +340,10 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
 
       {/* HERO SLIDER */}
       <div className="col-span-12 lg:col-span-9">
+        <HeroSlider heroSliders={heroSliders} />
+      </div>
+
+      {/* <div className="col-span-12 lg:col-span-9">
         <Swiper
           modules={[Pagination, Autoplay]}
           pagination={{ clickable: true }}
@@ -356,7 +361,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </div> */}
     </section>
   );
 }

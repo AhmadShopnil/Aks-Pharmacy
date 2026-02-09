@@ -9,9 +9,82 @@ import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import FrequentlyBoughtTogether from "@/app/components/ProductDetails/FrequentlyBoughtTogether"
 import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
+import ProductQA from "@/app/components/ProductDetails/ProductQA"
+
+
+
+
+
+
+// export async function generateMetadata({ params }) {
+//   const { slug } = await params;
+
+//   // Normally: fetch product by slug
+//   const product = {
+//     name: "Ceevit",
+//     strength: "250mg",
+//     brand: "Square Pharmaceuticals PLC.",
+//     price: 18.5,
+//     images: ["/images/items/13.jpg"],
+//     description:
+//       "Ceevit (Vitamin C) is used for treatment and prevention of Vitamin C deficiency, scurvy, infection, fever and immune support."
+//   }
+
+//   const title = `${product?.name} ${product?.strength} | Buy Online in Bangladesh`
+//   const description = product?.description
+//   const url = `https://yourdomain.com/product/${slug}`
+
+//   return {
+//     title,
+//     description,
+
+//     keywords: [
+//       product.name,
+//       `${product?.name} ${product?.strength}`,
+//       "Vitamin C Tablet",
+//       "Buy Medicine Online",
+//       "Online Pharmacy Bangladesh"
+//     ],
+
+//     alternates: {
+//       canonical: url
+//     },
+
+//     openGraph: {
+//       title,
+//       description,
+//       url,
+//       siteName: "Your Pharmacy Name",
+//       images: [
+//         {
+//           url: product.images[0],
+//           width: 800,
+//           height: 800,
+//           alt: `${product.name} ${product.strength}`
+//         }
+//       ],
+//       locale: "en_US",
+//       type: "product"
+//     },
+
+//     twitter: {
+//       card: "summary_large_image",
+//       title,
+//       description,
+//       images: [product.images[0]]
+//     },
+
+//     robots: {
+//       index: true,
+//       follow: true
+//     }
+//   }
+// }
+
 
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
+
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -148,9 +221,10 @@ export default async function ProductDetailsPage({ params }) {
     }
   }
 
+
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors">
@@ -168,8 +242,8 @@ export default async function ProductDetailsPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
           {/* LEFT CONTENT AREA */}
-          <div className="lg:col-span-7 flex flex-col gap-8">
-            <div className="w-full">
+          <div className="lg:col-span-7 flex flex-col gap-4 md:gap-8">
+            <div className="w-full ">
               <ProductGallery images={product.images} />
             </div>
 
@@ -198,20 +272,23 @@ export default async function ProductDetailsPage({ params }) {
 
         </div>
 
-        <div className="  pt-8">
-
-
+        <div className="pt-0  lg:pt-8 space-y-4 md:space-y-6  ">
           {/* Rating & Reviews */}
           <RatingAndReviews />
 
-          {/* Similar Products */}
-          <SimilarProducts />
+          {/* Product Q&A */}
+          <ProductQA />
+      
 
-          {/* More from X Gold */}
-          <MoreProducts />
+            {/* Similar Products */}
+            <SimilarProducts />
 
-          {/* Frequently Bought Together */}
-          <FrequentlyBoughtTogether />
+            {/* More from X Gold */}
+            <MoreProducts />
+
+            {/* Frequently Bought Together */}
+            <FrequentlyBoughtTogether />
+        
         </div>
 
       </div>

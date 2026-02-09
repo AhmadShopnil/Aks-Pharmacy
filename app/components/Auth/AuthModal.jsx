@@ -1,12 +1,24 @@
 "use client"
 
 import { useState } from "react"
-import { mockLogin, mockRegister } from "@/lib/AuthApi"
+import { useLoginMutation, useRegisterMutation } from "@/lib/redux/services/authApi"
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState("login")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+
+  // RTK Query Hooks
+  const [login, { isLoading: isLoginLoading, error: loginError }] = useLoginMutation();
+  const [register, { isLoading: isRegisterLoading, error: registerError }] = useRegisterMutation();
+
+  // Combine loading and error states for UI
+  const isLoading = isLoginLoading || isRegisterLoading;
+  // RTK Query errors can be objects, so we need to parse them
+  const apiError = loginError || registerError;
+  const errorMessage = apiError
+    ? (apiError.data?.message || apiError.message || "An unexpected error occurred")
+    : "";
+
+  const [localError, setLocalError] = useState("")
   const [form, setForm] = useState({})
 
   if (!isOpen) return null
@@ -17,23 +29,65 @@ const AuthModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    setError("")
+    setLocalError("")
 
     try {
       if (mode === "login") {
-        await mockLogin(form)
+        const result = await login({
+          email: form.email,
+          password: form.password
+        }).unwrap();
+
+        // On success, close modal. State is updated via matchers in userSlice
+        if (result.success !== false) {
+          onClose();
+        }
+
+      } else if (mode === "forgot") {
+        // Mock sending reset link - typically would be another mutation
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        alert("Reset link sent to your email!");
+        setMode("login");
+        return;
       } else {
         if (form.password !== form.password_confirmation) {
-          throw { message: "Passwords do not match" }
+          setLocalError("Passwords do not match")
+          return
         }
-        await mockRegister(form)
+
+        // Split full name
+        const fullName = form.full_name || form.name || "";
+        const nameParts = fullName.trim().split(/\s+/);
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+
+        const registerData = {
+          ...form,
+          first_name: firstName,
+          last_name: lastName,
+          // Ensure we send what API expects
+          full_name: fullName
+        }
+
+        const result = await register(registerData).unwrap();
+
+        if (result.success !== false) {
+       
+          if (result.token) {
+            onClose();
+          } else {
+            alert("Registration successful! Please login.");
+            setMode('login');
+          }
+        }
       }
-      onClose()
     } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+  
+      console.error("Auth failed:", err);
+
+      if (!apiError) {
+        setLocalError(err.message || "Operation failed");
+      }
     }
   }
 
@@ -53,12 +107,14 @@ const AuthModal = ({ isOpen, onClose }) => {
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-semibold text-gray-900">
-            {mode === "login" ? "Welcome Back" : "Create Account"}
+            {mode === "login" ? "Welcome Back" : mode === "forgot" ? "Reset Password" : "Create Account"}
           </h2>
           <p className="mt-1 text-sm text-gray-500">
             {mode === "login"
               ? "Login to continue ordering medicines"
-              : "Register to buy medicines safely online"}
+              : mode === "forgot"
+                ? "Enter your email to receive a reset link"
+                : "Register to buy medicines safely online"}
           </p>
         </div>
 
@@ -85,9 +141,9 @@ const AuthModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Error */}
-        {error && (
+        {(localError || errorMessage) && (
           <div className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
-            {error}
+            {localError || errorMessage}
           </div>
         )}
 
@@ -121,14 +177,16 @@ const AuthModal = ({ isOpen, onClose }) => {
             required
           />
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            className={inputClass}
-            onChange={handleChange}
-            required
-          />
+          {mode !== "forgot" && (
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className={inputClass}
+              onChange={handleChange}
+              required
+            />
+          )}
 
           {mode === "register" && (
             <input
@@ -141,17 +199,49 @@ const AuthModal = ({ isOpen, onClose }) => {
             />
           )}
 
-          <button
-            disabled={loading}
-            className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
-          >
-            {loading
-              ? "Please wait..."
-              : mode === "login"
-                ? "Login"
-                : "Create account"}
-          </button>
+          {mode === "login" && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setMode("forgot")}
+                className="text-xs font-semibold text-[#1d81b3] hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
+          {mode === "forgot" ? (
+            <button
+              disabled={isLoading}
+              className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
+            >
+              {isLoading ? "Please wait..." : "Send Reset Link"}
+            </button>
+          ) : (
+            <button
+              disabled={isLoading}
+              className="mt-2 w-full rounded-lg bg-[#1d81b3] py-3 text-sm font-medium text-white transition hover:bg-[#166a94] disabled:opacity-60"
+            >
+              {isLoading
+                ? "Please wait..."
+                : mode === "login"
+                  ? "Login"
+                  : "Create account"}
+            </button>
+          )}
         </form>
+
+        {mode === "forgot" && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => setMode("login")}
+              className="text-sm font-medium text-gray-500 hover:text-[#1d81b3] transition"
+            >
+              Back to Login
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

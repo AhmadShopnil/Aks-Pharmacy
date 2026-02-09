@@ -1,14 +1,10 @@
 "use client"
 
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useRef } from "react"
-import { Swiper, SwiperSlide } from "swiper/react"
+import ProductSlider from "./ProductSlider"
 
-import "swiper/css"
+
 
 export default function FrequentlyBoughtTogether() {
-  const swiperRef = useRef(null)
-
   const products = [
     { id: 1, name: "E-Cap 400", price: "৳500", image: "/images/items/15.jpg" },
     { id: 2, name: "Karboyna Joint Care", price: "৳650", image: "/images/items/4.jpg" },
@@ -25,60 +21,10 @@ export default function FrequentlyBoughtTogether() {
   ]
 
   return (
-    <div className="bg-blue-100 rounded-lg p-6 mb-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
-        Frequently Bought Together
-      </h2>
-
-      <div className="relative">
-        <Swiper
-          spaceBetween={16}
-          slidesPerView="auto"
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="!w-40">
-              <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="aspect-square bg-gray-100 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-3">
-                  <p className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">
-                    {product.name}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900">
-                      {product.price}
-                    </span>
-                    <button className="bg-teal-100 hover:bg-teal-200 text-teal-700 text-xs font-semibold px-2 py-1 rounded">
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        {/* Navigation Buttons (manual control – bulletproof) */}
-        <button
-          onClick={() => swiperRef.current?.slidePrev()}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg z-10"
-        >
-          <ChevronLeft size={20} />
-        </button>
-
-        <button
-          onClick={() => swiperRef.current?.slideNext()}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg z-10"
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
-    </div>
+    <ProductSlider
+      title="Frequently Bought Together"
+      products={products}
+      containerClass="bg-blue-100"
+    />
   )
 }

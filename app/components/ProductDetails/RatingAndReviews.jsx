@@ -15,7 +15,7 @@ export default function RatingAndReviews() {
     <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
       <h2 className="text-xl font-bold text-gray-900 mb-6">Rating & Reviews</h2>
 
-      <div className="flex items-start gap-8 mb-8">
+      <div className="flex flex-col md:flex-row items-start gap-8 mb-8">
         {/* Overall Rating */}
         <div className="flex flex-col items-center">
           <div className="text-4xl font-bold text-gray-900">0/5</div>

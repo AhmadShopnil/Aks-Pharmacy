@@ -6,7 +6,7 @@ export default function WeaklyDeals() {
     return (
         <div className='grid grid-cols-1 xl:grid-cols-4 w-full '>
 
-            <div className='col-span-3 border border-gray-200 p-6 rounded-lg'>
+            <div className='col-span-3 border border-gray-200 p-2 sm:p-4 md:p-6 rounded-lg'>
                 <ProductList section_title={"WEEK DEALS"} />
             </div>
             <div className='xl:col-span-1 '>
