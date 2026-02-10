@@ -43,7 +43,7 @@ const footerData = [
     ],
     extraContent: (
       <div className="mt-6">
-        <p className="font-semibold mb-2 text-sm text-yellow-700">Download Our App</p>
+        <p className="font-semibold mb-2 text-sm text-[#a6e451]">Download Our App</p>
         <div className="flex gap-3">
           <Image src="/images/footer/2.png" alt="Google Play" width={140} height={42} className="w-32 h-auto" />
         </div>
@@ -75,7 +75,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0B5F66] text-white">
+    <footer className="bg-[#0882BB] text-white">
       <Container className="py-12">
 
         {/* Top Grid */}
@@ -100,7 +100,7 @@ export default function Footer() {
             </ul>
 
             <div className="pt-4">
-              <p className="font-semibold mb-3 text-sm tracking-wide text-yellow-700">SHARE YOUR LOVE</p>
+              <p className="font-semibold mb-3 text-sm tracking-wide text-[#a6e451]">SHARE YOUR LOVE</p>
               <div className="flex items-center gap-4 text-xl">
                 {socialLinks.map((social, idx) => (
                   <Link
@@ -119,7 +119,7 @@ export default function Footer() {
           {/* Dynamic Footer Sections */}
           {footerData.map((section, idx) => (
             <div key={idx} className="col-span-1">
-              <h4 className="font-bold mb-4 text-yellow-700 text-sm md:text-base tracking-wide">
+              <h4 className="font-bold mb-4 text-[#a6e451] text-sm md:text-base tracking-wide">
                 {section.title}
               </h4>
               <ul className="space-y-2 text-sm md:text-base text-gray-200">
@@ -139,7 +139,7 @@ export default function Footer() {
 
         <div className="w-full mt-10 mb-6 flex justify-center md:justify-end">
           <div className="text-center md:text-right">
-            <p className="font-semibold mb-2 text-sm text-yellow-500">PAYMENTS ACCEPTED</p>
+            <p className="font-semibold mb-2 text-sm text-[#a6e451]">PAYMENTS ACCEPTED</p>
             <Image
               src="/images/payments/ssl_payments.png"
               alt="Payments"

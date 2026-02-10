@@ -15,7 +15,13 @@ const AuthModal = ({ isOpen, onClose }) => {
   // RTK Query errors can be objects, so we need to parse them
   const apiError = loginError || registerError;
   const errorMessage = apiError
-    ? (apiError.data?.message || apiError.message || "An unexpected error occurred")
+    ? (() => {
+      const validationErrors = apiError.data?.errors;
+      if (validationErrors && typeof validationErrors === "object") {
+        return Object.values(validationErrors).flat().join(" ");
+      }
+      return apiError.data?.message || apiError.message || "An unexpected error occurred";
+    })()
     : "";
 
   const [localError, setLocalError] = useState("")
@@ -31,8 +37,19 @@ const AuthModal = ({ isOpen, onClose }) => {
     e.preventDefault()
     setLocalError("")
 
+    const ensureCsrfCookie = async () => {
+      try {
+        await fetch("/api/proxy/sanctum/csrf-cookie", {
+          credentials: "include",
+        });
+      } catch (error) {
+        console.warn("Failed to fetch CSRF cookie", error);
+      }
+    };
+
     try {
       if (mode === "login") {
+        await ensureCsrfCookie();
         const result = await login({
           email: form.email,
           password: form.password
@@ -50,6 +67,7 @@ const AuthModal = ({ isOpen, onClose }) => {
         setMode("login");
         return;
       } else {
+        await ensureCsrfCookie();
         if (form.password !== form.password_confirmation) {
           setLocalError("Passwords do not match")
           return
