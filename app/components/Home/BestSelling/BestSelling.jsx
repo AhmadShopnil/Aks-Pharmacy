@@ -7,7 +7,7 @@ import ProductGridViewMain from '../ProductSections/ProductGridViewMain';
 export default async function BestSelling() {
   const products = await getProducts();
 
-  // console.log("products", products)
+
 
   return (
     <div className=''>
