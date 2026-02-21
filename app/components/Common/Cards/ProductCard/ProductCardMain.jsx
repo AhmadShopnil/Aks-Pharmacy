@@ -61,7 +61,7 @@ export default function ProductCardMain({ item }) {
           {item.discount}
         </span>)}
         <Image
-          src={item?.featured_image}
+          src={item?.packages?.variations[0]?.featured_image?.file_url}
           alt={item?.name || "product image"}
           fill
           className="object-cover"

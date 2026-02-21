@@ -10,6 +10,7 @@ import FrequentlyBoughtTogether from "@/app/components/ProductDetails/Frequently
 import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
+import { getSingleProduct } from "@/lib/fetchApis"
 
 
 
@@ -85,6 +86,8 @@ import ProductQA from "@/app/components/ProductDetails/ProductQA"
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
 
+
+  const productDetails = await getSingleProduct(slug);
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -222,11 +225,27 @@ export default async function ProductDetailsPage({ params }) {
   }
 
 
+
+  // extract extra infos of product-----
+
+  const varrientInfo = productDetails?.packages?.variations[0]
+  const sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const featured_image = varrientInfo?.featured_image
+  const gallery_images = varrientInfo?.gallery_images
+  const all_images=[featured_image, ...gallery_images]
+
+
+  // console.log("producDetails", productDetails)
+
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
       <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <nav className="flex items-center gap-2 text-xs md:text-base text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors">
             <Home size={14} /> Home
           </Link>
@@ -235,7 +254,7 @@ export default async function ProductDetailsPage({ params }) {
           <ChevronRight size={12} />
           <a href="/category/vitamins" className="hover:text-[#0784BB] transition-colors">Vitamins & Supplements</a>
           <ChevronRight size={12} />
-          <span className="text-gray-900 font-semibold">{product.name} {product.strength}</span>
+          <span className="text-gray-900 font-semibold">{productDetails?.name} </span>
         </nav>
 
         {/* Main Grid Layout */}
@@ -244,15 +263,15 @@ export default async function ProductDetailsPage({ params }) {
           {/* LEFT CONTENT AREA */}
           <div className="lg:col-span-7 flex flex-col gap-4 md:gap-8">
             <div className="w-full ">
-              <ProductGallery images={product.images} />
+              <ProductGallery images={product.images} gallery_images={all_images} />
             </div>
 
             {/* Mobile Info */}
             <div className="lg:hidden">
-              <ProductInfo product={product} />
+              <ProductInfo product={product} productDetails={productDetails} />
             </div>
 
-            <ProductOverview product={product} />
+            <ProductOverview product={product} productDetails={productDetails} />
 
             <ProductAttributes
               attributes={product.attributes}
@@ -264,7 +283,7 @@ export default async function ProductDetailsPage({ params }) {
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="hidden lg:block sticky top-24">
               <div className="flex flex-col gap-8">
-                <ProductInfo product={product} />
+                <ProductInfo product={product} productDetails={productDetails} />
                 <AlternativeBrands alternatives={product.alternatives} productName={product.name} />
               </div>
             </div>
@@ -278,17 +297,17 @@ export default async function ProductDetailsPage({ params }) {
 
           {/* Product Q&A */}
           <ProductQA />
-      
 
-            {/* Similar Products */}
-            <SimilarProducts />
 
-            {/* More from X Gold */}
-            <MoreProducts />
+          {/* Similar Products */}
+          <SimilarProducts />
 
-            {/* Frequently Bought Together */}
-            <FrequentlyBoughtTogether />
-        
+          {/* More from X Gold */}
+          <MoreProducts />
+
+          {/* Frequently Bought Together */}
+          <FrequentlyBoughtTogether />
+
         </div>
 
       </div>

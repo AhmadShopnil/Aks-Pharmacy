@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { FileText } from "lucide-react"
 
-export default function ProductOverview({ product }) {
+export default function ProductOverview({ product,productDetails }) {
   const [lang, setLang] = useState("en")
 
   const htmlContent = product?.descriptionHtml?.[lang]
@@ -24,7 +24,7 @@ export default function ProductOverview({ product }) {
         </div>
 
         {/* Language Switch */}
-        <div className="flex w-40 bg-white p-1 rounded-md border shadow-sm">
+        {/* <div className="flex w-40 bg-white p-1 rounded-md border shadow-sm">
           <button
             onClick={() => setLang("bn")}
             className={`px-4 py-2 text-xs font-black rounded-md cursor-pointer ${lang === "bn"
@@ -43,13 +43,13 @@ export default function ProductOverview({ product }) {
           >
             ENGLISH
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* HTML Content */}
       <div
         className="p-3 md:p-8 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
+        dangerouslySetInnerHTML={{ __html: productDetails?.description }}
       />
 
       {/* Disclaimer */}
