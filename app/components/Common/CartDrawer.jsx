@@ -27,10 +27,7 @@ import {
     ShoppingCart
 } from 'lucide-react';
 
-/**
- * Cart Drawer Component
- * Displays cart items with add/remove functionality
- */
+
 export default function CartDrawer() {
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector(selectCartItems);
@@ -79,6 +76,11 @@ export default function CartDrawer() {
 
     if (!isOpen) return null;
 
+
+console.log("cartItems",cartItems)
+
+
+
     return (
         <>
             {/* Backdrop */}
@@ -108,19 +110,19 @@ export default function CartDrawer() {
 
                     {/* Cart Items */}
                     <div className="bg-white p-4 mb-3">
-                        {cartItems.length === 0 ? (
+                        {cartItems?.length === 0 ? (
                             <div className="text-center py-8 text-gray-500">
                                 <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-20" />
                                 <p>Your cart is empty</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
-                                {cartItems.map((item) => (
+                                {cartItems?.map((item) => (
                                     <div key={item.id} className="flex gap-4 border-b last:border-0 pb-4 last:pb-0">
                                         <div className="relative w-16 h-16 bg-gray-100 rounded-md shrink-0">
                                             <Image
-                                                src={item.img}
-                                                alt={item.title}
+                                                src={item?.img}
+                                                alt={item?.title}
                                                 fill
                                                 className="object-contain p-1"
                                             />
@@ -135,7 +137,7 @@ export default function CartDrawer() {
                                             <p className="text-xs text-gray-500 mt-1">Pack Size: 1 Pack</p>
                                             <div className="flex justify-between items-end mt-2">
                                                 <div className="font-bold text-gray-900">
-                                                    ${item.price.toFixed(2)}
+                                                    ${item?.price}
                                                 </div>
                                                 <div className="flex items-center border rounded-md bg-white">
                                                     <button onClick={() => handleDecrement(item.id)} className="px-2 py-0.5 hover:bg-gray-50 text-gray-600">-</button>
