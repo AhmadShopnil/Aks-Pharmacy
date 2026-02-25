@@ -6,7 +6,7 @@ import Image from "next/image"
 export default function ProductGallery({ gallery_images = [] }) {
   // Convert API format → ["url1", "url2"]
   const images = useMemo(
-    () => gallery_images.map(img => img.file_url),
+    () => gallery_images?.map(img => img?.file_url),
     [gallery_images]
   )
 
@@ -51,7 +51,7 @@ export default function ProductGallery({ gallery_images = [] }) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      <div className="relative flex flex-col md:flex-row gap-4 bg-white rounded-md p-2 border border-gray-100 shadow-sm">
+      <div className="relative flex flex-col md:flex-row gap-4 bg-white rounded-sm p-2 border border-gray-200 ">
 
         {/* Desktop Thumbnails */}
         <div className="hidden md:flex flex-col gap-3 min-w-[70px]">

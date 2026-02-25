@@ -10,7 +10,7 @@ export default function ProductOverview({ product,productDetails }) {
   if (!htmlContent) return null
 
   return (
-    <div className="bg-white rounded-md border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-sm border border-gray-200  overflow-hidden">
 
       {/* Header */}
       <div className="p-3 md:p-6 border-b bg-gray-50/30 flex flex-col md:flex-row justify-between gap-4">
@@ -48,7 +48,7 @@ export default function ProductOverview({ product,productDetails }) {
 
       {/* HTML Content */}
       <div
-        className="p-3 md:p-8 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
+        className="p-3 md:p-4 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
         dangerouslySetInnerHTML={{ __html: productDetails?.description }}
       />
 

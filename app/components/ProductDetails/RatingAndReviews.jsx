@@ -12,7 +12,7 @@ export default function RatingAndReviews() {
   ]
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+    <div className="bg-white rounded-sm border border-gray-200 p-3 md:p-4 ">
       <h2 className="text-xl font-bold text-gray-900 mb-6">Rating & Reviews</h2>
 
       <div className="flex flex-col md:flex-row items-start gap-8 mb-8">

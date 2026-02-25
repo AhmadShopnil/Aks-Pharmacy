@@ -2,7 +2,7 @@ export default function ProductAttributes({ attributes, categorySchema }) {
   if (!categorySchema || !attributes) return null;
 
   return (
-    <div className="bg-white rounded-md border border-gray-100 shadow-sm p-4 md:p-8 overflow-hidden">
+    <div className="bg-white rounded-sm border border-gray-200  p-3 md:p-4 overflow-hidden">
       <h3 className="text-gray-900 font-black text-lg mb-8 flex items-center gap-3 tracking-tight">
         <span className="w-1.5 h-6 bg-[#0784BB] rounded-full"></span>
         TECHNICAL SPECIFICATIONS

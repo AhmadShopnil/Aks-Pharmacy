@@ -77,7 +77,7 @@ const AuthModal = ({ isOpen, onClose }) => {
         const fullName = form.full_name || form.name || "";
         const nameParts = fullName.trim().split(/\s+/);
         const firstName = nameParts[0];
-        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : firstName;
 
         const registerData = {
           ...form,
@@ -86,6 +86,7 @@ const AuthModal = ({ isOpen, onClose }) => {
           // Ensure we send what API expects
           full_name: fullName
         }
+        console.log("rgister data",registerData)
 
         const result = await register(registerData).unwrap();
 

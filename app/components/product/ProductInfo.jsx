@@ -74,9 +74,10 @@ export default function ProductInfo({ product, productDetails }) {
 
 
 const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
-const brand_name=brandInfos?.name
-const brand_id=brandInfos?.id
-const brand_slug=brandInfos?.slug
+const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
+const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
+
+
 
 
 
@@ -85,9 +86,9 @@ const brand_slug=brandInfos?.slug
 
 
   return (
-    <div className="flex flex-col gap-2 md:gap-8">
+    <div className="flex flex-col gap-2 md:gap-6 ">
       {/* Wholesale Banner */}
-      <div className="bg-[#0784BB] text-white px-3 py-2 md:px-6 md:py-4 rounded-md flex items-center justify-between shadow-lg">
+      {/* <div className="bg-[#0784BB] text-white px-3 py-2 md:px-6 md:py-4 rounded-md flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
 
           <span className="font-bold text-xs sm:text-sm md:text-md leading-snug">
@@ -97,7 +98,7 @@ const brand_slug=brandInfos?.slug
         <button className="bg-white text-[#0784BB] px-5 py-2 rounded-md text-xs md:text-sm font-black hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap ml-4">
           Register
         </button>
-      </div>
+      </div> */}
 
       {/* Meta info & Views */}
       {/* <div className="flex flex-wrap items-center justify-between gap-4 px-1">
@@ -116,7 +117,7 @@ const brand_slug=brandInfos?.slug
       </div> */}
 
       {/* Main Stats Card */}
-      <div className="bg-white rounded-md p-3 md:p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-0">
+      <div className="bg-white rounded-sm p-3 md:p-4 border border-gray-200  flex flex-col gap-0">
         {/* Title and Badge */}
         <div className="pb-6 border-b border-gray-200">
           <div className="flex items-center gap-2 mb-2">
@@ -125,29 +126,26 @@ const brand_slug=brandInfos?.slug
             </h1>
             <CheckCircle size={22} className="text-[#8CC540]" />
           </div>
-            <p className="text-lg text-gray-400 font-semibold">
+            <p className="text-sm text-gray-400 font-semibold">
             {productDetails?.sub_title} 
           </p>
+            <span  className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
+              {manufacturerInfo}
+              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </span>
           {/* <p className="text-lg text-gray-400 font-semibold">
             {product.form} - {product.strength}
           </p> */}
         </div>
 
         {/* Company & Generic Details */}
-        <div className="py-6 border-b border-gray-200 flex flex-col gap-5">
-          <div className="flex flex-col gap-1">
-            <span className="text-xs uppercase font-black  text-gray-400">Manufacturer</span>
-            <a href="#" className="text-[#0784BB] font-bold text-base hover:underline flex items-center gap-1 group">
-              {brand_name}
-              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-          <div className="flex flex-col gap-1">
+        <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
+       
             <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-            <a href="#" className="text-[#8CC540] font-bold text-base hover:underline">
-              {product.attributes.genericName}
-            </a>
-          </div>
+            <span className="text-[#8CC540] font-bold text-base hover:underline">
+              {generic_name}
+            </span>
+         
         </div>
 
         {/* Purchase Options */}
@@ -226,7 +224,7 @@ const brand_slug=brandInfos?.slug
       </div>
 
       {/* Promotional Offers */}
-      <div className="flex flex-col gap-4 mt-2">
+      {/* <div className="flex flex-col gap-4 mt-2">
         <header className="flex items-center justify-between px-1">
           <h3 className="font-semibold text-xl text-[#0784BB] tracking-tight">Additional Offers</h3>
           <div className="flex gap-2">
@@ -272,7 +270,7 @@ const brand_slug=brandInfos?.slug
             ))}
           </Swiper>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

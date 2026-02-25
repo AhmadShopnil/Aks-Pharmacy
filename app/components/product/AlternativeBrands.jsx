@@ -3,7 +3,7 @@ import { ChevronDown, CheckCircle, Smartphone, SlidersHorizontal } from 'lucide-
 
 export default function AlternativeBrands({ alternatives, productName }) {
   return (
-    <div className="bg-white rounded-md border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+    <div className="bg-white rounded-sm border border-gray-200  flex flex-col overflow-hidden">
       <div className="p-4 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
         <h3 className="font-semibold text-gray-800 text-sm md:text-lg  ">Alternatives for {productName}</h3>
         <button className="flex items-center gap-1 border border-gray-200 rounded-md px-2 py-1
