@@ -3,13 +3,12 @@ import { useState } from "react";
 
 const AddressForm = ({ onSave, onCancel }) => {
     const [formData, setFormData] = useState({
-        label: "",
-        name: "",
-        phone: "+880",
-        address: "",
-        city: "",
-        // zip: "",
-        country: "Bangladesh",
+        address_label: "",
+        customer_name: "",
+        customer_phone: "",
+        detailed_address: "",
+        division: "",
+        district: "",
     });
 
     const handleSubmit = (e) => {
@@ -24,11 +23,10 @@ const AddressForm = ({ onSave, onCancel }) => {
                 <label className="text-sm font-semibold">Address Label</label>
                 <input
                     type="text"
-                    required
                     placeholder="Home, Office..."
                     className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
-                    value={formData.label}
-                    onChange={e => setFormData({ ...formData, label: e.target.value })}
+                    value={formData.address_label}
+                    onChange={e => setFormData({ ...formData, address_label: e.target.value })}
                 />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -37,29 +35,24 @@ const AddressForm = ({ onSave, onCancel }) => {
                     <input
                         type="text"
                         required
+                        placeholder="Enter full name"
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
-                        value={formData.name}
-                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                        value={formData.customer_name}
+                        onChange={e => setFormData({ ...formData, customer_name: e.target.value })}
                     />
                 </div>
                 <div className="space-y-1">
                     <label className="text-sm font-semibold">Phone</label>
-                    <div className="flex">
-                        <span className="px-3 flex items-center border border-r-0 rounded-l-lg bg-gray-100 text-gray-600">
-                            +880
-                        </span>
-                        <input
-                            type="tel"
-                            required
-                            className="w-full p-2 border rounded-r-lg focus:ring-2 focus:ring-[#1d81b3]"
-                            placeholder="1XXXXXXXXX"
-                            value={formData.phone.replace("+880", "")}
-                            onChange={(e) =>
-                                setFormData({ ...formData, phone: "+880" + e.target.value })
-                            }
-                        />
-                    </div>
-
+                    <input
+                        type="tel"
+                        required
+                        placeholder="01712345678"
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
+                        value={formData.customer_phone}
+                        onChange={(e) =>
+                            setFormData({ ...formData, customer_phone: e.target.value })
+                        }
+                    />
                 </div>
             </div>
             <div className="space-y-1">
@@ -67,32 +60,33 @@ const AddressForm = ({ onSave, onCancel }) => {
                 <textarea
                     required
                     rows="2"
+                    placeholder="House/Flat no, Street, Area"
                     className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
-                    value={formData.address}
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
+                    value={formData.detailed_address}
+                    onChange={e => setFormData({ ...formData, detailed_address: e.target.value })}
                 />
             </div>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                    <label className="text-sm font-semibold">City</label>
+                    <label className="text-sm font-semibold">Division</label>
                     <input
                         type="text"
-                        required
+                        placeholder="Division"
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
-                        value={formData.city}
-                        onChange={e => setFormData({ ...formData, city: e.target.value })}
+                        value={formData.division}
+                        onChange={e => setFormData({ ...formData, division: e.target.value })}
                     />
                 </div>
-                {/* <div className="space-y-1">
-                    <label className="text-sm font-semibold">ZIP</label>
+                <div className="space-y-1">
+                    <label className="text-sm font-semibold">District</label>
                     <input
                         type="text"
-                        required
+                        placeholder="District"
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
-                        value={formData.zip}
-                        onChange={e => setFormData({ ...formData, zip: e.target.value })}
+                        value={formData.district}
+                        onChange={e => setFormData({ ...formData, district: e.target.value })}
                     />
-                </div> */}
+                </div>
             </div>
 
             <div className="flex gap-3 pt-2">

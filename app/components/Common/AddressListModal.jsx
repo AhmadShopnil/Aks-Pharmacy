@@ -67,16 +67,16 @@ const AddressListModal = ({ isOpen, onClose, addresses, onSelect, onAddNew, onDe
                                                 <MapPin className="w-5 h-5 text-gray-500 mt-0.5" />
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-2 mb-1">
-                                                        <span className="font-bold">{address.label}</span>
-                                                        {address.isDefault && (
+                                                        <span className="font-bold">{address.address_label || "Address"}</span>
+                                                        {address.is_default && (
                                                             <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
                                                                 Default
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <p className="text-sm text-gray-600 font-medium">{address.name} | {address.phone}</p>
+                                                    <p className="text-sm text-gray-600 font-medium">{address.customer_name} | {address.customer_phone}</p>
                                                     <p className="text-sm text-gray-500 mt-1">
-                                                        {address.address}, {address.city} - {address.zip}
+                                                        {address.detailed_address} {address.district ? `, ${address.district}` : ""} {address.division ? `, ${address.division}` : ""}
                                                     </p>
                                                 </div>
                                             </div>

@@ -86,13 +86,13 @@ const AuthModal = ({ isOpen, onClose }) => {
           // Ensure we send what API expects
           full_name: fullName
         }
-        console.log("rgister data",registerData)
+        console.log("rgister data", registerData)
 
         const result = await register(registerData).unwrap();
 
         if (result.success !== false) {
-       
-          if (result.token) {
+          const hasToken = result.access_token || result.token || result.data?.access_token || result.data?.token;
+          if (hasToken) {
             onClose();
           } else {
             alert("Registration successful! Please login.");
@@ -101,7 +101,7 @@ const AuthModal = ({ isOpen, onClose }) => {
         }
       }
     } catch (err) {
-  
+
       console.error("Auth failed:", err);
 
       if (!apiError) {

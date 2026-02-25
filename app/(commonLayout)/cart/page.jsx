@@ -10,7 +10,10 @@ import {
     incrementQuantity,
     decrementQuantity,
 } from "@/lib/redux/features/cart/cartSlice";
-import { addAddress } from "@/lib/redux/features/user/userSlice";
+import {
+    useGetAddressesQuery,
+    useCreateAddressMutation
+} from "@/lib/redux/services/addressApi";
 import Container from "@/app/components/Common/Container";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,14 +38,26 @@ export default function CartPage() {
     const cartItems = useAppSelector(selectCartItems);
     const cartTotal = useAppSelector(selectCartTotal);
     const cartCount = useAppSelector(selectCartCount);
-    const addresses = useAppSelector((state) => state.user.addresses);
+
+    const { data: addressesResponse } = useGetAddressesQuery();
+    const [createAddress] = useCreateAddressMutation();
+    const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-    const [selectedAddressId, setSelectedAddressId] = useState(
-        addresses.find(addr => addr.isDefault)?.id || (addresses.length > 0 ? addresses[0].id : null)
-    );
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [couponCode, setCouponCode] = useState("");
     const [agreeTerms, setAgreeTerms] = useState(false);
+
+    React.useEffect(() => {
+        if (!selectedAddressId && addresses.length > 0) {
+            const defaultAddr = addresses.find(addr => addr.is_default);
+            if (defaultAddr) {
+                setSelectedAddressId(defaultAddr.id);
+            } else {
+                setSelectedAddressId(addresses[0].id);
+            }
+        }
+    }, [addresses, selectedAddressId]);
 
     const mrp = cartTotal;
     const deliveryCharge = mrp > 999 ? 0 : 60;
@@ -63,8 +78,15 @@ export default function CartPage() {
         dispatch(decrementQuantity(id));
     };
 
-    const handleAddNewAddress = (data) => {
-        dispatch(addAddress(data));
+    const handleAddNewAddress = async (data) => {
+        try {
+            const response = await createAddress(data).unwrap();
+            if (response.success && response.data) {
+                setSelectedAddressId(response.data.id);
+            }
+        } catch (err) {
+            console.error("Failed to add address:", err);
+        }
     };
 
     return (
@@ -189,12 +211,12 @@ export default function CartPage() {
                                     <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl relative group">
                                         <div className="flex items-center gap-2 mb-2">
                                             <span className="text-xs font-black uppercase text-[#0784BB] bg-[#0784BB]/10 px-2 py-0.5 rounded">
-                                                {selectedAddress.label}
+                                                {selectedAddress.address_label || "Address"}
                                             </span>
                                         </div>
-                                        <p className="text-sm font-bold text-slate-900">{selectedAddress.name}</p>
-                                        <p className="text-sm text-slate-600 mt-1">{selectedAddress.address}</p>
-                                        <p className="text-sm text-slate-600">{selectedAddress.city}, {selectedAddress.phone}</p>
+                                        <p className="text-sm font-bold text-slate-900">{selectedAddress.customer_name}</p>
+                                        <p className="text-sm text-slate-600 mt-1">{selectedAddress.detailed_address}</p>
+                                        <p className="text-sm text-slate-600">{selectedAddress.district || selectedAddress.division}, {selectedAddress.customer_phone}</p>
                                         <button
                                             onClick={() => setIsAddressModalOpen(true)}
                                             className="mt-4 text-xs font-black uppercase text-[#0784BB] hover:underline"

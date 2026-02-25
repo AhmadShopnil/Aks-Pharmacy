@@ -13,7 +13,10 @@ import {
     decrementQuantity,
 } from '@/lib/redux/features/cart/cartSlice';
 import { toggleCartDrawer, selectCartDrawerOpen } from '@/lib/redux/features/ui/uiSlice';
-import { addAddress, updateAddress, deleteAddress } from '@/lib/redux/features/user/userSlice';
+import {
+    useGetAddressesQuery,
+    useCreateAddressMutation
+} from '@/lib/redux/services/addressApi';
 import AddressListModal from './AddressListModal';
 import {
     MapPin,
@@ -34,15 +37,28 @@ export default function CartDrawer() {
     const cartTotal = useAppSelector(selectCartTotal);
     const cartCount = useAppSelector(selectCartCount);
     const isOpen = useAppSelector(selectCartDrawerOpen);
-    const addresses = useAppSelector((state) => state.user.addresses);
+
+    const { data: addressesResponse } = useGetAddressesQuery(undefined, {
+        skip: !isOpen
+    });
+    const [createAddress] = useCreateAddressMutation();
+    const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-    const [selectedAddressId, setSelectedAddressId] = useState(
-        addresses.find(addr => addr.isDefault)?.id || null
-    );
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [couponCode, setCouponCode] = useState("");
     const [agreeTerms, setAgreeTerms] = useState(false);
 
+    React.useEffect(() => {
+        if (!selectedAddressId && addresses.length > 0) {
+            const defaultAddr = addresses.find(addr => addr.is_default);
+            if (defaultAddr) {
+                setSelectedAddressId(defaultAddr.id);
+            } else {
+                setSelectedAddressId(addresses[0].id);
+            }
+        }
+    }, [addresses, selectedAddressId]);
 
     const mrp = cartTotal;
     const discount = cartTotal * 1.2 / 100;
@@ -69,15 +85,21 @@ export default function CartDrawer() {
         dispatch(decrementQuantity(id));
     };
 
-    const handleAddNewAddress = (data) => {
-        dispatch(addAddress(data));
-        // AddressListModal handles the view switch, we just add the data
+    const handleAddNewAddress = async (data) => {
+        try {
+            const response = await createAddress(data).unwrap();
+            if (response.success && response.data) {
+                setSelectedAddressId(response.data.id);
+            }
+        } catch (err) {
+            console.error("Failed to add address:", err);
+        }
     };
 
     if (!isOpen) return null;
 
 
-console.log("cartItems",cartItems)
+    console.log("cartItems", cartItems)
 
 
 
@@ -174,11 +196,13 @@ console.log("cartItems",cartItems)
                                                 <MapPin className="w-5 h-5 text-[#1d81b3] shrink-0 mt-0.5" />
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-sm">{selectedAddress.label}</span>
+                                                        <span className="font-bold text-sm">{selectedAddress.address_label || "Address"}</span>
                                                         <span className="text-xs bg-[#1d81b3]/10 text-[#1d81b3] px-1.5 py-0.5 rounded">Selected</span>
                                                     </div>
-                                                    <p className="text-sm text-gray-600 mt-1">{selectedAddress.address}, {selectedAddress.city}</p>
-                                                    <p className="text-sm text-gray-500">{selectedAddress.phone}</p>
+                                                    <p className="text-sm text-gray-600 mt-1">
+                                                        {selectedAddress.detailed_address} {selectedAddress.district ? `, ${selectedAddress.district}` : ""}
+                                                    </p>
+                                                    <p className="text-sm text-gray-500">{selectedAddress.customer_phone}</p>
                                                 </div>
                                             </div>
                                         </div>

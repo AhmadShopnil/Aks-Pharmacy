@@ -73,9 +73,9 @@ export default function ProductInfo({ product, productDetails }) {
   const showDiscount = hasValidPrices && mrp > sale;
 
 
-const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
-const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
-const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
+  const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
+  const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
+  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
 
 
@@ -126,13 +126,13 @@ const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name"
             </h1>
             <CheckCircle size={22} className="text-[#8CC540]" />
           </div>
-            <p className="text-sm text-gray-400 font-semibold">
-            {productDetails?.sub_title} 
+          <p className="text-sm text-gray-400 font-semibold">
+            {productDetails?.sub_title}
           </p>
-            <span  className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
-              {manufacturerInfo}
-              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </span>
+          <span className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
+            {manufacturerInfo}
+            <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </span>
           {/* <p className="text-lg text-gray-400 font-semibold">
             {product.form} - {product.strength}
           </p> */}
@@ -140,12 +140,12 @@ const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name"
 
         {/* Company & Generic Details */}
         <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
-       
-            <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-            <span className="text-[#8CC540] font-bold text-base hover:underline">
-              {generic_name}
-            </span>
-         
+
+          <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
+          <span className="text-[#8CC540] font-bold text-base hover:underline">
+            {generic_name}
+          </span>
+
         </div>
 
         {/* Purchase Options */}
@@ -159,8 +159,8 @@ const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name"
             <div className="flex flex-col">
               <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span>
               <div className="flex items-end gap-3">
-                <span className="text-2xl md:text-4xl text-gray-600 leading-none font-semibold">
-                  ৳ {sale_price}
+                <span className="text-2xl md:text-3xl text-gray-600 leading-none font-semibold">
+                  Taka {sale_price}
                 </span>
 
                 {showDiscount && (
@@ -205,7 +205,7 @@ const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name"
           <div className="flex gap-3 ">
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-3 rounded-md text-base md:text-lg flex items-center 
+              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-2 rounded-md text-base md:text-lg flex items-center 
               justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
             >
               <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
@@ -213,7 +213,7 @@ const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name"
             </button>
             <button
               onClick={handleToggleWishlist}
-              className={`py-2 md:py-3 px-3 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
+              className={`py-2 md:py-3 px-6 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
                 }`}
             >
               <Heart size={24} className={isInWishlist ? 'fill-current' : ''} />

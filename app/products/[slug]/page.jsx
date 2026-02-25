@@ -11,6 +11,7 @@ import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
 import { getSingleProduct } from "@/lib/fetchApis"
+import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -237,6 +238,7 @@ export default async function ProductDetailsPage({ params }) {
   const featured_image = varrientInfo?.featured_image
   const gallery_images = varrientInfo?.gallery_images
   let all_images = [...gallery_images]
+  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
   if (featured_image) {
     all_images = [featured_image, ...all_images]
@@ -287,7 +289,7 @@ export default async function ProductDetailsPage({ params }) {
             <div className="hidden lg:block sticky ">
               <div className="flex flex-col gap-2">
                 <ProductInfo product={product} productDetails={productDetails} />
-                <AlternativeBrands alternatives={product.alternatives} productName={product.name} />
+                <AlternativeBrands alternatives={product.alternatives} productName={product.name} generic_name={generic_name} />
               </div>
             </div>
           </div>
