@@ -43,12 +43,12 @@ export default async function AlternativeBrands({ productName, generic_name }) {
           Alternatives for {generic_name}
         </h3>
 
-        <button className="flex items-center gap-1 border border-gray-200 rounded-md px-2 py-1
+        {/* <button className="flex items-center gap-1 border border-gray-200 rounded-md px-2 py-1
         text-sm font-semibold text-[#0784BB] bg-white hover:border-[#0784BB]/30 transition-all">
           <SlidersHorizontal size={14} />
           Sort By
           <ChevronDown size={14} />
-        </button>
+        </button> */}
       </div>
 
       {/* Content */}

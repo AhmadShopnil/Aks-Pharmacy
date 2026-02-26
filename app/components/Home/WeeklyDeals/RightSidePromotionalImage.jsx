@@ -8,7 +8,7 @@ export default function RightSidePromotionalImage() {
         src="/images/promotions/1.png"
         alt='week deals'
         width={400}
-        height={600}
+        height={500}
         className='w-full h-[400px] md:h-full'
         
         />

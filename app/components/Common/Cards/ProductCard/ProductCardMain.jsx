@@ -21,7 +21,7 @@ export default function ProductCardMain({ item }) {
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
-  const featured_image = varrientInfo?.featured_image?.file_url  || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
+  const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
   const discount = display_price - sale_price
 
   const handleToggleWishlist = (e) => {
@@ -61,32 +61,20 @@ export default function ProductCardMain({ item }) {
   };
 
 
-
-
-
-
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-[360px] md:h-[520px] flex flex-col">
-
-
+      h-[360px] md:h-[430px] flex flex-col">
       {/* Image */}
       <Link
         href={`/products/${item?.slug}`}
-        className="w-full h-[140px] md:h-[270px] relative mb-4">
-        {/* Discount Badge */}
-        {item?.discount && (<span
-          className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
-          {item.discount}
-        </span>)}
+        className="relative w-full aspect-square "
+      >
         <Image
-          src={featured_image || "/images/placeholder-product.webp" }
+          src={featured_image || "/images/placeholder-product.webp"}
           alt={item?.name || "product image"}
           fill
           className="object-cover"
         />
-
-
       </Link>
       {/* Wishlist Button */}
       <button

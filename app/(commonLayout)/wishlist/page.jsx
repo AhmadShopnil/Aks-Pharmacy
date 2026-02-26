@@ -35,10 +35,10 @@ export default function WishlistPage() {
     };
 
     return (
-        <div className="bg-slate-50 min-h-screen py-12 md:py-20">
+        <div className="bg-white min-h-screen py-2 md:py-6">
             <Container>
                 {/* Breadcrumb */}
-                <nav className="flex items-center gap-2 text-sm text-slate-400 mb-8">
+                <nav className="flex items-center gap-2 text-sm md:text-lg text-slate-400 mb-4 md:mb-8">
                     <Link href="/" className="hover:text-[#0784BB] transition-colors flex items-center gap-1">
                         <Home size={16} /> Home
                     </Link>
@@ -46,10 +46,10 @@ export default function WishlistPage() {
                     <span className="text-slate-900 font-medium">Wishlist</span>
                 </nav>
 
-                <div className="mb-12">
-                    <h1 className="text-3xl md:text-4xl font-bold text-slate-900 flex items-center gap-4">
+                <div className="mb-3 md:mb-6">
+                    <h1 className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-4">
                         My Wishlist
-                        <span className="text-lg font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
+                        <span className="text-lg font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-sm">
                             {wishlistItems.length} items
                         </span>
                     </h1>
@@ -57,14 +57,14 @@ export default function WishlistPage() {
                 </div>
 
                 {wishlistItems.length > 0 ? (
-                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div className="bg-white rounded-sm shadow-sm border border-slate-100 overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="border-b border-slate-100 bg-slate-50/50">
-                                        <th className="px-8 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider">Product</th>
-                                        <th className="px-8 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider">Price</th>
-                                        <th className="px-8 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                                        <th className="px-2 md:px-6 lg:md:px-8 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider">Product</th>
+                                        <th className="px-2 md:px-6 lg:md:px-8 text-sm font-bold text-slate-500 uppercase tracking-wider">Price</th>
+                                        <th className="px-2 md:px-6 lg:md:px-8 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
@@ -74,9 +74,9 @@ export default function WishlistPage() {
                                             key={item.id}
                                             className="group hover:bg-slate-50/30 transition-colors"
                                         >
-                                            <td className="px-8 py-6">
+                                            <td className="px-2 md:px-6 lg:md:px-8 py-2 md:py-3">
                                                 <div className="flex items-center gap-6">
-                                                    <div className="relative w-24 h-24 rounded-2xl overflow-hidden border border-slate-100 bg-white p-2 flex-shrink-0">
+                                                    <div className="relative w-20 h-20 rounded-sm overflow-hidden border border-slate-100 bg-white p-2 flex-shrink-0">
                                                         <Image
                                                             src={item.img}
                                                             alt={item.title}
@@ -95,16 +95,17 @@ export default function WishlistPage() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-6">
+                                            <td className="px-2 md:px-6 lg:md:px-8">
                                                 <span className="text-xl font-bold text-[#0784BB]">{item.price}</span>
                                             </td>
-                                            <td className="px-8 py-6">
+                                            <td className="px-2 md:px-6 lg:md:px-8">
                                                 <div className="flex items-center justify-end gap-3">
                                                     <button
                                                         onClick={() => handleAddToCart(item)}
-                                                        className="bg-[#0784BB] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#0673a3] transition-all shadow-lg shadow-blue-100 flex items-center gap-2 whitespace-nowrap"
+                                                        className="bg-[#0784BB] text-white px-4 py-2 rounded-sm text-sm md:text-base font-bold hover:bg-[#0673a3]
+                                                         transition-all shadow-lg shadow-blue-100 flex items-center gap-2 "
                                                     >
-                                                        <ShoppingCart size={18} /> Add to Cart
+                                                        <ShoppingCart size={17} /> Add to Cart
                                                     </button>
                                                     <button
                                                         onClick={() => handleRemove(item.id)}
@@ -128,8 +129,8 @@ export default function WishlistPage() {
                         </div>
                         <h2 className="text-2xl font-bold text-slate-900 mb-2"> Your wishlist is empty</h2>
                         <p className="text-slate-500 mb-10 max-w-sm mx-auto">
-                            Looks like you haven't added anything to your wishlist yet.
-                            Start exploring our store and save your favorite items!
+                            Looks like you have not added anything to your wishlist yet.
+                           
                         </p>
                         {/* <Link
                             href="/shop"

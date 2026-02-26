@@ -1,35 +1,38 @@
-import React from "react";
+"use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-
 
 import "swiper/css";
 import "swiper/css/pagination";
 
-import Link from "next/link";
-
 export default function HeroSlider({ heroSliders }) {
-    return (
-
-        <Swiper
-            modules={[Pagination, Autoplay]}
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 3000 }}
-            loop
-            className="overflow-hidden shadow-sm   h-[150px]  md:h-[280px] lg:h-[320px] xl:h-[420px]"
-        >
-            {heroSliders?.map((item, index) => (
-                <SwiperSlide key={index}>
-                    <img
-                        src={item?.featured_image}
-                        alt="Hero Slide"
-                        className="w-full h-full object-fit lg:object-fill"
-                    />
-                </SwiperSlide>
-            ))}
-        </Swiper>
-
-    )
+  return (
+    <div className="w-full">
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 4000 }}
+        loop
+        className="w-full aspect-[1440/400] overflow-hidden"
+      >
+        {heroSliders?.map((item, index) => (
+          <SwiperSlide key={index}>
+            <div className="relative w-full h-full">
+              <Image
+                src={item?.featured_image}
+                alt="Hero Slide"
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
 }

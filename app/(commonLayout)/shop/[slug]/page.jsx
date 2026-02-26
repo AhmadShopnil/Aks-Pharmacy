@@ -9,20 +9,17 @@ import CategoryTabs from "@/app/components/Shop/CategoryTabs";
 
 
 
-export default function ShopPage({ params }) {
-// const { slug } = params
+export default async function ShopPage({ params }) {
+const { slug } =await params
 
-const slug="Medicine"
+// const slug="Medicine"
   return (
     <div className=" pb-10">
       <Topsection slug={slug}/>
 
-
       <Container className=" space-y-3">
         <ShopBanner />
-         <CategoryTabs/>
-      
-
+         <CategoryTabs/>     
         <div className="grid grid-cols-12 gap-6 mt-6 ">
           {/* Sidebar */}
           <div className="col-span-12 lg:col-span-2">

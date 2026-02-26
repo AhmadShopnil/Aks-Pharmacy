@@ -1,60 +1,74 @@
+"use client";
 
 import ProductCardMain from "../../Common/Cards/ProductCard/ProductCardMain";
-import SmallProductCard from "../../Common/Cards/ProductCard/SmallProductCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// ProductSection.jsx
-export default function ProductList({section_title,products}) {
-//  const products = [
-//     {
-//       id: 1,
-//       title: "Cosrx – Advanced Snail 92 All In One Cream",
-//       img: "/images/medicine/23.webp",
-//       price: "940 ৳",
-//       oldPrice: "1,600 ৳",
-//       discount: "-47%",
-//       rating: 5,
-//     },
-//     {
-//       id: 2,
-//       title: "Essence – I Lo+ve Extreme Crazy Volume Mascara",
-//      img: "/images/medicine/24.jpeg",
-//       price: "550 ৳",
-//       oldPrice: "900 ৳",
-//       discount: "-39%",
-//       rating: 5,
-//     },
-//     {
-//       id: 3,
-//       title: "Ordinary – Niacinamide 10% + Zinc 1% – 30ml",
-//       img: "/images/medicine/13.jpeg",
-//       price: "1,220 ৳",
-//       oldPrice: "1,300 ৳",
-//       discount: "-6%",
-//       rating: 5,
-//     },
-//     {
-//       id: 8,
-//       title: "Aplb – Glutathione Niacinamide Beauty Tablet 30pcs",
-//      img: "/images/medicine/15.webp",
-//       price: "780 ৳",
-//       oldPrice: "1,010 ৳",
-//       discount: "-23%",
-//       rating: 4,
-//     },
-//   ];
+import "swiper/css";
+import "swiper/css/navigation";
 
-
+export default function WeeklyDealsProductSlider({ section_title, products }) {
   return (
-    <section className=" ">
-      <div className="">
-   
-        <h3 className="font-bold text-2xl md:text-3xl  mb-4">{section_title}</h3>
+    <section className="w-full">
+      <div>
+        <h3 className="font-bold text-2xl md:text-3xl mb-6">
+          {section_title}
+        </h3>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-          {products?.map((item) => (
-             <ProductCardMain key={item?.id} item={item} />
-        //  <SmallProductCard key={item?.id} item={item}/>
-          ))}
+        <div className="relative group">
+          <Swiper
+            modules={[Navigation]}
+            spaceBetween={16}
+            navigation={{
+              nextEl: ".custom-next",
+              prevEl: ".custom-prev",
+            }}
+            breakpoints={{
+              0: {
+                slidesPerView: 2,
+              },
+              640: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
+          >
+            {products?.map((item) => (
+              <SwiperSlide key={item?.id} className="h-auto">
+                <ProductCardMain item={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* LEFT BUTTON */}
+          <button
+            className="custom-prev absolute left-2 top-1/2 -translate-y-1/2 z-20
+              w-11 h-11 bg-white/90 backdrop-blur-md rounded-full shadow-md
+              flex items-center justify-center text-gray-700
+              opacity-0 group-hover:opacity-100
+              hover:bg-[#0784BB] hover:text-white hover:scale-110
+              transition-all duration-300"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          {/* RIGHT BUTTON */}
+          <button
+            className="custom-next absolute right-2 top-1/2 -translate-y-1/2 z-20
+              w-11 h-11 bg-white/90 backdrop-blur-md rounded-full shadow-md
+              flex items-center justify-center text-gray-700
+              opacity-0 group-hover:opacity-100
+              hover:bg-[#0784BB] hover:text-white hover:scale-110
+              transition-all duration-300"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
       </div>
     </section>

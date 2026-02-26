@@ -30,13 +30,13 @@ export default function FilterSidebar() {
         </div>
       </CollapsibleFilter>
 
-      <CollapsibleFilter title="Category">
+      {/* <CollapsibleFilter title="Category">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2"><input type="checkbox" /> Vegetables</label>
           <label className="flex gap-2"><input type="checkbox" /> Fruits</label>
           <label className="flex gap-2"><input type="checkbox" /> Dry Fruits</label>
         </div>
-      </CollapsibleFilter>
+      </CollapsibleFilter> */}
 
       <CollapsibleFilter title="Weight">
         <div className="space-y-1 text-sm">
