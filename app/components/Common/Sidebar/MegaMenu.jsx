@@ -30,7 +30,7 @@ const menuIcons = {
 
 
 
-export default function MegaMenu({formattedCategories}) {
+export default function MegaMenu({ formattedCategories }) {
     const [level1, setLevel1] = useState(null);
     const [level2, setLevel2] = useState(null);
 
@@ -216,14 +216,14 @@ export default function MegaMenu({formattedCategories}) {
             <section className="relative">
                 {/* LEFT MEGA MENU */}
                 <div
-                    className="hidden lg:block col-span-3 bg-white relative text-gray-600
-                   font-semibold text-[17px]"
+                    className="hidden lg:block col-span-3 bg-white relative text-gray-600 font-semibold text-[17px]
+             h-screen"
                     onMouseLeave={() => {
                         setLevel1(null);
                         setLevel2(null);
                     }}
                 >
-                  
+
 
                     {/* LEVEL 1 */}
                     <ul className="divide-y h-full overflow-y-auto">
@@ -237,14 +237,19 @@ export default function MegaMenu({formattedCategories}) {
                                         setLevel1(item);
                                         setLevel2(null);
                                     }}
-                                    className={`flex items-center justify-between px-4 py-3
+                                    className={`
                                hover:text-[#0784BB] cursor-pointer transition-colors ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
-                                        <span>{item.name}</span>
-                                    </div>
-                                    {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+
+                                    <Link href={`/shop/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
+                                        <div className="flex items-center gap-3">
+                                            <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
+                                            <span>{item.name}</span>
+                                        </div>
+
+                                        {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+                                    </Link>
+
                                 </li>
                             );
                         })}
@@ -255,23 +260,27 @@ export default function MegaMenu({formattedCategories}) {
                         {level1?.child?.length > 0 && (
                             <motion.div
                                 className="absolute top-0 left-full h-full bg-white shadow-sm
-                             border-l z-30 overflow-hidden min-w-[256px]"
+                                    border-l z-30 min-w-[256px] flex flex-col"
                                 variants={drawerVariants}
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
                             >
-                                <ul className="py-2">
+                                <ul className="py-2 h-full overflow-y-auto">
                                     {level1.child.map((item) => (
                                         <li
                                             key={item.name}
                                             onMouseEnter={() => setLevel2(item)}
-                                            className={`flex items-center justify-between px-4 py-3
+                                            className={`flex items-center justify-between px-4 py-2
                                    hover:bg-[#0784BB] hover:text-white
                                    cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                                         >
-                                            <span>{item.name}</span>
-                                            {item.child && <ChevronRight className="w-5 h-5" />}
+                                            <Link href={`/shop/${item?.slug}`} className="block w-full">
+                                                <span>{item.name}</span>
+                                                {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+                                            </Link>
+
+
                                         </li>
                                     ))}
                                 </ul>
@@ -284,22 +293,22 @@ export default function MegaMenu({formattedCategories}) {
                         {level2?.child?.length > 0 && (
                             <motion.div
                                 className="absolute top-0 left-[calc(100%+16rem)] h-full
-                             bg-white shadow-sm border-r z-40 overflow-hidden min-w-[256px]"
+                              bg-white shadow-sm border-r z-40 min-w-[256px] flex flex-col"
                                 variants={drawerVariants}
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
                             >
-                                <ul className="py-2">
+                                <ul className="py-2 h-full overflow-y-auto">
                                     {level2.child.map((item) => (
                                         <li
                                             key={item.name}
-                                            className="px-4 py-3 hover:bg-[#0784BB]
+                                            className="px-4 py-2 hover:bg-[#0784BB]
                                    hover:text-white cursor-pointer
                                    transition-colors"
                                         >
-                                            <Link href={`/shop/${item?.name}`} className="block w-full">
-                                                {item.name}
+                                            <Link href={`/shop/${item?.slug}`} className="block w-full">
+                                                {item?.name}
                                             </Link>
                                         </li>
                                     ))}
