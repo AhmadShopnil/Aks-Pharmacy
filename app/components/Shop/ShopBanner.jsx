@@ -1,10 +1,12 @@
 import Image from "next/image";
 
-export default function ShopBanner() {
+export default function ShopBanner({ category }) {
+
+
     return (
-        <div className="pt-6">
+        <div className="pt-2">
             <Image
-                src="/images/banners/healthcare.png"
+                src={category?.image}
                 alt="Fresh Food"
                 width={1800}
                 height={261}

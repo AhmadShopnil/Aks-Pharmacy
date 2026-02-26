@@ -22,7 +22,7 @@ export default function ProductCardMain({ item }) {
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
   const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
-  const discount = display_price - sale_price
+  const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function ProductCardMain({ item }) {
       id: item.id,
       title: item?.name,
 
-      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) || 0),
       img: featured_image
       ,
       discount: discount || 0,
@@ -47,7 +47,7 @@ export default function ProductCardMain({ item }) {
       id: item.id,
       title: item?.name,
       // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
-      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) || 0),
       img: featured_image
       ,
       discount: discount || 0,

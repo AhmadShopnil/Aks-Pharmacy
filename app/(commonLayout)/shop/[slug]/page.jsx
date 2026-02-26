@@ -6,20 +6,23 @@ import ProductGrid from "@/app/components/Shop/ProductGrid";
 import ShopBanner from "@/app/components/Shop/ShopBanner";
 import Topsection from "@/app/components/Shop/Topsection";
 import CategoryTabs from "@/app/components/Shop/CategoryTabs";
+import { getSingleCategory } from "@/lib/fetchApis";
 
 
 
 export default async function ShopPage({ params }) {
-const { slug } =await params
-
-// const slug="Medicine"
+  const { slug } = await params
+  const category = await getSingleCategory(slug)
+  // console.log("category", category)
+  // const slug="Medicine"
   return (
     <div className=" pb-10">
-      <Topsection slug={slug}/>
+      <Topsection slug={slug} />
 
-      <Container className=" space-y-3">
-        <ShopBanner />
-         <CategoryTabs/>     
+      <Container className="mt-2 md:mt-4 space-y-3">
+        {category?.image && <ShopBanner category={category} />}
+
+        <CategoryTabs />
         <div className="grid grid-cols-12 gap-6 mt-6 ">
           {/* Sidebar */}
           <div className="col-span-12 lg:col-span-2">
@@ -28,8 +31,8 @@ const { slug } =await params
 
           {/* Products */}
           <div className="col-span-12 lg:col-span-10">
-             <FilterTabs />
-            <ProductGrid />
+            <FilterTabs />
+            <ProductGrid categorySlug={slug} />
           </div>
         </div>
 
