@@ -279,7 +279,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
           {level1?.child?.length > 0 && (
             <motion.div
               key={`l2-${level1.id || level1.name}`}
-              className="absolute top-0 left-full h-full bg-white shadow-xl
+              className="absolute top-0 left-full h-full bg-white shadow-sm
                          border-l z-30 overflow-hidden min-w-[256px]"
               variants={drawerVariants}
               initial="hidden"
@@ -310,7 +310,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             <motion.div
               key={`l3-${level2.id || level2.name}`}
               className="absolute top-0 left-[calc(100%+16rem)] h-full
-                         bg-white shadow-xl border-l z-40 overflow-hidden min-w-[256px]"
+                         bg-white shadow-sm border-l z-40 overflow-hidden min-w-[256px]"
               variants={drawerVariants}
               initial="hidden"
               animate="visible"

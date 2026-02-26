@@ -4,27 +4,35 @@ import { X, MapPin, User, Phone, Home } from "lucide-react";
 
 const AddressModal = ({ isOpen, onClose, onSave, editAddress = null }) => {
     const [formData, setFormData] = useState({
-        label: "",
-        name: "",
-        phone: "",
-        address: "",
-        city: "",
-        zip: "",
-        country: "Bangladesh",
+        address_label: "",
+        customer_name: "",
+        customer_phone: "",
+        detailed_address: "",
+        division: "",
+        district: "",
+        is_default: false,
     });
 
     useEffect(() => {
         if (editAddress) {
-            setFormData(editAddress);
+            setFormData({
+                address_label: editAddress.address_label || "",
+                customer_name: editAddress.customer_name || "",
+                customer_phone: editAddress.customer_phone || "",
+                detailed_address: editAddress.detailed_address || "",
+                division: editAddress.division || "",
+                district: editAddress.district || "",
+                is_default: editAddress.is_default || false,
+            });
         } else {
             setFormData({
-                label: "",
-                name: "",
-                phone: "",
-                address: "",
-                city: "",
-                zip: "",
-                country: "Bangladesh",
+                address_label: "",
+                customer_name: "",
+                customer_phone: "",
+                detailed_address: "",
+                division: "",
+                district: "",
+                is_default: false,
             });
         }
     }, [editAddress, isOpen]);
@@ -73,11 +81,10 @@ const AddressModal = ({ isOpen, onClose, onSave, editAddress = null }) => {
                                 type="text"
                                 placeholder="e.g., Home, Office, etc."
                                 className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                value={formData.label}
+                                value={formData.address_label}
                                 onChange={(e) =>
-                                    setFormData({ ...formData, label: e.target.value })
+                                    setFormData({ ...formData, address_label: e.target.value })
                                 }
-                                required
                             />
                         </div>
 
@@ -92,9 +99,9 @@ const AddressModal = ({ isOpen, onClose, onSave, editAddress = null }) => {
                                     type="text"
                                     placeholder="Enter full name"
                                     className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                    value={formData.name}
+                                    value={formData.customer_name}
                                     onChange={(e) =>
-                                        setFormData({ ...formData, name: e.target.value })
+                                        setFormData({ ...formData, customer_name: e.target.value })
                                     }
                                     required
                                 />
@@ -106,11 +113,11 @@ const AddressModal = ({ isOpen, onClose, onSave, editAddress = null }) => {
                                 </label>
                                 <input
                                     type="tel"
-                                    placeholder="+880 1712 345678"
+                                    placeholder="01712345678"
                                     className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                    value={formData.phone}
+                                    value={formData.customer_phone}
                                     onChange={(e) =>
-                                        setFormData({ ...formData, phone: e.target.value })
+                                        setFormData({ ...formData, customer_phone: e.target.value })
                                     }
                                     required
                                 />
@@ -121,61 +128,62 @@ const AddressModal = ({ isOpen, onClose, onSave, editAddress = null }) => {
                         <div className="space-y-2">
                             <label className="text-sm font-semibold flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-zinc-400" />
-                                Street Address
+                                Detailed Address
                             </label>
                             <textarea
                                 rows="3"
                                 placeholder="House/Flat no, Street, Area"
                                 className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all resize-none"
-                                value={formData.address}
+                                value={formData.detailed_address}
                                 onChange={(e) =>
-                                    setFormData({ ...formData, address: e.target.value })
+                                    setFormData({ ...formData, detailed_address: e.target.value })
                                 }
                                 required
                             />
                         </div>
 
-                        {/* City, ZIP, Country */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* Division and District */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">City</label>
+                                <label className="text-sm font-semibold">Division</label>
                                 <input
                                     type="text"
-                                    placeholder="City"
+                                    placeholder="Division"
                                     className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                    value={formData.city}
+                                    value={formData.division}
                                     onChange={(e) =>
-                                        setFormData({ ...formData, city: e.target.value })
+                                        setFormData({ ...formData, division: e.target.value })
                                     }
-                                    required
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">ZIP Code</label>
+                                <label className="text-sm font-semibold">District</label>
                                 <input
                                     type="text"
-                                    placeholder="ZIP"
+                                    placeholder="District"
                                     className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                    value={formData.zip}
+                                    value={formData.district}
                                     onChange={(e) =>
-                                        setFormData({ ...formData, zip: e.target.value })
+                                        setFormData({ ...formData, district: e.target.value })
                                     }
-                                    required
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">Country</label>
-                                <input
-                                    type="text"
-                                    placeholder="Country"
-                                    className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-transparent focus:ring-2 focus:ring-[#1d81b3] outline-none transition-all"
-                                    value={formData.country}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, country: e.target.value })
-                                    }
-                                    required
-                                />
-                            </div>
+                        </div>
+
+                        {/* Default Checkbox */}
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="is_default"
+                                checked={formData.is_default}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, is_default: e.target.checked })
+                                }
+                                className="w-4 h-4 text-[#1d81b3] border-zinc-300 rounded focus:ring-[#1d81b3]"
+                            />
+                            <label htmlFor="is_default" className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                                Set as default address
+                            </label>
                         </div>
 
                         {/* Action Buttons */}

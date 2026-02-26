@@ -14,15 +14,27 @@ export default function ProductCardMain({ item }) {
   const cartItem = useAppSelector(selectCartItemById(item?.id));
   const isInWishlist = useAppSelector(selectIsInWishlist(item?.id));
 
+  // extra info of product
+  const varrientInfo = item?.packages?.variations[0]
+  const sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const featured_image = varrientInfo?.featured_image?.file_url  || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
+  const discount = display_price - sale_price
+
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(toggleWishlist({
       id: item.id,
-      title: item.title,
-      price: item.price,
-      img: item.img,
-      discount: item.discount,
+      title: item?.name,
+
+      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      img: featured_image
+      ,
+      discount: discount || 0,
       rating: item.rating
     }));
   };
@@ -33,10 +45,12 @@ export default function ProductCardMain({ item }) {
     // Dispatch add to cart action
     dispatch(addItem({
       id: item.id,
-      title: item.title,
-      price: parseFloat(item.price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
-      img: item.img,
-      discount: item.discount,
+      title: item?.name,
+      // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
+      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      img: featured_image
+      ,
+      discount: discount || 0,
       quantity: 1,
     }));
 
@@ -45,6 +59,11 @@ export default function ProductCardMain({ item }) {
       setIsAdding(false);
     }, 800);
   };
+
+
+
+
+
 
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
@@ -61,7 +80,7 @@ export default function ProductCardMain({ item }) {
           {item.discount}
         </span>)}
         <Image
-          src={item?.featured_image}
+          src={featured_image || "/images/placeholder-product.webp" }
           alt={item?.name || "product image"}
           fill
           className="object-cover"
@@ -96,12 +115,14 @@ export default function ProductCardMain({ item }) {
           {/* Pricing */}
           <div className="mb-4 text-center text-sm md:text-base">
 
-            {item?.oldPrice && (
+            {(display_price && display_price > sale_price) && (
               <span className="line-through mr-2 text-gray-400">
-                {item?.oldPrice}
+                <span className='text-xl md:text-2xl mr-1'>৳</span> {display_price}
               </span>
             )}
-            <span className="font-bold text-pink-600">{item?.price}</span>
+            <span className="font-bold text-pink-600 ">
+              <span className='text-xl md:text-2xl mr-1'>৳</span>
+              {sale_price}</span>
           </div>
 
         </div>

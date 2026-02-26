@@ -20,12 +20,12 @@ const statCards = [
 const DashboardOverview = () => {
     return (
         <div className="space-y-8">
-            <div>
+            {/* <div>
                 <h2 className="text-3xl font-black text-[#8CC640] dark:text-white tracking-tight">
                     Welcome back, {demoUser.name.split(' ')[0]}!
                 </h2>
-                {/* <p className="text-zinc-500 mt-1">Here what happening with your account today.</p> */}
-            </div>
+                
+            </div> */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statCards.map((stat, index) => (

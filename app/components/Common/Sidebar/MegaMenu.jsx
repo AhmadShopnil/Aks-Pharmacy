@@ -5,7 +5,6 @@ import { ChevronRight, X, ChevronLeft, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
-import { megamenuFormat } from "@/helper/megamenuFormat";
 import Link from "next/link";
 import {
     FaCapsules,
@@ -18,7 +17,6 @@ import {
     FaBroom,
 } from "react-icons/fa";
 
-/* ---------------- ICON MAP ---------------- */
 const menuIcons = {
     Medicine: FaPills,
     Healthcare: FaHospital,
@@ -29,104 +27,10 @@ const menuIcons = {
     "Home Care": FaBroom,
 };
 
-const menu = [
-    {
-        name: "Medicine",
-        children: [
-            {
-                name: "Tablets",
-                children: [
-                    {
-                        name: "Pain Relief",
-                        children: [{ name: "test 1" }, { name: "test 2" }],
-                    },
-                    { name: "Cold & Flu" },
-                    { name: "Antibiotics" },
-                    { name: "Diabetes Care" },
-                ],
-            },
-            {
-                name: "Syrups",
-                children: [
-                    { name: "Cough Syrup" },
-                    { name: "Digestive Syrup" },
-                    { name: "Immune Booster" },
-                ],
-            },
-        ],
-    },
-    {
-        name: "Healthcare",
-        children: [
-            {
-                name: "Medical Devices",
-                children: [
-                    { name: "BP Monitor" },
-                    { name: "Thermometer" },
-                    { name: "Nebulizer" },
-                ],
-            },
-            {
-                name: "Daily Essentials",
-                children: [
-                    { name: "Face Mask" },
-                    { name: "Hand Sanitizer" },
-                    { name: "Gloves" },
-                ],
-            },
-        ],
-    },
-    { name: "Beauty" },
-    { name: "Sexual Wellness" },
-    {
-        name: "Healthcare",
-        children: [
-            {
-                name: "Medical Devices",
-                children: [
-                    { name: "BP Monitor" },
-                    { name: "Thermometer" },
-                    { name: "Nebulizer" },
-                ],
-            },
-            {
-                name: "Daily Essentials",
-                children: [
-                    { name: "Face Mask" },
-                    { name: "Hand Sanitizer" },
-                    { name: "Gloves" },
-                ],
-            },
-        ],
-    },
-    { name: "Baby & Mom Care" },
-    { name: "Herbal" },
-    {
-        name: "Healthcare",
-        children: [
-            {
-                name: "Medical Devices",
-                children: [
-                    { name: "BP Monitor" },
-                    { name: "Thermometer" },
-                    { name: "Nebulizer" },
-                ],
-            },
-            {
-                name: "Daily Essentials",
-                children: [
-                    { name: "Face Mask" },
-                    { name: "Hand Sanitizer" },
-                    { name: "Gloves" },
-                ],
-            },
-        ],
-    },
-    { name: "Home Care" },
-];
 
-/* ---------------- COMPONENT ---------------- */
-export default function MegaMenu() {
+
+
+export default function MegaMenu({formattedCategories}) {
     const [level1, setLevel1] = useState(null);
     const [level2, setLevel2] = useState(null);
 
@@ -135,7 +39,7 @@ export default function MegaMenu() {
     const [activeMobileCategory, setActiveMobileCategory] = useState(null);
     const [activeMobileSubCategory, setActiveMobileSubCategory] = useState(null);
 
-    const formattedMenu = megamenuFormat(menu);
+
 
     const drawerVariants = {
         hidden: { width: 0, opacity: 0, x: -12 },
@@ -223,13 +127,13 @@ export default function MegaMenu() {
                             <div className="flex-1 overflow-y-auto p-4">
                                 {!activeMobileCategory && (
                                     <div className="grid grid-cols-1 gap-3">
-                                        {formattedMenu.map((item, i) => {
+                                        {formattedCategories?.map((item, i) => {
                                             const Icon = menuIcons[item.name] || FaCapsules;
                                             return (
                                                 <div
                                                     key={i}
                                                     onClick={() => {
-                                                        if (item.children) setActiveMobileCategory(item);
+                                                        if (item.child) setActiveMobileCategory(item);
                                                         else setIsMobileMenuOpen(false);
                                                     }}
                                                     className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors relative"
@@ -240,7 +144,7 @@ export default function MegaMenu() {
                                                         </div>
                                                         <span className="font-bold text-sm text-gray-700">{item.name}</span>
                                                     </div>
-                                                    {item.children?.length > 0 ? (
+                                                    {item.child?.length > 0 ? (
                                                         <ChevronRight size={18} className="text-gray-400" />
                                                     ) : (
                                                         <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
@@ -261,17 +165,17 @@ export default function MegaMenu() {
                                             View All {activeMobileCategory.name}
                                             <ChevronRight size={18} />
                                         </Link>
-                                        {activeMobileCategory.children?.map((item, i) => (
+                                        {activeMobileCategory.child?.map((item, i) => (
                                             <div
                                                 key={i}
                                                 onClick={() => {
-                                                    if (item.children?.length > 0) setActiveMobileSubCategory(item);
+                                                    if (item.child?.length > 0) setActiveMobileSubCategory(item);
                                                     else setIsMobileMenuOpen(false);
                                                 }}
                                                 className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors relative"
                                             >
                                                 <span className="font-semibold text-sm text-gray-700">{item.name}</span>
-                                                {item.children?.length > 0 ? (
+                                                {item.child?.length > 0 ? (
                                                     <ChevronRight size={18} className="text-gray-400" />
                                                 ) : (
                                                     <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
@@ -291,7 +195,7 @@ export default function MegaMenu() {
                                             View All {activeMobileSubCategory.name}
                                             <ChevronRight size={18} />
                                         </Link>
-                                        {activeMobileSubCategory.children?.map((item, i) => (
+                                        {activeMobileSubCategory.child?.map((item, i) => (
                                             <Link
                                                 key={i}
                                                 href={`/shop/${item.name}`}
@@ -319,17 +223,11 @@ export default function MegaMenu() {
                         setLevel2(null);
                     }}
                 >
-                    {/* Flash Sale */}
-                    {/* <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                        <div className="flex items-center gap-3 text-black font-extrabold italic">
-                            <span className="text-yellow-500 text-2xl">⚡</span> FLASH SALE
-                        </div>
-                        <span className="border border-[#1d81b3cc] text-[#1d81b3cc] text-sm px-2 py-1 rounded-sm font-semibold">1000+</span>
-                    </div> */}
+                  
 
                     {/* LEVEL 1 */}
                     <ul className="divide-y h-full overflow-y-auto">
-                        {formattedMenu.map((item, i) => {
+                        {formattedCategories?.map((item, i) => {
                             const Icon = menuIcons[item.name] || FaCapsules;
 
                             return (
@@ -346,7 +244,7 @@ export default function MegaMenu() {
                                         <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
                                         <span>{item.name}</span>
                                     </div>
-                                    {item.children && <ChevronRight className="w-5 h-5 opacity-50" />}
+                                    {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
                                 </li>
                             );
                         })}
@@ -354,9 +252,9 @@ export default function MegaMenu() {
 
                     {/* LEVEL 2 DRAWER */}
                     <AnimatePresence>
-                        {level1?.children && (
+                        {level1?.child?.length > 0 && (
                             <motion.div
-                                className="absolute top-0 left-full h-full bg-white shadow-xl
+                                className="absolute top-0 left-full h-full bg-white shadow-sm
                              border-l z-30 overflow-hidden min-w-[256px]"
                                 variants={drawerVariants}
                                 initial="hidden"
@@ -364,7 +262,7 @@ export default function MegaMenu() {
                                 exit="exit"
                             >
                                 <ul className="py-2">
-                                    {level1.children.map((item) => (
+                                    {level1.child.map((item) => (
                                         <li
                                             key={item.name}
                                             onMouseEnter={() => setLevel2(item)}
@@ -373,7 +271,7 @@ export default function MegaMenu() {
                                    cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                                         >
                                             <span>{item.name}</span>
-                                            {item.children && <ChevronRight className="w-5 h-5" />}
+                                            {item.child && <ChevronRight className="w-5 h-5" />}
                                         </li>
                                     ))}
                                 </ul>
@@ -383,17 +281,17 @@ export default function MegaMenu() {
 
                     {/* LEVEL 3 DRAWER */}
                     <AnimatePresence>
-                        {level2?.children && (
+                        {level2?.child?.length > 0 && (
                             <motion.div
                                 className="absolute top-0 left-[calc(100%+16rem)] h-full
-                             bg-white shadow-xl border-l z-40 overflow-hidden min-w-[256px]"
+                             bg-white shadow-sm border-r z-40 overflow-hidden min-w-[256px]"
                                 variants={drawerVariants}
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
                             >
                                 <ul className="py-2">
-                                    {level2.children.map((item) => (
+                                    {level2.child.map((item) => (
                                         <li
                                             key={item.name}
                                             className="px-4 py-3 hover:bg-[#0784BB]

@@ -46,7 +46,7 @@ export default function ProductQA() {
     };
 
     return (
-        <div className="bg-white rounded-md  p-3 md:p-10 border border-slate-100 shadow-sm ">
+        <div className="bg-white rounded-sm  p-3 md:p-4 border border-gray-200  ">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">

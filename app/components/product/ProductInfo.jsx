@@ -10,11 +10,15 @@ import { Navigation, Autoplay } from "swiper/modules"
 import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
+import { getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
 
-export default function ProductInfo({ product }) {
+export default function ProductInfo({ product, productDetails }) {
   const [quantity, setQuantity] = useState(1)
   const dispatch = useAppDispatch()
   const isInWishlist = useAppSelector(selectIsInWishlist(product?.id))
+
+
+
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
@@ -52,10 +56,39 @@ export default function ProductInfo({ product }) {
   const increment = () => setQuantity(q => q + 1)
   const decrement = () => setQuantity(q => Math.max(1, q - 1))
 
+
+
+  // extract extra infos of product-----
+
+  const varrientInfo = productDetails?.packages?.variations[0]
+  const sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const featured_image = varrientInfo?.featured_image?.file_url
+  const sale = Number(sale_price);
+  const mrp = Number(display_price);
+  const hasValidPrices = !isNaN(sale) && !isNaN(mrp);
+  const showDiscount = hasValidPrices && mrp > sale;
+
+
+  const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
+  const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
+  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
+
+
+
+
+
+  // console.log("producDetails brandInfos ", brandInfos)
+  // console.log({ sale_price, display_price, stock_quantity, stock_status, is_on_sale, featured_image })
+
+
   return (
-    <div className="flex flex-col gap-2 md:gap-8">
+    <div className="flex flex-col gap-2 md:gap-6 ">
       {/* Wholesale Banner */}
-      <div className="bg-[#0784BB] text-white px-3 py-2 md:px-6 md:py-4 rounded-md flex items-center justify-between shadow-lg">
+      {/* <div className="bg-[#0784BB] text-white px-3 py-2 md:px-6 md:py-4 rounded-md flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
 
           <span className="font-bold text-xs sm:text-sm md:text-md leading-snug">
@@ -65,7 +98,7 @@ export default function ProductInfo({ product }) {
         <button className="bg-white text-[#0784BB] px-5 py-2 rounded-md text-xs md:text-sm font-black hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap ml-4">
           Register
         </button>
-      </div>
+      </div> */}
 
       {/* Meta info & Views */}
       {/* <div className="flex flex-wrap items-center justify-between gap-4 px-1">
@@ -84,35 +117,35 @@ export default function ProductInfo({ product }) {
       </div> */}
 
       {/* Main Stats Card */}
-      <div className="bg-white rounded-md p-3 md:p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-0">
+      <div className="bg-white rounded-sm p-3 md:p-4 border border-gray-200  flex flex-col gap-0">
         {/* Title and Badge */}
         <div className="pb-6 border-b border-gray-200">
           <div className="flex items-center gap-2 mb-2">
             <h1 className="text-xl md:text-2xl text-[#0784BB] font-bold">
-              {product.name}
+              {productDetails?.name}
             </h1>
             <CheckCircle size={22} className="text-[#8CC540]" />
           </div>
-          <p className="text-lg text-gray-400 font-semibold">
-            {product.form} - {product.strength}
+          <p className="text-sm text-gray-400 font-semibold">
+            {productDetails?.sub_title}
           </p>
+          <span className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
+            {manufacturerInfo}
+            <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </span>
+          {/* <p className="text-lg text-gray-400 font-semibold">
+            {product.form} - {product.strength}
+          </p> */}
         </div>
 
         {/* Company & Generic Details */}
-        <div className="py-6 border-b border-gray-200 flex flex-col gap-5">
-          <div className="flex flex-col gap-1">
-            <span className="text-xs uppercase font-black  text-gray-400">Manufacturer</span>
-            <a href="#" className="text-[#0784BB] font-bold text-base hover:underline flex items-center gap-1 group">
-              {product.brand}
-              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-            <a href="#" className="text-[#8CC540] font-bold text-base hover:underline">
-              {product.attributes.genericName}
-            </a>
-          </div>
+        <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
+
+          <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
+          <span className="text-[#8CC540] font-bold text-base hover:underline">
+            {generic_name}
+          </span>
+
         </div>
 
         {/* Purchase Options */}
@@ -126,13 +159,20 @@ export default function ProductInfo({ product }) {
             <div className="flex flex-col">
               <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span>
               <div className="flex items-end gap-3">
-                <span className="text-2xl md:text-4xl  text-gray-600 leading-none font-semibold">৳ {product.price.toFixed(2)}</span>
-                <div className="flex flex-col">
-                  <span className="text-sm text-gray-400 line-through font-bold">MRP ৳{product?.mrp?.toFixed(2)}</span>
-                  <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
-                    {product?.discount}% OFF
-                  </span>
-                </div>
+                <span className="text-2xl md:text-3xl text-gray-600 leading-none font-semibold">
+                  Taka {sale_price}
+                </span>
+
+                {showDiscount && (
+                  <div className="flex flex-col">
+                    <span className="text-sm text-gray-400 line-through font-bold">
+                      MRP ৳{display_price}
+                    </span>
+                    <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
+                      {product?.discount}% OFF
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex items-center justify-center md:justify-end">
@@ -159,13 +199,13 @@ export default function ProductInfo({ product }) {
               </div>
             </div>
 
-        
+
           </div>
 
           <div className="flex gap-3 ">
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-3 rounded-md text-base md:text-lg flex items-center 
+              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-2 rounded-md text-base md:text-lg flex items-center 
               justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
             >
               <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
@@ -173,7 +213,7 @@ export default function ProductInfo({ product }) {
             </button>
             <button
               onClick={handleToggleWishlist}
-              className={`py-2 md:py-3 px-3 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
+              className={`py-2 md:py-3 px-6 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
                 }`}
             >
               <Heart size={24} className={isInWishlist ? 'fill-current' : ''} />
@@ -184,7 +224,7 @@ export default function ProductInfo({ product }) {
       </div>
 
       {/* Promotional Offers */}
-      <div className="flex flex-col gap-4 mt-2">
+      {/* <div className="flex flex-col gap-4 mt-2">
         <header className="flex items-center justify-between px-1">
           <h3 className="font-semibold text-xl text-[#0784BB] tracking-tight">Additional Offers</h3>
           <div className="flex gap-2">
@@ -230,7 +270,7 @@ export default function ProductInfo({ product }) {
             ))}
           </Swiper>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

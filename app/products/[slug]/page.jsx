@@ -10,6 +10,8 @@ import FrequentlyBoughtTogether from "@/app/components/ProductDetails/Frequently
 import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
+import { getSingleProduct } from "@/lib/fetchApis"
+import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -85,6 +87,8 @@ import ProductQA from "@/app/components/ProductDetails/ProductQA"
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
 
+
+  const productDetails = await getSingleProduct(slug);
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -222,37 +226,57 @@ export default async function ProductDetailsPage({ params }) {
   }
 
 
+
+  // extract extra infos of product-----
+
+  const varrientInfo = productDetails?.packages?.variations[0]
+  const sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const featured_image = varrientInfo?.featured_image
+  const gallery_images = varrientInfo?.gallery_images
+  let all_images = [...gallery_images]
+  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
+
+  if (featured_image) {
+    all_images = [featured_image, ...all_images]
+  }
+
+
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
       <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
-          <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors">
-            <Home size={14} /> Home
+        <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+            <span className=""><Home size={16} /> </span>
+            <span className="-mt-0.5">Home</span>
           </Link>
           <ChevronRight size={12} />
           <a href="/category/medicine" className="hover:text-[#0784BB] transition-colors">Medicine</a>
           <ChevronRight size={12} />
           <a href="/category/vitamins" className="hover:text-[#0784BB] transition-colors">Vitamins & Supplements</a>
           <ChevronRight size={12} />
-          <span className="text-gray-900 font-semibold">{product.name} {product.strength}</span>
+          <span className="text-gray-900 font-semibold">{productDetails?.name} </span>
         </nav>
 
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
           {/* LEFT CONTENT AREA */}
-          <div className="lg:col-span-7 flex flex-col gap-4 md:gap-8">
+          <div className="lg:col-span-7 flex flex-col gap-3 md:gap-4">
             <div className="w-full ">
-              <ProductGallery images={product.images} />
+              <ProductGallery images={product.images} gallery_images={all_images} />
             </div>
 
             {/* Mobile Info */}
             <div className="lg:hidden">
-              <ProductInfo product={product} />
+              <ProductInfo product={product} productDetails={productDetails} />
             </div>
 
-            <ProductOverview product={product} />
+            <ProductOverview product={product} productDetails={productDetails} />
 
             <ProductAttributes
               attributes={product.attributes}
@@ -261,34 +285,34 @@ export default async function ProductDetailsPage({ params }) {
           </div>
 
           {/* RIGHT SIDEBAR AREA */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="hidden lg:block sticky top-24">
-              <div className="flex flex-col gap-8">
-                <ProductInfo product={product} />
-                <AlternativeBrands alternatives={product.alternatives} productName={product.name} />
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            <div className="hidden lg:block sticky ">
+              <div className="flex flex-col gap-2">
+                <ProductInfo product={product} productDetails={productDetails} />
+                <AlternativeBrands alternatives={product.alternatives} productName={product.name} generic_name={generic_name} />
               </div>
             </div>
           </div>
 
         </div>
 
-        <div className="pt-0  lg:pt-8 space-y-4 md:space-y-6  ">
+        <div className="pt-0  lg:pt-4 space-y-3 md:space-y-4  ">
           {/* Rating & Reviews */}
           <RatingAndReviews />
 
           {/* Product Q&A */}
           <ProductQA />
-      
 
-            {/* Similar Products */}
-            <SimilarProducts />
 
-            {/* More from X Gold */}
-            <MoreProducts />
+          {/* Similar Products */}
+          <SimilarProducts />
 
-            {/* Frequently Bought Together */}
-            <FrequentlyBoughtTogether />
-        
+          {/* More from X Gold */}
+          <MoreProducts />
+
+          {/* Frequently Bought Together */}
+          <FrequentlyBoughtTogether />
+
         </div>
 
       </div>
