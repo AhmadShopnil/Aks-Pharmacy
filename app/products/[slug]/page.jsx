@@ -276,7 +276,7 @@ export default async function ProductDetailsPage({ params }) {
               <ProductInfo product={product} productDetails={productDetails} />
             </div>
 
-            <ProductOverview product={product} productDetails={productDetails} />
+            <ProductOverview  productDetails={productDetails} />
 
             <ProductAttributes
               attributes={product.attributes}

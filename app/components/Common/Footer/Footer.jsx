@@ -93,7 +93,7 @@ export default function Footer() {
               />
             </Link>
 
-            <ul className="space-y-2 text-sm md:text-base text-gray-200">
+            <ul className="space-y-2 text-sm md:text-base text-white">
               <li><Link href="#" className="hover:text-yellow-400 transition-colors">Our Story</Link></li>
               <li><Link href="/our-team" className="hover:text-yellow-400 transition-colors">Join Our Team</Link></li>
               <li><Link href="#" className="hover:text-yellow-400 transition-colors">Authenticity</Link></li>
@@ -107,7 +107,7 @@ export default function Footer() {
                     key={idx}
                     href={social.href}
                     target="_blank"
-                    className={`${social.color} text-white/80 transition`}
+                    className={`${social.color} text-white transition`}
                   >
                     <FontAwesomeIcon icon={social.icon} />
                   </Link>
@@ -122,7 +122,7 @@ export default function Footer() {
               <h4 className="font-bold mb-4 text-[#a6e451] text-sm md:text-base tracking-wide">
                 {section.title}
               </h4>
-              <ul className="space-y-2 text-sm md:text-base text-gray-200">
+              <ul className="space-y-2 text-sm md:text-base text-white">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
                     <Link href={link.href} className="hover:text-white transition-colors">
@@ -154,7 +154,7 @@ export default function Footer() {
         <div className="border-t border-white/20 mb-8"></div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between text-sm text-gray-300 gap-4 text-center md:text-left">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between text-sm text-white gap-4 text-center md:text-left">
           <p>© 2026 AKS Pharmacy. All Rights Reserved</p>
 
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">

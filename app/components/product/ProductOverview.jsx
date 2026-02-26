@@ -2,12 +2,12 @@
 import { useState } from "react"
 import { FileText } from "lucide-react"
 
-export default function ProductOverview({ product,productDetails }) {
+export default function ProductOverview({ productDetails }) {
   const [lang, setLang] = useState("en")
 
-  const htmlContent = product?.descriptionHtml?.[lang]
+  // const htmlContent = product?.descriptionHtml?.[lang]
 
-  if (!htmlContent) return null
+  // if (!htmlContent) return null
 
   return (
     <div className="bg-white rounded-sm border border-gray-200  overflow-hidden">
@@ -19,7 +19,7 @@ export default function ProductOverview({ product,productDetails }) {
             <FileText size={24} />
           </div>
           <h2 className="text-xl md:text-2xl font-semibold text-[#0784BB]">
-            Product Overview of {product?.name}
+            Product Overview of {productDetails?.name}
           </h2>
         </div>
 

@@ -260,15 +260,22 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                   setLevel1(item);
                   setLevel2(null);
                 }}
-                className={`flex items-center justify-between px-4 py-3
+                className={`
                            hover:text-[#0784BB] hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
-                  <span>{item?.name}</span>
-                </div>
 
-                {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+                <Link
+                  href={`/shop/${item?.slug}`}
+                  className="flex items-center justify-between px-4 py-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
+                    <span>{item?.name}</span>
+                  </div>
+
+                  {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+                </Link>
+
               </li>
             );
           })}
@@ -280,23 +287,29 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             <motion.div
               key={`l2-${level1.id || level1.name}`}
               className="absolute top-0 left-full h-full bg-white shadow-sm
-                         border-l z-30 overflow-hidden min-w-[256px]"
+             border-l z-30 min-w-[256px] flex flex-col"
               variants={drawerVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              <ul className="py-2">
+              <ul className="py-2 overflow-y-auto h-full">
                 {level1?.child?.map((item) => (
                   <li
                     key={item?.id || item?.name}
                     onMouseEnter={() => setLevel2(item)}
-                    className={`flex items-center justify-between px-4 py-3
+                    className={`flex items-center justify-between px-4 py-2
                                hover:bg-[#0784BB] hover:text-white
                                cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                   >
-                    <span>{item?.name}</span>
-                    {item?.child?.length > 0 && <ChevronRight className="w-5 h-5" />}
+                    <Link
+                      href={`/shop/${item?.slug}`}
+                      className="block w-full"
+                    >
+                      <span>{item?.name}</span>
+                      {item?.child?.length > 0 && <ChevronRight className="w-5 h-5" />}
+                    </Link>
+
                   </li>
                 ))}
               </ul>
@@ -310,13 +323,13 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             <motion.div
               key={`l3-${level2.id || level2.name}`}
               className="absolute top-0 left-[calc(100%+16rem)] h-full
-                         bg-white shadow-sm border-l z-40 overflow-hidden min-w-[256px]"
+             bg-white shadow-sm border-l z-40 min-w-[256px] flex flex-col"
               variants={drawerVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              <ul className="py-2">
+              <ul className="py-2 overflow-y-auto h-full">
                 {level2?.child?.map((item) => (
                   <li
                     key={item?.id || item?.name}
@@ -325,7 +338,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                                transition-colors"
                   >
                     <Link
-                      href={`/shop/${item?.name}`}
+                      href={`/shop/${item?.slug}`}
                       className="block w-full"
                     >
                       {item?.name}

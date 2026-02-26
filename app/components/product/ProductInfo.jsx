@@ -155,70 +155,78 @@ export default function ProductInfo({ product, productDetails }) {
             <p className="text-[#8CC540] font-bold text-base">{product?.attributes.packSize}</p>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50 p-2 md:p-6 rounded-md">
-            <div className="flex flex-col">
-              <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span>
-              <div className="flex items-end gap-3">
-                <span className="text-2xl md:text-3xl text-gray-600 leading-none font-semibold">
-                  Taka {sale_price}
-                </span>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50 rounded-md">
 
-                {showDiscount && (
-                  <div className="flex flex-col">
-                    <span className="text-sm text-gray-400 line-through font-bold">
-                      MRP ৳{display_price}
-                    </span>
-                    <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
-                      {product?.discount}% OFF
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center justify-center md:justify-end">
-              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
-                <button
-                  onClick={decrement}
-                  aria-label="Decrease quantity"
-                  className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
-                >
-                  <Minus size={16} />
-                </button>
+       <div className='flex gap-6 justify-between items-center'>
+             {/* <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span> */}
+            <div className="flex items-end gap-3">
+              <span className="text-2xl md:text-3xl text-gray-600 leading-none font-semibold">
+                Taka {sale_price}
+              </span>
 
-                <div className="w-12 h-10 flex items-center justify-center text-base font-bold text-gray-800 border-x border-gray-300">
-                  {quantity}
+              {showDiscount && (
+                <div className="flex flex-col">
+                  <span className="text-sm text-gray-400 line-through font-bold">
+                    MRP ৳{display_price}
+                  </span>
+                  <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
+                    {product?.discount}% OFF
+                  </span>
                 </div>
+              )}
 
-                <button
-                  onClick={increment}
-                  aria-label="Increase quantity"
-                  className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
-                >
-                  <Plus size={16} />
-                </button>
+            </div>
+
+
+            <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
+              <button
+                onClick={decrement}
+                aria-label="Decrease quantity"
+                className="w-8 h-8  flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200
+                   transition"
+              >
+                <Minus size={12} />
+              </button>
+
+              <div className="w-9 h-9  flex items-center justify-center text-base font-bold text-gray-800 border-x
+                 border-gray-300">
+                {quantity}
               </div>
+
+              <button
+                onClick={increment}
+                aria-label="Increase quantity"
+                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
+              >
+                <Plus size={12} />
+              </button>
+
+            </div>
+
+       </div>
+
+            <div className="flex gap-3 ">
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-2 px-4 rounded-md text-base md:text-base flex items-center 
+              justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
+              >
+                <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
+                Add to Cart
+              </button>
+              <button
+                onClick={handleToggleWishlist}
+                className={`py-2 md:py-2 px-4 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
+                  }`}
+              >
+                <Heart size={18} className={isInWishlist ? 'fill-current' : ''} />
+              </button>
             </div>
 
 
           </div>
 
-          <div className="flex gap-3 ">
-            <button
-              onClick={handleAddToCart}
-              className="flex-1 bg-[#0784BB] font-semibold text-white py-2 md:py-2 rounded-md text-base md:text-lg flex items-center 
-              justify-center gap-3 hover:bg-[#0673a3] transition-all shadow-md group"
-            >
-              <ShoppingCart size={24} className="group-hover:scale-110 transition-transform" />
-              Add to Cart
-            </button>
-            <button
-              onClick={handleToggleWishlist}
-              className={`py-2 md:py-3 px-6 border rounded-md transition-all shadow-sm ${isInWishlist ? 'border-pink-200 bg-pink-50 text-pink-600' : 'border-gray-200 bg-white text-gray-400 hover:text-pink-600 hover:bg-pink-50'
-                }`}
-            >
-              <Heart size={24} className={isInWishlist ? 'fill-current' : ''} />
-            </button>
-          </div>
+
         </div>
 
       </div>
