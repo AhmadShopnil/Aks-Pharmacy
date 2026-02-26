@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, Search, User } from "lucide-react";
+import { ChevronDown, User } from "lucide-react";
+import SearchSuggestions from "./SearchSuggestions";
 import Container from "../Container";
 import CartButton from "../CartButton";
 import Link from "next/link";
@@ -46,21 +47,7 @@ export default function Navbar() {
 
         {/* Search bar */}
         <div className="flex-1 hidden lg:flex">
-          <div className="w-full bg-teal-50 flex items-center rounded-md overflow-hidden h-12 border border-teal-100">
-            <div className="px-4 h-full flex items-center gap-1 border-r border-gray-200 bg-white text-sm text-gray-700">
-              All <ChevronDown className="w-4 h-4" />
-            </div>
-
-            <input
-              type="text"
-              placeholder='Search for "healthcare products"'
-              className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700"
-            />
-
-            <button className="bg-[#0784BB] h-full px-5 flex items-center justify-center text-white">
-              <Search className="w-5 h-5" />
-            </button>
-          </div>
+          <SearchSuggestions />
         </div>
 
         {/* Right section */}
@@ -102,16 +89,7 @@ export default function Navbar() {
 
       {/* Mobile Search */}
       <div className="px-4 pb-3 lg:hidden mt-2">
-        <div className="bg-teal-50 flex items-center rounded-md overflow-hidden h-10 border border-teal-100">
-          <input
-            type="text"
-            placeholder="Search medicine, products..."
-            className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700"
-          />
-          <button className="bg-teal-700 h-full px-4 flex items-center justify-center text-white">
-            <Search className="w-5 h-5" />
-          </button>
-        </div>
+        <SearchSuggestions isMobile />
       </div>
       <AuthModal
         isOpen={openAuth}

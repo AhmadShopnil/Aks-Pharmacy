@@ -18,8 +18,6 @@ export default async function Home() {
 
   // console.log("heroSliders", heroSliders)
 
-
-
   return (
     <div>
 
