@@ -18,7 +18,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const { isAuthenticated, profile } = useSelector((state) => state.user);
   return (
-    <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 ">
+    <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 overflow-visible">
       <Container className=" flex items-center gap-6 justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-8">

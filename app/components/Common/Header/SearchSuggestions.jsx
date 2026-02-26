@@ -1,34 +1,48 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, X, Loader2, ArrowRight } from 'lucide-react';
-import { useSearchProductsQuery } from '@/lib/redux/services/productsApi';
+import { Search, X, Loader2, ArrowRight, ChevronDown } from 'lucide-react';
+import { useSearchProductsQuery, useGetProductCategoriesQuery } from '@/lib/redux/services/productsApi';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 
 export default function SearchSuggestions({ isMobile = false }) {
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const wrapperRef = useRef(null);
     const inputRef = useRef(null);
+    const categoryRef = useRef(null);
 
     // Debounce the search query — waits 400ms after user stops typing
     const debouncedQuery = useDebounce(query, 400);
 
+    // Fetch product categories for the dropdown
+    const { data: categoriesData } = useGetProductCategoriesQuery();
+    const categories = categoriesData?.data || [];
+
     // Only fire RTK Query when debounced value is 2+ characters
-    const { data, isFetching } = useSearchProductsQuery(debouncedQuery, {
-        skip: debouncedQuery.length < 2,
-    });
+    const { data, isFetching } = useSearchProductsQuery(
+        {
+            searchTerm: debouncedQuery,
+            categorySlug: selectedCategory?.slug || undefined,
+        },
+        {
+            skip: debouncedQuery.length < 2,
+        }
+    );
 
     const products = data?.data || [];
 
-    // Close dropdown on outside click
+    // Close dropdowns on outside click
     useEffect(() => {
         function handleClickOutside(e) {
             if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
                 setIsOpen(false);
+                setIsCategoryOpen(false);
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
@@ -54,6 +68,15 @@ export default function SearchSuggestions({ isMobile = false }) {
         setQuery('');
         setIsOpen(false);
         inputRef.current?.focus();
+    };
+
+    const handleSelectCategory = (cat) => {
+        setSelectedCategory(cat);
+        setIsCategoryOpen(false);
+        inputRef.current?.focus();
+        if (query.length >= 2) {
+            setIsOpen(true);
+        }
     };
 
     // Keyboard navigation
@@ -102,25 +125,27 @@ export default function SearchSuggestions({ isMobile = false }) {
     };
 
     const showDropdown = isOpen && debouncedQuery.length >= 2;
+    const categoryLabel = selectedCategory ? selectedCategory.name : 'All';
 
     return (
         <div ref={wrapperRef} className={`relative ${isMobile ? 'w-full' : 'flex-1'}`}>
-            {/* Search Input */}
+            {/* Search Input Bar */}
             <div
-                className={`flex items-center overflow-hidden ${isMobile
-                        ? 'bg-teal-50 rounded-md h-10 border border-teal-100'
-                        : 'w-full bg-teal-50 rounded-md h-12 border border-teal-100'
+                className={`flex items-center ${isMobile
+                    ? 'bg-teal-50 rounded-md h-10 border border-teal-100'
+                    : 'w-full bg-teal-50 rounded-md h-12 border border-teal-100'
                     }`}
             >
-                {/* Category dropdown (desktop only) */}
-                {!isMobile && (
-                    <div className="px-4 h-full flex items-center gap-1 border-r border-gray-200 bg-white text-sm text-gray-700 shrink-0">
-                        All
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                )}
+                {/* Category dropdown trigger */}
+                <div ref={categoryRef} className="relative shrink-0 h-full">
+                    <button
+                        onClick={() => setIsCategoryOpen((prev) => !prev)}
+                        className={`h-full flex items-center gap-1 border-r border-gray-200 bg-white text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer ${isMobile ? 'px-2.5 rounded-l-md' : 'px-4 rounded-l-md'}`}
+                    >
+                        <span className={`truncate ${isMobile ? 'max-w-[60px]' : 'max-w-[100px]'}`}>{categoryLabel}</span>
+                        <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                </div>
 
                 <input
                     ref={inputRef}
@@ -136,7 +161,7 @@ export default function SearchSuggestions({ isMobile = false }) {
                             ? 'Search medicine, products...'
                             : 'Search for "healthcare products"'
                     }
-                    className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700"
+                    className="flex-1 px-4 bg-transparent outline-none text-sm text-gray-700 min-w-0"
                     autoComplete="off"
                     role="combobox"
                     aria-expanded={showDropdown}
@@ -162,13 +187,74 @@ export default function SearchSuggestions({ isMobile = false }) {
                 )}
 
                 <button
-                    className={`h-full flex items-center justify-center text-white shrink-0 ${isMobile ? 'bg-teal-700 px-4' : 'bg-[#0784BB] px-5'
+                    className={`h-full flex items-center justify-center text-white shrink-0 ${isMobile ? 'bg-teal-700 px-4 rounded-r-md' : 'bg-[#0784BB] px-5 rounded-r-md'
                         }`}
                     aria-label="Search"
                 >
                     <Search className="w-5 h-5" />
                 </button>
             </div>
+
+            {/* Category dropdown menu */}
+            {isCategoryOpen && (
+                <div
+                    className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-100 z-[9999] min-w-[220px] max-h-[350px] overflow-y-auto"
+                    onMouseDown={(e) => {
+                        // Prevent this mousedown from bubbling to the document handler
+                        e.stopPropagation();
+                    }}
+                >
+                    {/* All option */}
+                    <div
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSelectCategory(null);
+                        }}
+                        className={`px-4 py-2.5 text-sm transition-colors cursor-pointer flex items-center gap-2 select-none ${selectedCategory === null
+                            ? 'bg-teal-50 text-teal-700 font-semibold'
+                            : 'text-gray-700 hover:bg-gray-50'
+                            }`}
+                    >
+                        <span className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center text-xs shrink-0">🔍</span>
+                        All Categories
+                    </div>
+
+                    <div className="h-px bg-gray-100" />
+
+                    {/* Category list */}
+                    {categories?.map((cat) => (
+                        <div
+                            key={cat.id}
+                            onMouseDown={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleSelectCategory(cat);
+                            }}
+                            className={`px-4 py-2.5 text-sm transition-colors cursor-pointer flex items-center gap-2 select-none ${selectedCategory?.id === cat.id
+                                ? 'bg-teal-50 text-teal-700 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-50'
+                                }`}
+                        >
+                            {cat.icon ? (
+                                <Image src={cat.icon} alt="" width={20} height={20} className="w-5 h-5 rounded object-cover shrink-0" />
+                            ) : (
+                                <span className="w-5 h-5 rounded bg-teal-100 text-teal-600 flex items-center justify-center text-[10px] font-bold shrink-0">
+                                    {cat.name?.charAt(0)}
+                                </span>
+                            )}
+                            <span className="truncate">{cat.name}</span>
+                        </div>
+                    ))}
+
+                    {categories.length === 0 && (
+                        <div className="px-4 py-3 text-sm text-gray-400 text-center flex items-center justify-center gap-2">
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            Loading categories...
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Suggestions Dropdown */}
             {showDropdown && (
@@ -195,6 +281,9 @@ export default function SearchSuggestions({ isMobile = false }) {
                             <div className="px-4 py-2 border-b border-gray-50 flex items-center justify-between">
                                 <span className="text-xs text-gray-500 font-medium">
                                     {data?.meta?.total || products.length} result{(data?.meta?.total || products.length) !== 1 ? 's' : ''} found
+                                    {selectedCategory && (
+                                        <span className="text-teal-600"> in {selectedCategory.name}</span>
+                                    )}
                                 </span>
                                 {isFetching && (
                                     <Loader2 className="w-3 h-3 text-gray-400 animate-spin" />
@@ -212,8 +301,8 @@ export default function SearchSuggestions({ isMobile = false }) {
                                                 setQuery('');
                                             }}
                                             className={`flex items-center gap-3 px-4 py-2.5 transition-colors ${index === highlightedIndex
-                                                    ? 'bg-teal-50'
-                                                    : 'hover:bg-gray-50'
+                                                ? 'bg-teal-50'
+                                                : 'hover:bg-gray-50'
                                                 }`}
                                         >
                                             {/* Product image */}
