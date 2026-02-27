@@ -8,9 +8,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
-       {
+      {
         protocol: "https",
         hostname: "admin.akspharma.com.bd",
+      },
+      {
+        protocol: "https",
+        hostname: "example.com",
       },
     ],
   },

@@ -67,7 +67,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
   };
 
   return (
-    <section className="mt-4 grid grid-cols-12 gap-4 relative">
+    <section className="mt-4 grid grid-cols-12 gap-4 relative ">
       {/* MOBILE CATEGORY STRIP */}
       <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
         <div className="flex items-center justify-between px-1">
@@ -241,8 +241,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
 
       {/* left mega menu */}
       <div
-        className="hidden lg:block col-span-3 bg-white relative lg:h-[320px] xl:h-[420px] text-gray-600
-                   font-semibold text-[17px] rounded-l-xl shadow-sm"
+        className="hidden lg:block col-span-2 bg-white relative h-[220px] md:h-[220px] lg:h-[250px] xl:h-[300px] 2xl:h-[400px] text-gray-600
+                   font-semibold text-[17px] rounded-sm shadow-sm"
         onMouseLeave={() => {
           setLevel1(null);
           setLevel2(null);
@@ -304,10 +304,10 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                   >
                     <Link
                       href={`/shop/${item?.slug}`}
-                      className="block w-full"
+                      className="flex items-center gap-2 w-full "
                     >
                       <span>{item?.name}</span>
-                      {item?.child?.length > 0 && <ChevronRight className="w-5 h-5" />}
+                      {item?.child?.length > 0 && <span className="mt-1"><ChevronRight className="w-5 h-5" /></span>}
                     </Link>
 
                   </li>
@@ -352,7 +352,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
       </div>
 
       {/* HERO SLIDER */}
-      <div className="col-span-12 lg:col-span-9">
+      <div className="col-span-12 lg:col-span-10 max-w-[1440px] ">
         <HeroSlider heroSliders={heroSliders} />
       </div>
 

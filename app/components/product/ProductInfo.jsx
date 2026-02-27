@@ -11,14 +11,35 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
 import { getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
+import Link from 'next/link'
 
 export default function ProductInfo({ product, productDetails }) {
   const [quantity, setQuantity] = useState(1)
   const dispatch = useAppDispatch()
   const isInWishlist = useAppSelector(selectIsInWishlist(product?.id))
 
+  // extract extra infos of product-----
+
+  const varrientInfo = productDetails?.packages?.variations[0]
+  const sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const gallery_images = varrientInfo?.gallery_images
+  const featured_image = varrientInfo?.featured_image?.file_url || gallery_images[0]?.file_url
+
+  const sale = Number(sale_price);
+  const mrp = Number(display_price);
+  const hasValidPrices = !isNaN(sale) && !isNaN(mrp);
+  const showDiscount = hasValidPrices && mrp > sale;
 
 
+  const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
+  const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
+  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
+
+  const generic_slug = productDetails?.packages?.medicine_details?.generic_slug
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
@@ -38,13 +59,13 @@ export default function ProductInfo({ product, productDetails }) {
 
   const handleAddToCart = () => {
     dispatch(addItem({
-      id: product.id,
-      title: product.name,
-      price: product.price,
-      img: product.images[0],
+      id: productDetails?.id,
+      title: productDetails?.name,
+      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      img: featured_image,
       quantity: quantity,
-      strength: product.strength,
-      brand: product.brand
+      // strength: product.strength,
+      brand: manufacturerInfo
     }))
 
     dispatch(showNotification({
@@ -53,29 +74,9 @@ export default function ProductInfo({ product, productDetails }) {
     }))
   }
 
+
   const increment = () => setQuantity(q => q + 1)
   const decrement = () => setQuantity(q => Math.max(1, q - 1))
-
-
-
-  // extract extra infos of product-----
-
-  const varrientInfo = productDetails?.packages?.variations[0]
-  const sale_price = varrientInfo?.sale_price
-  const display_price = varrientInfo?.display_price
-  const stock_quantity = varrientInfo?.stock_quantity
-  const stock_status = varrientInfo?.stock_status
-  const is_on_sale = varrientInfo?.is_on_sale
-  const featured_image = varrientInfo?.featured_image?.file_url
-  const sale = Number(sale_price);
-  const mrp = Number(display_price);
-  const hasValidPrices = !isNaN(sale) && !isNaN(mrp);
-  const showDiscount = hasValidPrices && mrp > sale;
-
-
-  const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
-  const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
-  const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
 
 
@@ -129,10 +130,16 @@ export default function ProductInfo({ product, productDetails }) {
           <p className="text-sm text-gray-400 font-semibold">
             {productDetails?.sub_title}
           </p>
-          <span className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
-            {manufacturerInfo}
-            <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </span>
+          {manufacturerInfo && (
+            <Link
+              href={`/manufacturer/${manufacturerInfo}`}
+              // href={`/manufacturer/${encodeURIComponent(manufacturerInfo.toLowerCase().replace(/\s+/g, '-'))}`}
+              className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group w-max"
+            >
+              {manufacturerInfo}
+              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          )}
           {/* <p className="text-lg text-gray-400 font-semibold">
             {product.form} - {product.strength}
           </p> */}
@@ -140,70 +147,76 @@ export default function ProductInfo({ product, productDetails }) {
 
         {/* Company & Generic Details */}
         <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
-
           <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-          <span className="text-[#8CC540] font-bold text-base hover:underline">
-            {generic_name}
-          </span>
-
+          {generic_name ? (
+            <Link
+              // href={`/generic/${generic_slug}`} 
+              href={`/generic/${encodeURIComponent(generic_name)}`}
+              className="text-[#8CC540] font-bold text-base hover:underline">
+              {generic_name}
+            </Link>
+          ) : (
+            <span className="text-gray-400 italic text-sm">Not specified</span>
+          )}
         </div>
 
         {/* Purchase Options */}
         <div className="pt-6 flex flex-col gap-6">
+
           <div className="flex flex-col gap-1">
             <span className="text-xs uppercase font-black  text-gray-400">Available Pack</span>
             <p className="text-[#8CC540] font-bold text-base">{product?.attributes.packSize}</p>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50 rounded-md">
+          <div className="flex flex-wrap justify-between gap-4  rounded-md">
 
-       <div className='flex gap-6 justify-between items-center'>
-             {/* <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span> */}
-            <div className="flex items-end gap-3">
-              <span className="text-2xl md:text-3xl text-gray-600 leading-none font-semibold">
-                Taka {sale_price}
-              </span>
+            <div className='flex gap-4 justify-between items-center'>
+              {/* <span className="text-xs uppercase font-black text-[#0784BB] mb-2 block">Our Price</span> */}
+              <div className="flex items-end gap-3">
+                <span className="text-2xl md:text-2xl text-gray-600 leading-none font-semibold">
+                  Tk {sale_price}
+                </span>
 
-              {showDiscount && (
-                <div className="flex flex-col">
-                  <span className="text-sm text-gray-400 line-through font-bold">
-                    MRP ৳{display_price}
-                  </span>
-                  <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
-                    {product?.discount}% OFF
-                  </span>
-                </div>
-              )}
+                {showDiscount && (
+                  <div className="flex flex-col">
+                    <span className="text-sm text-gray-400 line-through font-bold">
+                      MRP ৳{display_price}
+                    </span>
+                    <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
+                      {product?.discount}% OFF
+                    </span>
+                  </div>
+                )}
 
-            </div>
-
-
-            <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
-              <button
-                onClick={decrement}
-                aria-label="Decrease quantity"
-                className="w-8 h-8  flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200
-                   transition"
-              >
-                <Minus size={12} />
-              </button>
-
-              <div className="w-9 h-9  flex items-center justify-center text-base font-bold text-gray-800 border-x
-                 border-gray-300">
-                {quantity}
               </div>
 
-              <button
-                onClick={increment}
-                aria-label="Increase quantity"
-                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
-              >
-                <Plus size={12} />
-              </button>
+
+              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
+                <button
+                  onClick={decrement}
+                  aria-label="Decrease quantity"
+                  className="w-8 h-8  flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200
+                   transition"
+                >
+                  <Minus size={12} />
+                </button>
+
+                <div className="w-8 h-8  flex items-center justify-center text-base font-bold text-gray-800 border-x
+                 border-gray-300">
+                  {quantity}
+                </div>
+
+                <button
+                  onClick={increment}
+                  aria-label="Increase quantity"
+                  className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition"
+                >
+                  <Plus size={12} />
+                </button>
+
+              </div>
 
             </div>
-
-       </div>
 
             <div className="flex gap-3 ">
               <button

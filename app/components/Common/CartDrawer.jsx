@@ -62,7 +62,8 @@ export default function CartDrawer() {
 
     const mrp = cartTotal;
     const discount = cartTotal * 1.2 / 100;
-    const finalPayable = cartTotal - discount;
+    // const finalPayable = cartTotal - discount;
+    const finalPayable = cartTotal ;
 
 
 
@@ -141,12 +142,12 @@ export default function CartDrawer() {
                             <div className="space-y-4">
                                 {cartItems?.map((item) => (
                                     <div key={item.id} className="flex gap-4 border-b last:border-0 pb-4 last:pb-0">
-                                        <div className="relative w-16 h-16 bg-gray-100 rounded-md shrink-0">
+                                        <div className="relative w-18 h-18 border border-gray-200 rounded-xs shrink-0">
                                             <Image
                                                 src={item?.img}
                                                 alt={item?.title}
                                                 fill
-                                                className="object-contain p-1"
+                                                className="object-fit rounded-xs"
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -157,9 +158,9 @@ export default function CartDrawer() {
                                                 </button>
                                             </div>
                                             <p className="text-xs text-gray-500 mt-1">Pack Size: 1 Pack</p>
-                                            <div className="flex justify-between items-end mt-2">
-                                                <div className="font-bold text-gray-900">
-                                                    ${item?.price}
+                                            <div className="flex justify-between items-end ">
+                                                <div className="font-bold text-gray-700">
+                                                    Tk {item?.price}
                                                 </div>
                                                 <div className="flex items-center border rounded-md bg-white">
                                                     <button onClick={() => handleDecrement(item.id)} className="px-2 py-0.5 hover:bg-gray-50 text-gray-600">-</button>
@@ -174,24 +175,25 @@ export default function CartDrawer() {
                         )}
                     </div>
 
-                    {cartItems.length > 0 && (
+                    {cartItems?.length > 0 && (
                         <>
                             {/* Shipping Address */}
-                            <div className="bg-white p-4 mb-3">
-                                <h3 className="font-semibold text-gray-800 mb-3">Shipping Address</h3>
+                            <div className="bg-white p-4 ">
+                                <h3 className="font-semibold text-gray-800 mb-2.5">Shipping Address</h3>
                                 {!selectedAddress ? (
                                     <div className="space-y-3">
                                         <p className="text-sm text-gray-500">You havent added any address yet.</p>
                                         <button
                                             onClick={() => setIsAddressModalOpen(true)}
-                                            className="w-full bg-[#1d81b3] text-white font-medium py-2.5 rounded-lg hover:bg-[#166a94] transition"
+                                            className="w-full bg-[#1d81b3] text-white font-medium py-2.5 rounded-sm hover:bg-[#166a94]
+                                             transition"
                                         >
                                             Add New Address
                                         </button>
                                     </div>
                                 ) : (
                                     <div>
-                                        <div className="border rounded-lg p-3 mb-3 relative">
+                                        <div className="border rounded-sm p-3 mb-3 relative">
                                             <div className="flex items-start gap-3">
                                                 <MapPin className="w-5 h-5 text-[#1d81b3] shrink-0 mt-0.5" />
                                                 <div>
@@ -208,7 +210,7 @@ export default function CartDrawer() {
                                         </div>
                                         <button
                                             onClick={() => setIsAddressModalOpen(true)}
-                                            className="w-full border border-[#1d81b3] text-[#1d81b3] font-medium py-2 rounded-lg hover:bg-blue-50 transition"
+                                            className="w-full border border-[#1d81b3] text-[#1d81b3] font-medium py-2 rounded-sm hover:bg-blue-50 transition"
                                         >
                                             Change Address
                                         </button>
@@ -217,42 +219,43 @@ export default function CartDrawer() {
                             </div>
 
                             {/* Coupon Code */}
-                            <div className="bg-white p-4 mb-3">
-                                <p className="text-[#1d81b3] text-sm font-medium underline mb-3 cursor-pointer">Have coupon code ?</p>
-                                <div className="flex gap-2 mb-3">
+                            <div className="bg-white p-4 mb-2">
+                                <p className="text-[#1d81b3] text-base font-medium underline mb-2 cursor-pointer">Have coupon code ?</p>
+                                <div className="flex gap-2 ">
                                     <div className="relative flex-1">
                                         <Ticket className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                                         <input
                                             type="text"
                                             placeholder="Enter Coupon Code"
-                                            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3] outline-none text-sm"
+                                            className="w-full pl-10 pr-4 py-2 border rounded-sm focus:ring-2 focus:ring-[#1d81b3] outline-none text-sm"
                                             value={couponCode}
                                             onChange={(e) => setCouponCode(e.target.value)}
                                         />
                                     </div>
-                                    <button className="bg-[#1d81b3] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#166a94] transition">
+                                    <button className="bg-[#1d81b3] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#166a94] transition">
                                         Apply
                                     </button>
                                 </div>
-                                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 flex gap-3">
+                                {/* saving amount after cupon add */}
+                                {/* <div className="bg-blue-50 border border-blue-100 rounded-sm p-3 flex gap-3">
                                     <div className="w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center shrink-0 text-white text-xs">Tk</div>
                                     <div className="text-xs text-[#1d81b3]">
                                         <p>You are saving <span className="font-bold">Tk{discount?.toFixed(1)}</span> in this order.</p>
                                         <p>You will receive <span className="font-bold">Tk50</span> cashback after delivery.</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Bill Details */}
-                            <div className="bg-white p-4 mb-3 text-sm">
+                            <div className="bg-white px-4 mb-2 text-sm">
                                 <div className="flex justify-between mb-2">
-                                    <span className="text-gray-600">Subtotal (MRP)</span>
-                                    <span className="font-medium">Tk{mrp?.toFixed(1)}</span>
+                                    <span className="text-gray-600 text-sm md:text-base">Subtotal (MRP)</span>
+                                    <span className="font-medium text-sm md:text-base">Tk{mrp?.toFixed(1)}</span>
                                 </div>
-                                <div className="flex justify-between mb-2">
+                                {/* <div className="flex justify-between mb-2 text-sm md:text-base">
                                     <span className="text-gray-600">Discount Applied</span>
                                     <span className="text-red-500 font-medium">-Tk{discount.toFixed(1)}</span>
-                                </div>
+                                </div> */}
                                 {/* <div className="flex justify-between mb-2">
                                     <span className="text-gray-600">Rounding Off</span>
                                     <span className="text-red-500 font-medium">{roundingOff}</span>
@@ -260,32 +263,32 @@ export default function CartDrawer() {
                             </div>
 
                             {/* Delivery Options */}
-                            <div className="bg-white p-4 mb-3">
-                                <div className="flex items-center justify-between mb-2">
+                            <div className="bg-white px-4 mb-2">
+                                <div className="flex items-center justify-between ">
                                     <div className="flex items-center gap-2">
-                                        <div className="bg-[#1d81b3] text-white rounded-full p-0.5">
+                                        {/* <div className="bg-[#1d81b3] text-white rounded-full p-0.5">
                                             <Check className="w-3 h-3" />
-                                        </div>
+                                        </div> */}
                                         <span className="bg-[#1d81b3] text-white text-xs px-2 py-1 rounded">
                                             Regular Delivery
                                         </span>
                                     </div>
                                     <span className="text-[#1d81b3] font-medium text-sm">Free</span>
                                 </div>
-                                <p className="text-xs text-gray-500 ml-6 mb-2">Delivery Charge (First Order)</p>
+                                {/* <p className="text-xs text-gray-500 ml-6 mb-2">Delivery Charge (First Order)</p>
                                 <div className="bg-blue-50 text-blue-700 text-xs p-2 rounded flex items-center gap-2">
                                     <Info className="w-4 h-4" />
                                     Free Delivery Above 999 Taka Order
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Amount Payable */}
-                            <div className="bg-white p-4 flex justify-between items-center text-sm font-bold border-b">
+                            <div className="bg-white px-4 flex justify-between items-center text-gray-800 text-sm md:text-base font-bold  mt-3">
                                 <span>Amount Payable</span>
-                                <span className="text-[#0784BB] text-lg">Tk{Math.round(finalPayable)}</span>
+                                <span className="text-[#0784BB] text-lg">Tk {finalPayable}</span>
                             </div>
 
-                            <div className="p-4 flex gap-3">
+                            {/* <div className="p-4 flex gap-3">
                                 <Link
                                     href="/cart"
                                     onClick={handleClose}
@@ -293,9 +296,20 @@ export default function CartDrawer() {
                                 >
                                     View Cart
                                 </Link>
-                            </div>
+                            </div> */}
 
-                            {/* Terms */}
+                         
+
+                            {/* Spacer for sticky footer */}
+                            {/* <div className="h-20" /> */}
+                        </>
+                    )}
+                </div>
+
+                {/* Sticky Footer */}
+                {cartItems?.length > 0 && (
+                   <div>
+                       {/* Terms */}
                             <div className="p-4">
                                 <label className="flex items-start gap-2 cursor-pointer">
                                     <input
@@ -309,16 +323,7 @@ export default function CartDrawer() {
                                     </span>
                                 </label>
                             </div>
-
-                            {/* Spacer for sticky footer */}
-                            <div className="h-20" />
-                        </>
-                    )}
-                </div>
-
-                {/* Sticky Footer */}
-                {cartItems.length > 0 && (
-                    <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
+                     <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
                         <div className="flex items-center gap-3">
                             <div className="bg-white/20 p-2 rounded-lg">
                                 <ShoppingCart className="w-6 h-6" />
@@ -333,6 +338,7 @@ export default function CartDrawer() {
                             <ChevronRight className="w-5 h-5" />
                         </div>
                     </div>
+                   </div>
                 )}
             </div>
 

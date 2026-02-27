@@ -9,20 +9,21 @@ import {
   faTwitter,
   faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
+import { getCategories } from "@/lib/fetchApis";
 
 const footerData = [
-  {
-    title: "TOP CATEGORIES",
-    links: [
-      { label: "Makeup", href: "#" },
-      { label: "Skin", href: "#" },
-      { label: "Eye Care", href: "#" },
-      { label: "Hair", href: "#" },
-      { label: "Personal Care", href: "#" },
-      { label: "Natural", href: "#" },
-      { label: "Mom & Baby", href: "#" },
-    ]
-  },
+  // {
+  //   title: "TOP CATEGORIES",
+  //   links: [
+  //     { label: "Makeup", href: "#" },
+  //     { label: "Skin", href: "#" },
+  //     { label: "Eye Care", href: "#" },
+  //     { label: "Hair", href: "#" },
+  //     { label: "Personal Care", href: "#" },
+  //     { label: "Natural", href: "#" },
+  //     { label: "Mom & Baby", href: "#" },
+  //   ]
+  // },
   {
     title: "QUICK LINKS",
     links: [
@@ -73,7 +74,13 @@ const socialLinks = [
   { icon: faPinterest, color: "hover:text-[#BD081C]", href: "https://www.pinterest.com" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+
+
+  const productCategories = await getCategories("product_categories") || [];
+
+
+
   return (
     <footer className="bg-[#0882BB] text-white">
       <Container className="py-12">
@@ -115,6 +122,30 @@ export default function Footer() {
               </div>
             </div>
           </div>
+
+
+          <div className="mt-0.5">
+            <h4 className="font-bold mb-4 text-[#a6e451] text-sm md:text-base tracking-wide">
+              TOP CATEGORIES
+            </h4>
+            <div className="space-y-2 text-sm md:text-base text-white ">
+              {
+                productCategories?.slice(0, 5)?.map(
+                  (category, idx) => (
+                    <p key={idx}>
+                      <Link href={`/shop/${category?.slug}`} className="hover:text-white transition-colors">
+                        {category?.name}
+                      </Link>
+                    </p>
+                  )
+                )
+              }
+            </div>
+          </div>
+
+
+
+
 
           {/* Dynamic Footer Sections */}
           {footerData.map((section, idx) => (

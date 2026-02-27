@@ -8,13 +8,10 @@ import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
-export default function OfferSlider() {
-  const slides = [
-    "/images/promotions/2.png",
-    "/images/promotions/3.png",
-    "/images/promotions/4.png",
-    "/images/promotions/5.png",
-  ];
+export default function OfferSlider({ offersSlider }) {
+
+
+
 
   return (
     <div className="w-full py-3 lg:py-6 ">
@@ -53,10 +50,10 @@ export default function OfferSlider() {
           }}
           className="w-full"
         >
-          {slides?.map((img, index) => (
+          {offersSlider?.map((item, index) => (
             <SwiperSlide key={index}>
               <Image
-                src={img}
+                src={item?.image}
                 alt="Discount Item"
                 width={500}
                 height={250}
