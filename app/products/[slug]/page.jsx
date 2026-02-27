@@ -276,7 +276,7 @@ export default async function ProductDetailsPage({ params }) {
               <ProductInfo product={product} productDetails={productDetails} />
             </div>
 
-            <ProductOverview  productDetails={productDetails} />
+            <ProductOverview productDetails={productDetails} />
 
             <ProductAttributes
               attributes={product.attributes}
@@ -305,13 +305,9 @@ export default async function ProductDetailsPage({ params }) {
 
 
           {/* Similar Products */}
-          <SimilarProducts />
+          <SimilarProducts productDetails={productDetails} />
 
-          {/* More from X Gold */}
-          <MoreProducts />
 
-          {/* Frequently Bought Together */}
-          <FrequentlyBoughtTogether />
 
         </div>
 

@@ -21,7 +21,7 @@ export default function ProductCardMain({ item }) {
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
-  const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
+  const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image | "/images/placeholder-product.webp "
   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
 
   const handleToggleWishlist = (e) => {
@@ -60,12 +60,12 @@ export default function ProductCardMain({ item }) {
     }, 800);
   };
 
-  console.log("product from generic page", item)
-  console.log("featured_image from generic page", featured_image)
+  // console.log("product from generic page", item)
+  // console.log("featured_image from generic page", featured_image)
 
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-[360px] md:h-[430px] flex flex-col">
+      h-auto  flex flex-col">
       {/* Image */}
       <Link
         href={`/products/${item?.slug}`}
@@ -98,9 +98,9 @@ export default function ProductCardMain({ item }) {
           </Link>
 
           {/* Rating */}
-          <div className="text-yellow-500 text-base md:text-2xl mb-2 text-center">
+          {/* <div className="text-yellow-500 text-base md:text-2xl mb-2 text-center">
             {"★".repeat(item?.rating)}
-          </div>
+          </div> */}
 
           {/* Pricing */}
           <div className="mb-4 text-center text-sm md:text-base">
@@ -121,7 +121,7 @@ export default function ProductCardMain({ item }) {
           <button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className={`px-4 py-1.5 md:px-8 md:py-2 text-xs md:text-base rounded-full font-semibold transition cursor-pointer ${isAdding
+            className={`px-4 py-1.5 md:px-8 md:py-2 text-xs sm:text-sm md:text-base rounded-full font-semibold transition cursor-pointer ${isAdding
               ? 'bg-green-600 text-white'
               : 'bg-[#0784BB] text-white hover:bg-[#8CC540]'
               }`}

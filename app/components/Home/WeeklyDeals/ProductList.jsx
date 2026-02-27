@@ -29,7 +29,7 @@ export default function WeeklyDealsProductSlider({ section_title, products }) {
                 slidesPerView: 2,
               },
               640: {
-                slidesPerView: 2,
+                slidesPerView: 3,
               },
               768: {
                 slidesPerView: 3,

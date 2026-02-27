@@ -39,7 +39,7 @@ export default function ProductInfo({ product, productDetails }) {
   const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
-
+  const generic_slug = productDetails?.packages?.medicine_details?.generic_slug
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
@@ -149,7 +149,10 @@ export default function ProductInfo({ product, productDetails }) {
         <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
           <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
           {generic_name ? (
-            <Link href={`/generic/${encodeURIComponent(generic_name)}`} className="text-[#8CC540] font-bold text-base hover:underline">
+            <Link
+              // href={`/generic/${generic_slug}`} 
+              href={`/generic/${encodeURIComponent(generic_name)}`}
+              className="text-[#8CC540] font-bold text-base hover:underline">
               {generic_name}
             </Link>
           ) : (

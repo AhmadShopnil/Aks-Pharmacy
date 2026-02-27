@@ -189,11 +189,11 @@ export default function GenericProductsPage({ genericSlug }) {
                 {/* Product Grid */}
                 {!isLoading && !isError && products.length > 0 && (
                     <div className={`transition-opacity duration-300 ${isFetching ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-                        {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                             {products?.map((item) => (
                                 <ProductCardMain key={item.id} item={item} />
                             ))}
-                        </div> */}
+                        </div>
                     </div>
                 )}
 

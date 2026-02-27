@@ -1,17 +1,21 @@
 import Image from 'next/image'
 import React from 'react'
 
-export default function RightSidePromotionalImage() {
+export default function RightSidePromotionalImage({ singleOfferData }) {
+
+  const image = singleOfferData?.image
+
+  // console.log("singleOfferData", singleOfferData)
   return (
     <div className=' '>
-        <Image
-        src="/images/promotions/1.png"
+      <Image
+        src={image}
         alt='week deals'
         width={400}
         height={500}
-        className='w-full h-[400px] md:h-full'
-        
-        />
+        className='w-full h-full xl:h-[550px]  rounded-sm'
+
+      />
     </div>
   )
 }
