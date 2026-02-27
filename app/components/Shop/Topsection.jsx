@@ -3,15 +3,18 @@ import Container from "../Common/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { getSingleCategory } from "@/lib/fetchApis";
 
-export default function Topsection({slug}) {
+export default async function Topsection({ slug }) {
+
+    const category = await getSingleCategory(slug)
     return (
         <div className="border-b py-2">
             <Container className="flex items-center justify-between">
 
                 <div className="flex items-center gap-2 text-md">
                     <Link
-                    href="/"
+                        href="/"
                     >Home</Link>
                     <FontAwesomeIcon
                         icon={faAngleRight}
@@ -22,7 +25,7 @@ export default function Topsection({slug}) {
                 </div>
 
                 <div className="w-1/2 text-xl font-semibold">
-                    Health Care
+                    {category?.name}
                 </div>
 
             </Container>

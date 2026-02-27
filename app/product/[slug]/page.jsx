@@ -9,7 +9,7 @@ import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
 import { getSingleProduct, getSingleProductBreadCrumb } from "@/lib/fetchApis"
-import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
+import { getAttributeByName, getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -241,7 +241,8 @@ export default async function ProductDetailsPage({ params }) {
   let all_images = [...gallery_images]
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
-
+  const attributes = productDetails?.packages?.variations[0]?.attributes
+  const stripSize = getAttributeByName(attributes, "Strip Size");
 
 
   if (featured_image) {
@@ -308,7 +309,7 @@ export default async function ProductDetailsPage({ params }) {
             <ProductOverview productDetails={productDetails} />
 
             <ProductAttributes
-              attributes={product.attributes}
+              attributes={attributes}
               categorySchema={product.categorySchema}
             />
           </div>
@@ -327,10 +328,10 @@ export default async function ProductDetailsPage({ params }) {
 
         <div className="pt-0  lg:pt-4 space-y-3 md:space-y-4  ">
           {/* Rating & Reviews */}
-          <RatingAndReviews />
+          {/* <RatingAndReviews /> */}
 
           {/* Product Q&A */}
-          <ProductQA />
+          {/* <ProductQA /> */}
 
 
           {/* Similar Products */}

@@ -13,8 +13,7 @@ import { getSingleCategory } from "@/lib/fetchApis";
 export default async function ShopPage({ params }) {
   const { slug } = await params
   const category = await getSingleCategory(slug)
-  // console.log("category", category)
-  // const slug="Medicine"
+  const childCategories = category?.child
   return (
     <div className=" pb-10">
       <Topsection slug={slug} />
@@ -22,7 +21,8 @@ export default async function ShopPage({ params }) {
       <Container className="mt-2 md:mt-4 space-y-3">
         {category?.image && <ShopBanner category={category} />}
 
-        <CategoryTabs />
+        <CategoryTabs childCategories={childCategories} />
+
         <div className="grid grid-cols-12 gap-6 mt-6 ">
           {/* Sidebar */}
           <div className="col-span-12 lg:col-span-2">
