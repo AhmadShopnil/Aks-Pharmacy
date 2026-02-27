@@ -9,7 +9,6 @@ import Navbar from "@/app/components/Common/Header/Navbar";
 export default async function ProductDetailsLayout({ children }) {
 
 
-
   const productCategories = await getCategories("product_categories") || [];
   const formattedCategories = formatCategories(productCategories || []);
 

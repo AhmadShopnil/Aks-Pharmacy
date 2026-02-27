@@ -9,7 +9,7 @@ import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
 import { getSingleProduct, getSingleProductBreadCrumb } from "@/lib/fetchApis"
-import { getAttributeByName, getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
+import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -85,9 +85,11 @@ import { getAttributeByName, getMetaValueFromExtra_Fields } from "@/helper/metaH
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
   const productDetails = await getSingleProduct(slug);
-
-
   const productBreadCrumb = await getSingleProductBreadCrumb(slug);
+
+
+  const filterBreadCrumb = productBreadCrumb?.filter((item) => item?.type == "category");
+
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -255,15 +257,20 @@ export default async function ProductDetailsPage({ params }) {
         {/* Breadcrumb */}
 
         <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
-
+          <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+            <span className=""><Home size={16} /> </span>
+            <span className="-mt-0.5">Home</span>
+          </Link>
+          <ChevronRight size={12} />
           {
-            productBreadCrumb?.map((item, index) => (
-              <Link key={index} href={`/${item?.slug}`} className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+            filterBreadCrumb?.map((item, index) => (
+              <Link key={index} href={`/products/${item?.slug}`} className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
                 <span className="">{item?.label}</span>
                 <ChevronRight size={12} />
               </Link>
             ))
           }
+          <span className="text-[#0784BB] font-semibold">{productDetails?.name} </span>
 
         </nav>
         {/* <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">

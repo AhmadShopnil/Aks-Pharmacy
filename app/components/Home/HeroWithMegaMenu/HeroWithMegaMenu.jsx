@@ -183,7 +183,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 {activeMobileCategory && !activeMobileSubCategory && (
                   <div className="grid grid-cols-1 gap-2">
                     <Link
-                      href={`/shop/${activeMobileCategory.name}`}
+                      href={`/products/${activeMobileCategory.name}`}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
                     >
@@ -203,7 +203,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                         {item.child?.length > 0 ? (
                           <ChevronRight size={18} className="text-gray-400" />
                         ) : (
-                          <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                          <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
                         )}
                       </div>
                     ))}
@@ -214,7 +214,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 {activeMobileSubCategory && (
                   <div className="grid grid-cols-1 gap-2">
                     <Link
-                      href={`/shop/${activeMobileSubCategory.name}`}
+                      href={`/products/${activeMobileSubCategory.name}`}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
                     >
@@ -224,7 +224,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                     {activeMobileSubCategory.child?.map((item, i) => (
                       <Link
                         key={i}
-                        href={`/shop/${item.name}`}
+                        href={`/products/${item.name}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
                       >
@@ -265,7 +265,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
               >
 
                 <Link
-                  href={`/shop/${item?.slug}`}
+                  href={`/products/${item?.slug}`}
                   className="flex items-center justify-between px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
@@ -303,7 +303,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                                cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                   >
                     <Link
-                      href={`/shop/${item?.slug}`}
+                      href={`/products/${item?.slug}`}
                       className="flex items-center gap-2 w-full "
                     >
                       <span>{item?.name}</span>
@@ -338,7 +338,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                                transition-colors"
                   >
                     <Link
-                      href={`/shop/${item?.slug}`}
+                      href={`/products/${item?.slug}`}
                       className="block w-full"
                     >
                       {item?.name}

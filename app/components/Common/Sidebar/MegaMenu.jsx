@@ -147,7 +147,7 @@ export default function MegaMenu({ formattedCategories }) {
                                                     {item.child?.length > 0 ? (
                                                         <ChevronRight size={18} className="text-gray-400" />
                                                     ) : (
-                                                        <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                        <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
                                                     )}
                                                 </div>
                                             );
@@ -158,7 +158,7 @@ export default function MegaMenu({ formattedCategories }) {
                                 {activeMobileCategory && !activeMobileSubCategory && (
                                     <div className="grid grid-cols-1">
                                         <Link
-                                            href={`/shop/${activeMobileCategory.name}`}
+                                            href={`/products/${activeMobileCategory.name}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm  font-bold mb-2"
                                         >
@@ -178,7 +178,7 @@ export default function MegaMenu({ formattedCategories }) {
                                                 {item.child?.length > 0 ? (
                                                     <ChevronRight size={18} className="text-gray-400" />
                                                 ) : (
-                                                    <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                    <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
                                                 )}
                                             </div>
                                         ))}
@@ -188,7 +188,7 @@ export default function MegaMenu({ formattedCategories }) {
                                 {activeMobileSubCategory && (
                                     <div className="grid grid-cols-1 ">
                                         <Link
-                                            href={`/shop/${activeMobileSubCategory.name}`}
+                                            href={`/products/${activeMobileSubCategory.name}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm shadow-sm font-bold mb-2"
                                         >
@@ -198,7 +198,7 @@ export default function MegaMenu({ formattedCategories }) {
                                         {activeMobileSubCategory.child?.map((item, i) => (
                                             <Link
                                                 key={i}
-                                                href={`/shop/${item.name}`}
+                                                href={`/products/${item.name}`}
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                 className="flex items-center justify-between p-3 bg-white rounded-sm  border border-gray-200 active:bg-blue-50 transition-colors"
                                             >
@@ -240,7 +240,7 @@ export default function MegaMenu({ formattedCategories }) {
                                hover:text-[#0784BB] cursor-pointer transition-colors ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
                                 >
 
-                                    <Link href={`/shop/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
+                                    <Link href={`/products/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
                                         <div className="flex items-center gap-3">
                                             <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
                                             <span>{item.name}</span>
@@ -274,7 +274,7 @@ export default function MegaMenu({ formattedCategories }) {
                                    hover:bg-[#0784BB] hover:text-white
                                    cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                                         >
-                                            <Link href={`/shop/${item?.slug}`} className="flex gap-2 items-center w-full">
+                                            <Link href={`/products/${item?.slug}`} className="flex gap-2 items-center w-full">
                                                 <span>{item.name}</span>
                                                 {item?.child?.length > 0 && <span className="mt-1">
 
@@ -308,7 +308,7 @@ export default function MegaMenu({ formattedCategories }) {
                                    hover:text-white cursor-pointer
                                    transition-colors"
                                         >
-                                            <Link href={`/shop/${item?.slug}`} className="block w-full">
+                                            <Link href={`/products/${item?.slug}`} className="block w-full">
                                                 {item?.name}
                                             </Link>
                                         </li>
