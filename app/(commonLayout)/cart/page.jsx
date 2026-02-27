@@ -132,7 +132,7 @@ export default function CartPage() {
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex justify-between gap-4">
                                                     <div>
-                                                        <Link href={`/products/${item.title}`} className="text-lg font-bold text-slate-900 hover:text-[#0784BB] transition-colors leading-tight block mb-1">
+                                                        <Link href={`/product/${item.title}`} className="text-lg font-bold text-slate-900 hover:text-[#0784BB] transition-colors leading-tight block mb-1">
                                                             {item.title}
                                                         </Link>
                                                         <p className="text-sm text-slate-400 font-medium">{item.brand || 'Personal Care'}</p>

@@ -7,8 +7,8 @@ export const demoOrders = [
         paymentMethod: "Cash on Delivery",
         shippingAddress: "House 12, Road 5, Dhanmondi, Dhaka",
         items: [
-            { id: 1, name: "Napa Extend 500mg", price: 50.00, quantity: 2, image: "/images/products/napa.jpg" },
-            { id: 2, name: "Sergel 20mg", price: 120.00, quantity: 1, image: "/images/products/sergel.jpg" },
+            { id: 1, name: "Napa Extend 500mg", price: 50.00, quantity: 2, image: "/images/product/napa.jpg" },
+            { id: 2, name: "Sergel 20mg", price: 120.00, quantity: 1, image: "/images/product/sergel.jpg" },
         ]
     },
     {
@@ -19,7 +19,7 @@ export const demoOrders = [
         paymentMethod: "bKash",
         shippingAddress: "House 12, Road 5, Dhanmondi, Dhaka",
         items: [
-            { id: 3, name: "Ace 500mg", price: 20.00, quantity: 5, image: "/images/products/ace.jpg" },
+            { id: 3, name: "Ace 500mg", price: 20.00, quantity: 5, image: "/images/product/ace.jpg" },
         ]
     },
     {
@@ -30,7 +30,7 @@ export const demoOrders = [
         paymentMethod: "Credit Card",
         shippingAddress: "House 12, Road 5, Dhanmondi, Dhaka",
         items: [
-            { id: 4, name: "Ceevit 250mg", price: 45.00, quantity: 10, image: "/images/products/ceevit.jpg" },
+            { id: 4, name: "Ceevit 250mg", price: 45.00, quantity: 10, image: "/images/product/ceevit.jpg" },
         ]
     }
 ];

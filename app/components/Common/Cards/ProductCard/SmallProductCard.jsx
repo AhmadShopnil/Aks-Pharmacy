@@ -53,7 +53,7 @@ export default function SmallProductCard({ item }) {
 
       {/* Image */}
       <Link
-        href={"/products/1"}
+        href={"/product/1"}
         className="w-full h-[140px] md:h-[240px] relative mb-4 ">
         {/* Discount Badge */}
         {item.discount && (<span
@@ -81,7 +81,7 @@ export default function SmallProductCard({ item }) {
         <div className=' text-center'>
           {/* Title */}
           <Link
-            href={`/products/${item?.title}`}
+            href={`/product/${item?.title}`}
             className="text-sm md:text-base font-semibold mb-1 text-center">
             {item.title}
           </Link>

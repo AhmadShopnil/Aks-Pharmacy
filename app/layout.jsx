@@ -8,6 +8,9 @@ config.autoAddCss = false;
 
 import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 import CartDrawer from "./components/Common/CartDrawer";
+import MegaMenu from "./components/Common/Sidebar/MegaMenu";
+import { getCategories } from "@/lib/fetchApis";
+import { formatCategories } from "@/helper/megamenuFormat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +27,10 @@ export const metadata = {
   description: "online pharmacy store ",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+  const productCategories = await getCategories("product_categories") || [];
+  const formattedCategories = formatCategories(productCategories || []);
   return (
     <html lang="en">
       <body
@@ -35,6 +41,9 @@ export default function RootLayout({ children }) {
           <div>
             {children}
             {/* <Footer /> */}
+            <div className="lg:hidden">
+              <MegaMenu formattedCategories={formattedCategories} />
+            </div>
           </div>
         </ReduxProvider>
       </body>

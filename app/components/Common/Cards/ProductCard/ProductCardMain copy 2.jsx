@@ -66,7 +66,7 @@
 //       h-[360px] md:h-[520px] flex flex-col">
 //       {/* Image */}
 //       <Link
-//         href={`/products/${item?.slug}`}
+//         href={`/product/${item?.slug}`}
 //         className="w-full h-[140px] md:h-[270px] relative mb-4">
 //         {/* Discount Badge */}
 //         {item?.discount && (<span
@@ -96,7 +96,7 @@
 //         <div className='text-center'>
 //           {/* Title */}
 //           <Link
-//             href={`/products/${item?.slug}`}
+//             href={`/product/${item?.slug}`}
 //             className="text-sm md:text-base font-semibold mb-1 text-center">
 //             {item?.name}
 //           </Link>

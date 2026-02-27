@@ -1,9 +1,10 @@
 import { getCategories } from "@/lib/fetchApis";
-import Container from "../components/Common/Container";
-import Footer from "../components/Common/Footer/Footer";
-import Navbar from "../components/Common/Header/Navbar";
-import MegaMenu from "../components/Common/Sidebar/MegaMenu";
+
+import Container from "@/app/components/Common/Container";
+import MegaMenu from "@/app/components/Common/Sidebar/MegaMenu";
+import Footer from "@/app/components/Common/Footer/Footer";
 import { formatCategories } from "@/helper/megamenuFormat";
+import Navbar from "@/app/components/Common/Header/Navbar";
 
 export default async function ProductDetailsLayout({ children }) {
 

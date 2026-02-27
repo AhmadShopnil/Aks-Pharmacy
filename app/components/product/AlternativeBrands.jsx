@@ -7,7 +7,7 @@ async function getAlternatives(generic_name) {
 
   try {
     const res = await fetch(
-      `${BASE_URL}/products/by-generic/${generic_name}`,
+      `${BASE_URL}/product/by-generic/${generic_name}`,
       {
         next: { revalidate: 30 }
       }
@@ -22,7 +22,7 @@ async function getAlternatives(generic_name) {
       name: item.name,
       slug: item?.slug,
       manufacturer: item.author_name || "Unknown",
-      image: item?.featured_image || "/products/placeholder.png",
+      image: item?.featured_image || "/product/placeholder.png",
       price: item.price || 0,
       save: item.discount || null,
       inStock: item.stock > 0
@@ -64,7 +64,7 @@ export default async function AlternativeBrands({ productName, generic_name }) {
           alternatives.map((item) => (
             <Link
               key={item.id}
-              href={`/products/${item?.slug}`}
+              href={`/product/${item?.slug}`}
               className="px-4 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/30 transition-all group cursor-pointer"
             >
               <div className="flex gap-3 items-center">

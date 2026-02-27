@@ -68,8 +68,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
 
   return (
     <section className="mt-4 grid grid-cols-12 gap-4 relative ">
-      {/* MOBILE CATEGORY STRIP */}
-      <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
+      {/* MOBILE CATEGORY slider */}
+      {/* <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <LayoutGrid className="w-5 h-5 text-[#0784BB]" />
@@ -102,7 +102,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             );
           })}
         </div>
-      </div>
+      </div> */}
 
       {/* MOBILE DRAWER */}
       <AnimatePresence>

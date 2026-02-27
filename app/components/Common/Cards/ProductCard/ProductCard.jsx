@@ -53,7 +53,7 @@ export default function ProductCard({ item }) {
 
       {/* Image */}
       <Link
-        href={`/products/${item?.title}`}
+        href={`/product/${item?.title}`}
         className="w-full h-[140px] md:h-[270px] relative mb-4">
         {/* Discount Badge */}
         {item?.discount && (<span
@@ -83,7 +83,7 @@ export default function ProductCard({ item }) {
         <div className='text-center'>
           {/* Title */}
           <Link
-            href={`/products/${item?.title}`}
+            href={`/product/${item?.title}`}
             className="text-sm md:text-base font-semibold mb-1 text-center">
             {item?.title}
           </Link>

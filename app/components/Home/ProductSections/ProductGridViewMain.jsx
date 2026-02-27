@@ -8,7 +8,7 @@ export default function ProductGridViewMain({ section_title, products }) {
 
 
   return (
-    <section className="py-10">
+    <section className="py-2 md:py-4 lg:py-6 xl:py-8">
       <div className="">
 
         <h3 className="font-bold text-2xl md:text-3xl text-center mb-4">{section_title}</h3>

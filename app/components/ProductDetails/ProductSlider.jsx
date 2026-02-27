@@ -75,7 +75,7 @@ export default function ProductSlider({
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="!w-40">
-              <Link href={product.slug ? `/products/${product.slug}` : '#'} className="block h-full group">
+              <Link href={product.slug ? `/product/${product.slug}` : '#'} className="block h-full group">
                 <div className="bg-white rounded-lg border border-gray-200 overflow-hidden
                     group-hover:shadow-[0_4px_20px_-4px_rgba(7,132,187,0.15)] group-hover:border-[#0784BB]/30 transition-all duration-300
                     flex flex-col h-[260px] relative">

@@ -5,10 +5,10 @@ import React from "react";
 export default function ProductCardShop({ item }) {
   return (
     <div className="relative flex h-[420px] flex-col border border-gray-200 transition hover:shadow-lg">
-      
+
       {/* Image */}
       <Link
-        href={`/products/${item.id ?? 1}`}
+        href={`/product/${item.id ?? 1}`}
         className="relative mb-4 h-[250px] w-full overflow-hidden"
       >
         <Image
@@ -26,8 +26,8 @@ export default function ProductCardShop({ item }) {
 
         {/* Title */}
         <Link
-        href={`/products/${item.id ?? 1}`}
-        className="mb-1 text-center text-base font-semibold line-clamp-2">
+          href={`/product/${item.id ?? 1}`}
+          className="mb-1 text-center text-base font-semibold line-clamp-2">
           {item.title}
         </Link>
 

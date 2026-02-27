@@ -51,7 +51,7 @@ export const getMediaLinkByMetaName = (data, metaName) => {
   const item = data.find(
     (dataItem) => dataItem.meta_name === metaName
   );
-// console.log("from utils", item)
+  // console.log("from utils", item)
   if (item?.file_directory && item?.filename) {
     return item.file_directory + item.filename;
   }
@@ -60,5 +60,13 @@ export const getMediaLinkByMetaName = (data, metaName) => {
 };
 
 
+export const getAttributeByName = (attributes, attributeName) => {
+  if (!Array.isArray(attributes)) return null;
 
-// {product?.extra_fields.find(field => field.meta_name === "product_model")?.meta_value}
+  return attributes.find(
+    (attr) =>
+      attr?.attribute_name?.toLowerCase() === attributeName?.toLowerCase()
+  ) || null;
+};
+
+
