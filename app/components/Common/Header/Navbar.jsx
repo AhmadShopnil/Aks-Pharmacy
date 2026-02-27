@@ -18,7 +18,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const { isAuthenticated, profile } = useSelector((state) => state.user);
   return (
-    <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-4 overflow-visible">
+    <header className="w-full bg-white shadow-sm sticky top-0 z-50 py-2 md:py-4 overflow-visible">
       <Container className=" flex items-center gap-6 justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-8">
@@ -88,7 +88,7 @@ export default function Navbar() {
       </Container>
 
       {/* Mobile Search */}
-      <div className="px-4 pb-3 lg:hidden mt-2">
+      <div className="px-4  lg:hidden mt-2">
         <SearchSuggestions isMobile />
       </div>
       <AuthModal

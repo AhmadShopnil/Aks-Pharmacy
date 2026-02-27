@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function OfferSlider({ offersSlider }) {
 
@@ -14,10 +15,10 @@ export default function OfferSlider({ offersSlider }) {
 
 
   return (
-    <div className="w-full py-3 lg:py-6 ">
-      <h3 className="font-bold text-2xl md:text-3xl text-center mb-2.5 sm:mb-4 md:mb-6">
+    <div className="w-full py-2 md:py-3 lg:py-4 md:mt-8 ">
+      {/* <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-[#8CC540]  mb-3 md: mb-4 uppercase">
         Especially For You
-      </h3>
+      </h3> */}
       <div className="relative w-full">
 
         {/* Custom Navigation Buttons */}
@@ -52,13 +53,15 @@ export default function OfferSlider({ offersSlider }) {
         >
           {offersSlider?.map((item, index) => (
             <SwiperSlide key={index}>
-              <Image
-                src={item?.image}
-                alt="Discount Item"
-                width={500}
-                height={250}
-                className="w-full lg:w-[400px] h-auto object-cover"
-              />
+              <Link href={`/offers/${item?.slug}`} className="block overflow-hidden rounded-md transition-transform hover:scale-[1.02]">
+                <Image
+                  src={item?.image}
+                  alt={item?.name || "Discount Item"}
+                  width={500}
+                  height={250}
+                  className="w-full lg:w-[400px] h-auto object-cover"
+                />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

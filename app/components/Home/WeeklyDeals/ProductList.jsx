@@ -10,9 +10,9 @@ import "swiper/css/navigation";
 
 export default function WeeklyDealsProductSlider({ section_title, products }) {
   return (
-    <section className="w-full">
+    <section className="w-full p-1">
       <div>
-        <h3 className="font-bold text-2xl md:text-3xl mb-6">
+        <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-[#8CC540]  mb-3 md: mb-4">
           {section_title}
         </h3>
 

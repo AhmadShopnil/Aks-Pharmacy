@@ -67,7 +67,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
   };
 
   return (
-    <section className="mt-4 grid grid-cols-12 gap-4 relative ">
+    <section className="md:mt-2 grid grid-cols-12 gap-4 relative ">
       {/* MOBILE CATEGORY slider */}
       {/* <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
         <div className="flex items-center justify-between px-1">
@@ -356,25 +356,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
         <HeroSlider heroSliders={heroSliders} />
       </div>
 
-      {/* <div className="col-span-12 lg:col-span-9">
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 3000 }}
-          loop
-          className="overflow-hidden shadow-sm   h-[150px] lg:h-[400px]"
-        >
-          {heroSliders?.map((item, index) => (
-            <SwiperSlide key={index}>
-              <img
-                src={item?.featured_image}
-                alt="Hero Slide"
-                className="w-full h-full object-fit lg:object-fill"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div> */}
+
     </section>
   );
 }

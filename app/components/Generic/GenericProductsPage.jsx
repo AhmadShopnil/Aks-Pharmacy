@@ -65,7 +65,7 @@ export default function GenericProductsPage({ genericSlug }) {
                 <Container className="flex items-center gap-2 text-sm text-gray-600">
                     <Link href="/" className="hover:text-[#0784BB] transition-colors">Home</Link>
                     <FontAwesomeIcon icon={faAngleRight} className="w-3 h-3 text-gray-400" />
-                    <Link href="/shop" className="hover:text-[#0784BB] transition-colors">Shop</Link>
+                    <Link href="/products" className="hover:text-[#0784BB] transition-colors">Products</Link>
                     <FontAwesomeIcon icon={faAngleRight} className="w-3 h-3 text-gray-400" />
                     <span className="font-semibold text-gray-900">{apiGenericName}</span>
                 </Container>
@@ -121,16 +121,7 @@ export default function GenericProductsPage({ genericSlug }) {
                             ))}
                         </select>
 
-                        {/* Sort */}
-                        <select
-                            value={sort}
-                            onChange={(e) => { setSort(e.target.value); setPage(1); }}
-                            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#0784BB]/20 focus:border-[#0784BB] outline-none transition"
-                        >
-                            {SORT_OPTIONS.map(opt => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                            ))}
-                        </select>
+
                     </div>
                 </div>
 

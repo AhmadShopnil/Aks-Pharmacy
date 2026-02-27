@@ -65,12 +65,12 @@ export default function MegaMenu({ formattedCategories }) {
     return (
         <>
             {/* MOBILE TRIGGER BUTTON (Floating) */}
-            <div className="lg:hidden fixed bottom-6 right-6 z-[50]">
+            <div className="lg:hidden fixed bottom-6 right-3 z-[50]">
                 <button
                     onClick={() => setIsMobileMenuOpen(true)}
-                    className="w-14 h-14 bg-[#0784BB] text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform"
+                    className="w-13 h-13 bg-[#0784BB] text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform"
                 >
-                    <Menu size={28} />
+                    <Menu size={25} />
                 </button>
             </div>
 
