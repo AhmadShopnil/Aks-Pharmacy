@@ -11,6 +11,7 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
 import { getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
+import Link from 'next/link'
 
 export default function ProductInfo({ product, productDetails }) {
   const [quantity, setQuantity] = useState(1)
@@ -129,10 +130,16 @@ export default function ProductInfo({ product, productDetails }) {
           <p className="text-sm text-gray-400 font-semibold">
             {productDetails?.sub_title}
           </p>
-          <span className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group">
-            {manufacturerInfo}
-            <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </span>
+          {manufacturerInfo && (
+            <Link
+              href={`/manufacturer/${manufacturerInfo}`}
+              // href={`/manufacturer/${encodeURIComponent(manufacturerInfo.toLowerCase().replace(/\s+/g, '-'))}`}
+              className="text-[#0784BB] mt-2 md:mt-3 text-base font-semibold hover:underline flex items-center gap-1 group w-max"
+            >
+              {manufacturerInfo}
+              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          )}
           {/* <p className="text-lg text-gray-400 font-semibold">
             {product.form} - {product.strength}
           </p> */}
@@ -141,9 +148,13 @@ export default function ProductInfo({ product, productDetails }) {
         {/* Company & Generic Details */}
         <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
           <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-          <span className="text-[#8CC540] font-bold text-base hover:underline">
-            {generic_name}
-          </span>
+          {generic_name ? (
+            <Link href={`/generic/${encodeURIComponent(generic_name)}`} className="text-[#8CC540] font-bold text-base hover:underline">
+              {generic_name}
+            </Link>
+          ) : (
+            <span className="text-gray-400 italic text-sm">Not specified</span>
+          )}
         </div>
 
         {/* Purchase Options */}

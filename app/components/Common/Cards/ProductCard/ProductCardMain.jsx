@@ -60,6 +60,8 @@ export default function ProductCardMain({ item }) {
     }, 800);
   };
 
+  console.log("product from generic page", item)
+  console.log("featured_image from generic page", featured_image)
 
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative

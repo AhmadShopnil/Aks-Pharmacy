@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/lib/baseUrl"
 import { ChevronDown, CheckCircle, Smartphone, SlidersHorizontal } from "lucide-react"
 import Link from "next/link"
 
@@ -6,9 +7,9 @@ async function getAlternatives(generic_name) {
 
   try {
     const res = await fetch(
-      `https://admin.akspharma.com.bd/api/v1/products/by-generic/${generic_name}`,
+      `${BASE_URL}/products/by-generic/${generic_name}`,
       {
-        next: { revalidate: 30 } // ⏱ Revalidate every 60 seconds (ISR)
+        next: { revalidate: 30 }
       }
     )
 
@@ -42,13 +43,14 @@ export default async function AlternativeBrands({ productName, generic_name }) {
         <h3 className="font-semibold text-gray-800 text-sm md:text-lg">
           Alternatives for {generic_name}
         </h3>
-
-        {/* <button className="flex items-center gap-1 border border-gray-200 rounded-md px-2 py-1
-        text-sm font-semibold text-[#0784BB] bg-white hover:border-[#0784BB]/30 transition-all">
-          <SlidersHorizontal size={14} />
-          Sort By
-          <ChevronDown size={14} />
-        </button> */}
+        {generic_name && (
+          <Link
+            href={`/generic/${encodeURIComponent(generic_name)}`}
+            className="text-xs font-semibold text-[#0784BB] hover:underline"
+          >
+            View All
+          </Link>
+        )}
       </div>
 
       {/* Content */}
