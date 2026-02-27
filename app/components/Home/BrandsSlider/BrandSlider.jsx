@@ -27,7 +27,7 @@ export default function BrandSlider() {
         <section className="w-full py-6 md:py-10 ">
             <div className="max-w-7xl mx-auto px-4">
 
-                <h2 className="text-2xl md:text-3xl font-semibold text-center mb-3  md:mb-8">
+                <h2 className="font-bold text-xl md:text-2xl lg:text-3xl text-[#8CC540]  mb-3 md: mb-5 text-center uppercase">
                     Popular Brands
                 </h2>
 

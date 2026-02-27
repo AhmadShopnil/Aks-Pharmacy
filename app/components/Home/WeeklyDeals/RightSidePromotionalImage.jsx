@@ -11,7 +11,7 @@ export default function RightSidePromotionalImage({ singleOfferData }) {
       <Image
         src={image}
         alt='week deals'
-        width={400}
+        width={250}
         height={500}
         className='w-full h-full xl:h-[550px]  rounded-sm'
 
