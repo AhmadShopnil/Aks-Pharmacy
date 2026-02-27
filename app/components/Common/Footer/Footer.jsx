@@ -27,20 +27,10 @@ const footerData = [
   {
     title: "QUICK LINKS",
     links: [
-      { label: "Offers", href: "#" },
-      { label: "Men’s Products", href: "#" },
-      { label: "Skin Concerns", href: "#" },
+      { label: "Contact Us", href: "/contact-us" },
+
       { label: "New Arrival", href: "/new-arrivals" },
-      { label: "Makeup", href: "#" },
-    ]
-  },
-  {
-    title: "ALL ABOUT BEAUTY",
-    links: [
-      { label: "Know Your Routine", href: "#" },
-      { label: "Hair Care 101", href: "#" },
-      { label: "Skin Care 101", href: "#" },
-      { label: "Makeup 101", href: "#" },
+
     ],
     extraContent: (
       <div className="mt-6">
@@ -51,13 +41,14 @@ const footerData = [
       </div>
     )
   },
+
   {
     title: "HELP",
     links: [
       { label: "Contact Us", href: "/contact-us" },
-      { label: "Points", href: "#" },
+      // { label: "Points", href: "#" },
       { label: "FAQs", href: "/faq" },
-      { label: "Shipping & Delivery", href: "#" },
+      // { label: "Shipping & Delivery", href: "#" },
       { label: "Terms & Conditions", href: "/terms-and-conditions" },
       { label: "Refund & Return Policy", href: "/return-and-refund" },
       { label: "Trade License", href: "#" },
@@ -133,7 +124,25 @@ export default async function Footer() {
                 productCategories?.slice(0, 5)?.map(
                   (category, idx) => (
                     <p key={idx}>
-                      <Link href={`/shop/${category?.slug}`} className="hover:text-white transition-colors">
+                      <Link href={`/products/${category?.slug}`} className="hover:text-white transition-colors">
+                        {category?.name}
+                      </Link>
+                    </p>
+                  )
+                )
+              }
+            </div>
+          </div>
+          <div className="mt-0.5">
+            <h4 className="font-bold mb-4 text-[#a6e451] text-sm md:text-base tracking-wide">
+              MORE CATEGORIES
+            </h4>
+            <div className="space-y-2 text-sm md:text-base text-white ">
+              {
+                productCategories?.slice(5, 10)?.map(
+                  (category, idx) => (
+                    <p key={idx}>
+                      <Link href={`/products/${category?.slug}`} className="hover:text-white transition-colors">
                         {category?.name}
                       </Link>
                     </p>
