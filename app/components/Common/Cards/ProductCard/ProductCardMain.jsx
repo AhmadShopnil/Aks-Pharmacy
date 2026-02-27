@@ -68,7 +68,7 @@ export default function ProductCardMain({ item }) {
       h-auto  flex flex-col">
       {/* Image */}
       <Link
-        href={`/products/${item?.slug}`}
+        href={`/product/${item?.slug}`}
         className="relative w-full aspect-square "
       >
         <Image
@@ -92,7 +92,7 @@ export default function ProductCardMain({ item }) {
         <div className='text-center'>
           {/* Title */}
           <Link
-            href={`/products/${item?.slug}`}
+            href={`/product/${item?.slug}`}
             className="text-sm md:text-base font-semibold mb-1 text-center">
             {item?.name}
           </Link>

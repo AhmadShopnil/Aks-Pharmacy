@@ -10,7 +10,7 @@ import { Navigation, Autoplay } from "swiper/modules"
 import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
-import { getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
+import { getAttributeByName, getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
 import Link from 'next/link'
 
 export default function ProductInfo({ product, productDetails }) {
@@ -38,8 +38,10 @@ export default function ProductInfo({ product, productDetails }) {
   const brandInfos = getMetaValueFromExtra_Fields(productDetails, "brand_id");
   const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
-
   const generic_slug = productDetails?.packages?.medicine_details?.generic_slug
+  const attributes = productDetails?.packages?.variations[0]?.attributes
+  const stripSize = getAttributeByName(attributes, "Strip Size");
+
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
@@ -56,7 +58,6 @@ export default function ProductInfo({ product, productDetails }) {
       type: 'success'
     }))
   }
-
   const handleAddToCart = () => {
     dispatch(addItem({
       id: productDetails?.id,
@@ -74,12 +75,8 @@ export default function ProductInfo({ product, productDetails }) {
     }))
   }
 
-
   const increment = () => setQuantity(q => q + 1)
   const decrement = () => setQuantity(q => Math.max(1, q - 1))
-
-
-
 
 
   // console.log("producDetails brandInfos ", brandInfos)
@@ -163,10 +160,14 @@ export default function ProductInfo({ product, productDetails }) {
         {/* Purchase Options */}
         <div className="pt-6 flex flex-col gap-6">
 
-          <div className="flex flex-col gap-1">
-            <span className="text-xs uppercase font-black  text-gray-400">Available Pack</span>
-            <p className="text-[#8CC540] font-bold text-base">{product?.attributes.packSize}</p>
-          </div>
+          {stripSize && (
+            <div className="flex flex-col gap-1">
+              <span className="text-xs uppercase font-black  text-gray-400">Strip Size</span>
+              <p className="text-[#8CC540] font-bold text-base">{stripSize?.value}</p>
+            </div>
+          )}
+
+
 
           <div className="flex flex-wrap justify-between gap-4  rounded-md">
 

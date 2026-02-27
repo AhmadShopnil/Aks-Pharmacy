@@ -19,7 +19,7 @@
 //           <div key={idx} className="px-4 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/30 transition-all group cursor-pointer">
 //             <div className="flex gap-3 items-center">
 //               <div className="w-12 h-12 bg-white rounded-md flex items-center justify-center border border-gray-100 group-hover:border-[#0784BB]/20 transition-all overflow-hidden shrink-0">
-//                 <img src={item.image || "/products/placeholder.png"} alt={item.name} className="w-10 h-10 object-contain p-1" />
+//                 <img src={item.image || "/product/placeholder.png"} alt={item.name} className="w-10 h-10 object-contain p-1" />
 //               </div>
 //               <div className="flex-1 flex flex-col gap-0.5 min-w-0">
 //                 <div className="flex items-center gap-1">

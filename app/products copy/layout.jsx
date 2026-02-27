@@ -10,7 +10,7 @@ export default async function ProductDetailsLayout({ children }) {
 
 
   const productCategories = await getCategories("product_categories") || [];
- const formattedCategories = formatCategories(productCategories || []);
+  const formattedCategories = formatCategories(productCategories || []);
 
   return (
     <div className=" min-h-screen bg-white">
@@ -31,9 +31,9 @@ export default async function ProductDetailsLayout({ children }) {
               <MegaMenu formattedCategories={formattedCategories} />
             </div>
             {/* On mobile, MegaMenu handles its own trigger */}
-            <div className="lg:hidden">
-              <MegaMenu />
-            </div>
+            {/* <div className="lg:hidden">
+              <MegaMenu formattedCategories={formattedCategories} />
+            </div> */}
           </div>
 
           {/* Main Content */}

@@ -21,7 +21,7 @@ export default function ProductCardMain({ item }) {
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
-  const featured_image = varrientInfo?.featured_image?.file_url  || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
+  const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image
   const discount = display_price - sale_price
 
   const handleToggleWishlist = (e) => {
@@ -72,7 +72,7 @@ export default function ProductCardMain({ item }) {
 
       {/* Image */}
       <Link
-        href={`/products/${item?.slug}`}
+        href={`/product/${item?.slug}`}
         className="w-full h-[140px] md:h-[240px] relative mb-4">
         {/* Discount Badge */}
         {item?.discount && (<span
@@ -80,7 +80,7 @@ export default function ProductCardMain({ item }) {
           {item.discount}
         </span>)}
         <Image
-          src={featured_image || "/images/placeholder-product.webp" }
+          src={featured_image || "/images/placeholder-product.webp"}
           alt={item?.name || "product image"}
           fill
           className="object-cover"
@@ -102,7 +102,7 @@ export default function ProductCardMain({ item }) {
         <div className='text-center'>
           {/* Title */}
           <Link
-            href={`/products/${item?.slug}`}
+            href={`/product/${item?.slug}`}
             className="text-sm md:text-base font-semibold mb-1 text-center">
             {item?.name}
           </Link>

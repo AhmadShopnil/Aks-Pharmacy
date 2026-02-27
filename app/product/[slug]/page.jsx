@@ -6,12 +6,10 @@ import ProductAttributes from "@/app/components/product/ProductAttributes"
 import { ChevronRight, Home } from 'lucide-react'
 import RatingAndReviews from "@/app/components/ProductDetails/RatingAndReviews"
 import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
-import FrequentlyBoughtTogether from "@/app/components/ProductDetails/FrequentlyBoughtTogether"
-import MoreProducts from "@/app/components/ProductDetails/MoreProducts"
 import Link from "next/link"
 import ProductQA from "@/app/components/ProductDetails/ProductQA"
-import { getSingleProduct } from "@/lib/fetchApis"
-import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
+import { getSingleProduct, getSingleProductBreadCrumb } from "@/lib/fetchApis"
+import { getAttributeByName, getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -86,9 +84,12 @@ import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
-
-
   const productDetails = await getSingleProduct(slug);
+  const productBreadCrumb = await getSingleProductBreadCrumb(slug);
+
+
+  const filterBreadCrumb = productBreadCrumb?.filter((item) => item?.type == "category");
+
 
   // RICH DEMO PRODUCT DATA
   const product = {
@@ -240,27 +241,56 @@ export default async function ProductDetailsPage({ params }) {
   let all_images = [...gallery_images]
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
 
+  const attributes = productDetails?.packages?.variations[0]?.attributes
+  const stripSize = getAttributeByName(attributes, "Strip Size");
+
+
   if (featured_image) {
     all_images = [featured_image, ...all_images]
   }
+
+  // console.log("productBreadCrumb", productBreadCrumb)
 
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20 selection:bg-blue-100 selection:text-blue-900">
       <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
+
         <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
             <span className=""><Home size={16} /> </span>
             <span className="-mt-0.5">Home</span>
           </Link>
           <ChevronRight size={12} />
-          <a href="/category/medicine" className="hover:text-[#0784BB] transition-colors">Medicine</a>
-          <ChevronRight size={12} />
-          <a href="/category/vitamins" className="hover:text-[#0784BB] transition-colors">Vitamins & Supplements</a>
-          <ChevronRight size={12} />
-          <span className="text-gray-900 font-semibold">{productDetails?.name} </span>
+          {
+            filterBreadCrumb?.map((item, index) => (
+              <Link key={index} href={`/products/${item?.slug}`} className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+                <span className="">{item?.label}</span>
+                <ChevronRight size={12} />
+              </Link>
+            ))
+          }
+          <span className="text-[#0784BB] font-semibold">{productDetails?.name} </span>
+
         </nav>
+        {/* <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+            <span className=""><Home size={16} /> </span>
+            <span className="-mt-0.5">Home</span>
+          </Link>
+          <ChevronRight size={12} />
+          {
+            productDetails?.categories?.map((category, index) => (
+              <Link key={index} href={`/category/${category.slug}`} className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
+                <span className="">{category.name}</span>
+                <ChevronRight size={12} />
+              </Link>
+            ))
+          }
+          <span className="text-gray-900 font-semibold">{productDetails?.name} </span>
+        </nav> */}
+
 
         {/* Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -279,7 +309,7 @@ export default async function ProductDetailsPage({ params }) {
             <ProductOverview productDetails={productDetails} />
 
             <ProductAttributes
-              attributes={product.attributes}
+              attributes={attributes}
               categorySchema={product.categorySchema}
             />
           </div>
@@ -298,10 +328,10 @@ export default async function ProductDetailsPage({ params }) {
 
         <div className="pt-0  lg:pt-4 space-y-3 md:space-y-4  ">
           {/* Rating & Reviews */}
-          <RatingAndReviews />
+          {/* <RatingAndReviews /> */}
 
           {/* Product Q&A */}
-          <ProductQA />
+          {/* <ProductQA /> */}
 
 
           {/* Similar Products */}

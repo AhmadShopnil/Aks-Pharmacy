@@ -82,7 +82,7 @@ export default async function Footer() {
 
 
   return (
-    <footer className="bg-[#0882BB] text-white">
+    <footer className="bg-[#0882BB] text-white px-2 md:px-0">
       <Container className="py-12">
 
         {/* Top Grid */}

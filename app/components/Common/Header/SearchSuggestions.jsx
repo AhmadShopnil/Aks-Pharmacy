@@ -99,7 +99,7 @@ export default function SearchSuggestions({ isMobile = false }) {
             case 'Enter':
                 e.preventDefault();
                 if (highlightedIndex >= 0 && products[highlightedIndex]) {
-                    window.location.href = `/products/${products[highlightedIndex].slug}`;
+                    window.location.href = `/product/${products[highlightedIndex].slug}`;
                 }
                 break;
             case 'Escape':
@@ -295,7 +295,7 @@ export default function SearchSuggestions({ isMobile = false }) {
                                 {products.map((item, index) => (
                                     <li key={item.id} role="option" aria-selected={index === highlightedIndex}>
                                         <Link
-                                            href={`/products/${item.slug}`}
+                                            href={`/product/${item.slug}`}
                                             onClick={() => {
                                                 setIsOpen(false);
                                                 setQuery('');

@@ -91,7 +91,7 @@ export default function MegaMenu({ formattedCategories }) {
                             animate="open"
                             exit="closed"
                             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="fixed top-0 left-0 h-full w-[85%] max-w-sm bg-gray-50 z-[70] shadow-2xl lg:hidden flex flex-col uppercase"
+                            className="fixed top-0 left-0 h-full w-[85%] max-w-sm bg-gray-50 z-[70] shadow-sm lg:hidden flex flex-col uppercase"
                         >
                             {/* Header */}
                             <div className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-10">
@@ -124,9 +124,9 @@ export default function MegaMenu({ formattedCategories }) {
                             </div>
 
                             {/* Content */}
-                            <div className="flex-1 overflow-y-auto p-4">
+                            <div className="flex-1 overflow-y-auto p-2">
                                 {!activeMobileCategory && (
-                                    <div className="grid grid-cols-1 gap-3">
+                                    <div className="grid grid-cols-1 ">
                                         {formattedCategories?.map((item, i) => {
                                             const Icon = menuIcons[item.name] || FaCapsules;
                                             return (
@@ -136,7 +136,7 @@ export default function MegaMenu({ formattedCategories }) {
                                                         if (item.child) setActiveMobileCategory(item);
                                                         else setIsMobileMenuOpen(false);
                                                     }}
-                                                    className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors relative"
+                                                    className="flex items-center justify-between p-2 bg-white rounded-sm  border border-gray-200 active:bg-blue-50 transition-colors relative"
                                                 >
                                                     <div className="flex items-center gap-4">
                                                         <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-[#0784BB]">
@@ -147,7 +147,7 @@ export default function MegaMenu({ formattedCategories }) {
                                                     {item.child?.length > 0 ? (
                                                         <ChevronRight size={18} className="text-gray-400" />
                                                     ) : (
-                                                        <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                        <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
                                                     )}
                                                 </div>
                                             );
@@ -156,11 +156,11 @@ export default function MegaMenu({ formattedCategories }) {
                                 )}
 
                                 {activeMobileCategory && !activeMobileSubCategory && (
-                                    <div className="grid grid-cols-1 gap-2">
+                                    <div className="grid grid-cols-1">
                                         <Link
-                                            href={`/shop/${activeMobileCategory.name}`}
+                                            href={`/products/${activeMobileCategory.name}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
+                                            className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm  font-bold mb-2"
                                         >
                                             View All {activeMobileCategory.name}
                                             <ChevronRight size={18} />
@@ -172,13 +172,13 @@ export default function MegaMenu({ formattedCategories }) {
                                                     if (item.child?.length > 0) setActiveMobileSubCategory(item);
                                                     else setIsMobileMenuOpen(false);
                                                 }}
-                                                className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors relative"
+                                                className="flex items-center justify-between p-3 bg-white rounded-sm  border border-gray-200 active:bg-blue-50 transition-colors relative"
                                             >
                                                 <span className="font-semibold text-sm text-gray-700">{item.name}</span>
                                                 {item.child?.length > 0 ? (
                                                     <ChevronRight size={18} className="text-gray-400" />
                                                 ) : (
-                                                    <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                    <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
                                                 )}
                                             </div>
                                         ))}
@@ -186,11 +186,11 @@ export default function MegaMenu({ formattedCategories }) {
                                 )}
 
                                 {activeMobileSubCategory && (
-                                    <div className="grid grid-cols-1 gap-2">
+                                    <div className="grid grid-cols-1 ">
                                         <Link
-                                            href={`/shop/${activeMobileSubCategory.name}`}
+                                            href={`/products/${activeMobileSubCategory.name}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
+                                            className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm shadow-sm font-bold mb-2"
                                         >
                                             View All {activeMobileSubCategory.name}
                                             <ChevronRight size={18} />
@@ -198,9 +198,9 @@ export default function MegaMenu({ formattedCategories }) {
                                         {activeMobileSubCategory.child?.map((item, i) => (
                                             <Link
                                                 key={i}
-                                                href={`/shop/${item.name}`}
+                                                href={`/products/${item.name}`}
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
+                                                className="flex items-center justify-between p-3 bg-white rounded-sm  border border-gray-200 active:bg-blue-50 transition-colors"
                                             >
                                                 <span className="font-medium text-sm text-gray-700">{item.name}</span>
                                             </Link>
@@ -216,8 +216,7 @@ export default function MegaMenu({ formattedCategories }) {
             <section className="relative">
                 {/* LEFT MEGA MENU */}
                 <div
-                    className="hidden lg:block col-span-3 bg-white relative text-gray-600 font-semibold text-[17px]
-             h-screen"
+                    className="hidden lg:block col-span-3 bg-white relative text-gray-600 font-semibold text-[17px] h-screen"
                     onMouseLeave={() => {
                         setLevel1(null);
                         setLevel2(null);
@@ -241,7 +240,7 @@ export default function MegaMenu({ formattedCategories }) {
                                hover:text-[#0784BB] cursor-pointer transition-colors ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
                                 >
 
-                                    <Link href={`/shop/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
+                                    <Link href={`/products/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
                                         <div className="flex items-center gap-3">
                                             <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
                                             <span>{item.name}</span>
@@ -275,9 +274,11 @@ export default function MegaMenu({ formattedCategories }) {
                                    hover:bg-[#0784BB] hover:text-white
                                    cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
                                         >
-                                            <Link href={`/shop/${item?.slug}`} className="block w-full">
+                                            <Link href={`/products/${item?.slug}`} className="flex gap-2 items-center w-full">
                                                 <span>{item.name}</span>
-                                                {item?.child?.length > 0 && <ChevronRight className="w-5 h-5 opacity-50" />}
+                                                {item?.child?.length > 0 && <span className="mt-1">
+
+                                                    <ChevronRight className="w-5 h-5 opacity-50" /></span>}
                                             </Link>
 
 
@@ -307,7 +308,7 @@ export default function MegaMenu({ formattedCategories }) {
                                    hover:text-white cursor-pointer
                                    transition-colors"
                                         >
-                                            <Link href={`/shop/${item?.slug}`} className="block w-full">
+                                            <Link href={`/products/${item?.slug}`} className="block w-full">
                                                 {item?.name}
                                             </Link>
                                         </li>

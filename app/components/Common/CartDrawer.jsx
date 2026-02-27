@@ -63,7 +63,7 @@ export default function CartDrawer() {
     const mrp = cartTotal;
     const discount = cartTotal * 1.2 / 100;
     // const finalPayable = cartTotal - discount;
-    const finalPayable = cartTotal ;
+    const finalPayable = cartTotal;
 
 
 
@@ -100,7 +100,7 @@ export default function CartDrawer() {
     if (!isOpen) return null;
 
 
-    console.log("cartItems", cartItems)
+    // console.log("cartItems", cartItems)
 
 
 
@@ -151,13 +151,13 @@ export default function CartDrawer() {
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <div className="flex justify-between items-start">
+                                            <div className="flex justify-between items-start mb-2">
                                                 <h3 className="font-medium text-sm text-gray-800 line-clamp-2">{item.title}</h3>
-                                                <button onClick={() => handleRemove(item.id)} className="text-gray-400 hover:text-red-500">
-                                                    <X className="w-4 h-4" />
+                                                <button onClick={() => handleRemove(item.id)} className="text-red-500 hover:text-red-600 font-bold">
+                                                    <X className="w-4 h-4 md:w-5 md:h-5" />
                                                 </button>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-1">Pack Size: 1 Pack</p>
+
                                             <div className="flex justify-between items-end ">
                                                 <div className="font-bold text-gray-700">
                                                     Tk {item?.price}
@@ -298,7 +298,7 @@ export default function CartDrawer() {
                                 </Link>
                             </div> */}
 
-                         
+
 
                             {/* Spacer for sticky footer */}
                             {/* <div className="h-20" /> */}
@@ -308,37 +308,37 @@ export default function CartDrawer() {
 
                 {/* Sticky Footer */}
                 {cartItems?.length > 0 && (
-                   <div>
-                       {/* Terms */}
-                            <div className="p-4">
-                                <label className="flex items-start gap-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        className="mt-1 w-4 h-4 text-[#1d81b3] rounded border-gray-300 focus:ring-[#1d81b3]"
-                                        checked={agreeTerms}
-                                        onChange={(e) => setAgreeTerms(e.target.checked)}
-                                    />
-                                    <span className="text-sm text-gray-600">
-                                        Please check the checkbox to agree to our <span className="text-[#1d81b3] font-medium">Terms & Conditions, Privacy Policy & Refund-Return Policy</span>
-                                    </span>
-                                </label>
-                            </div>
-                     <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
-                        <div className="flex items-center gap-3">
-                            <div className="bg-white/20 p-2 rounded-lg">
-                                <ShoppingCart className="w-6 h-6" />
-                            </div>
-                            <div className="flex flex-col leading-tight">
-                                <span className="font-bold text-sm">{cartCount} items</span>
-                                <span className="font-bold text-lg">Tk{Math.round(finalPayable)}</span>
-                            </div>
+                    <div>
+                        {/* Terms */}
+                        <div className="p-4">
+                            <label className="flex items-start gap-2 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="mt-1 w-4 h-4 text-[#1d81b3] rounded border-gray-300 focus:ring-[#1d81b3]"
+                                    checked={agreeTerms}
+                                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                                />
+                                <span className="text-sm text-gray-600">
+                                    Please check the checkbox to agree to our <span className="text-[#1d81b3] font-medium">Terms & Conditions, Privacy Policy & Refund-Return Policy</span>
+                                </span>
+                            </label>
                         </div>
-                        <div className="flex items-center gap-2 font-bold">
-                            Place Order
-                            <ChevronRight className="w-5 h-5" />
+                        <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-white/20 p-2 rounded-lg">
+                                    <ShoppingCart className="w-6 h-6" />
+                                </div>
+                                <div className="flex flex-col leading-tight">
+                                    <span className="font-bold text-sm">{cartCount} items</span>
+                                    <span className="font-bold text-lg">Tk{Math.round(finalPayable)}</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 font-bold">
+                                Place Order
+                                <ChevronRight className="w-5 h-5" />
+                            </div>
                         </div>
                     </div>
-                   </div>
                 )}
             </div>
 
