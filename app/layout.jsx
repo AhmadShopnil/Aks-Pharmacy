@@ -7,6 +7,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
 import { ReduxProvider } from "@/lib/redux/ReduxProvider";
+import GlobalLayout from "./components/Layout/GlobalLayout";
 import CartDrawer from "./components/Common/CartDrawer";
 import MegaMenu from "./components/Common/Sidebar/MegaMenu";
 import { getCategories } from "@/lib/fetchApis";
@@ -37,14 +38,16 @@ export default async function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <CartDrawer />
-          <div>
-            {children}
-            {/* <Footer /> */}
-            <div className="lg:hidden">
-              <MegaMenu formattedCategories={formattedCategories} />
+          <GlobalLayout>
+            <CartDrawer />
+            <div>
+              {children}
+              {/* <Footer /> */}
+              <div className="lg:hidden">
+                <MegaMenu formattedCategories={formattedCategories} />
+              </div>
             </div>
-          </div>
+          </GlobalLayout>
         </ReduxProvider>
       </body>
     </html>
