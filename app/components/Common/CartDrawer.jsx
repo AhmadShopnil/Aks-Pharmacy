@@ -11,8 +11,10 @@ import {
     removeItem,
     incrementQuantity,
     decrementQuantity,
+    clearCart,
 } from '@/lib/redux/features/cart/cartSlice';
-import { toggleCartDrawer, selectCartDrawerOpen } from '@/lib/redux/features/ui/uiSlice';
+import { toggleCartDrawer, selectCartDrawerOpen, showNotification } from '@/lib/redux/features/ui/uiSlice';
+import { useCreateOrderMutation } from '@/lib/redux/services/ordersApi';
 import {
     useGetAddressesQuery,
     useCreateAddressMutation
@@ -42,6 +44,7 @@ export default function CartDrawer() {
         skip: !isOpen
     });
     const [createAddress] = useCreateAddressMutation();
+    const [createOrder, { isLoading: isPlacingOrder }] = useCreateOrderMutation();
     const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -94,6 +97,61 @@ export default function CartDrawer() {
             }
         } catch (err) {
             console.error("Failed to add address:", err);
+        }
+    };
+
+    const handlePlaceOrder = async () => {
+        if (!selectedAddress) {
+            dispatch(showNotification({ message: "Please select a shipping address", type: "error" }));
+            return;
+        }
+
+        if (!agreeTerms) {
+            dispatch(showNotification({ message: "Please agree to the terms and conditions", type: "error" }));
+            return;
+        }
+
+        const orderPayload = {
+            shipping: {
+                name: selectedAddress?.customer_name || "",
+                email: selectedAddress?.email || "",
+                phone: selectedAddress?.customer_phone || "",
+                address: selectedAddress?.detailed_address || "",
+                thana: selectedAddress?.division || "", // mapping division temporarily if thana not explicitly available
+                district: selectedAddress?.district || "",
+                country: "Bangladesh",
+                note: ""
+            },
+            products: cartItems.map(item => ({
+                id: item.id,
+                name: item.title,
+                price: item.price,
+                qty: item.quantity,
+                original_price: (item.price + (item.discount || 0)), // estimated if exact is not available
+                brand_id: "",
+                vendor_id: "",
+                category_id: "",
+                icon: item.img || "",
+                slug: item.slug || "",
+                size: item.size || "",
+                color: item.color || ""
+            })),
+            paymentMethod: "Cash on Delivery",
+            promoCode: couponCode || "",
+            promoAmount: 0 // Modify if promo logic is applied
+        };
+
+        try {
+            const res = await createOrder(orderPayload).unwrap();
+            if (res) {
+                dispatch(showNotification({ message: "Order placed successfully!", type: "success" }));
+                dispatch(clearCart());
+                dispatch(toggleCartDrawer());
+                // Optional: window.location.href = '/user-dashboard' or router.push 
+            }
+        } catch (error) {
+            console.error("Failed to place order:", error);
+            dispatch(showNotification({ message: error?.data?.message || "Failed to place order. Please try again.", type: "error" }));
         }
     };
 
@@ -323,21 +381,24 @@ export default function CartDrawer() {
                                 </span>
                             </label>
                         </div>
-                        <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
+                        <button
+                            onClick={handlePlaceOrder}
+                            disabled={isPlacingOrder}
+                            className="w-full bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition disabled:opacity-50 disabled:cursor-not-allowed border-none outline-none">
                             <div className="flex items-center gap-3">
                                 <div className="bg-white/20 p-2 rounded-lg">
                                     <ShoppingCart className="w-6 h-6" />
                                 </div>
-                                <div className="flex flex-col leading-tight">
+                                <div className="flex flex-col leading-tight text-left">
                                     <span className="font-bold text-sm">{cartCount} items</span>
                                     <span className="font-bold text-lg">Tk{Math.round(finalPayable)}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 font-bold">
-                                Place Order
+                                {isPlacingOrder ? "Placing..." : "Place Order"}
                                 <ChevronRight className="w-5 h-5" />
                             </div>
-                        </div>
+                        </button>
                     </div>
                 )}
             </div>
