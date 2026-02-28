@@ -14,29 +14,68 @@ export default function SmallProductCard({ item }) {
   const cartItem = useAppSelector(selectCartItemById(item?.id));
   const isInWishlist = useAppSelector(selectIsInWishlist(item?.id));
 
+  // extra info of product
+  const varrientInfo = item?.packages?.variations[0]
+  let sale_price = varrientInfo?.sale_price
+  const display_price = varrientInfo?.display_price
+  const stock_quantity = varrientInfo?.stock_quantity
+  const stock_status = varrientInfo?.stock_status
+  const is_on_sale = varrientInfo?.is_on_sale
+  const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image | "/images/placeholder-product.webp "
+  const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
+
+
+  //  console.log("item in product card ", item)
+
+  if (item?.offer_details) {
+
+
+    if (item?.offer_details?.discount_type == "flat") {
+      const discount = item?.offer_details?.discount_value;
+      sale_price = sale_price - discount
+
+    }
+    else {
+      const dicount_percentage = Number(item?.offer_details?.discount_value);
+      const discount = sale_price * dicount_percentage / 100;
+      sale_price = sale_price - discount
+
+
+    }
+
+
+  }
+
+
+
+
+
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(toggleWishlist({
       id: item.id,
-      title: item.title,
-      price: item.price,
-      img: item.img,
-      discount: item.discount,
-      rating: item.rating
+      title: item?.name,
+
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
+      img: featured_image
+      ,
+      discount: discount || 0,
+      // rating: item.rating
     }));
   };
 
   const handleAddToCart = () => {
     setIsAdding(true);
 
-    // Dispatch add to cart action
     dispatch(addItem({
       id: item.id,
-      title: item.title,
-      price: parseFloat(item.price.replace(/[^0-9.-]+/g, '')),
-      img: item.img,
-      discount: item.discount,
+      title: item?.name,
+      // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
+      img: featured_image
+      ,
+      discount: discount || 0,
       quantity: 1,
     }));
 
@@ -46,25 +85,22 @@ export default function SmallProductCard({ item }) {
     }, 800);
   };
 
+  // console.log("product from generic page", item)
+  // console.log("featured_image from generic page", featured_image)
+
   return (
-    <div className="border p-1.5 sm:2 md:p-3 border-gray-200 hover:shadow-lg transition duration-300 relative
-      h-[350px]  md:h-[490px] flex flex-col rounded-lg">
-
-
+    <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
+      h-auto  flex flex-col bg-white rounded-sm">
       {/* Image */}
       <Link
-        href={"/product/1"}
-        className="w-full h-[140px] md:h-[240px] relative mb-4 ">
-        {/* Discount Badge */}
-        {item.discount && (<span
-          className="absolute top-4  bg-pink-600 text-white text-xs font-bold px-2 py-1 z-30 ">
-          {item.discount}
-        </span>)}
+        href={`/product/${item?.slug}`}
+        className="relative w-full aspect-square "
+      >
         <Image
-          src={item.img}
-          alt={item.title}
+          src={featured_image || "/images/placeholder-product.webp"}
+          alt={item?.name || "product image"}
           fill
-          className="object-cover"  // <-- changed from object-contain
+          className="object-cover"
         />
       </Link>
       {/* Wishlist Button */}
@@ -76,41 +112,43 @@ export default function SmallProductCard({ item }) {
         <Heart className={`w-5 h-5 ${isInWishlist ? 'fill-current' : 'group-hover/wishlist:scale-110'}`} />
       </button>
 
-      <div className='flex flex-col flex-1 justify-between'>
+      <div className='flex flex-col flex-1 justify-between pb-2'>
 
-        <div className=' text-center'>
+        <div className='text-center'>
           {/* Title */}
           <Link
-            href={`/product/${item?.title}`}
-            className="text-sm md:text-base font-semibold mb-1 text-center">
-            {item.title}
+            href={`/product/${item?.slug}`}
+            className="text-sm md:text-[15px] font-semibold mb-1 text-center">
+            {item?.name}
           </Link>
 
           {/* Rating */}
-          <div className="text-yellow-500 text-2xl mb-2 text-center">
-            {"★".repeat(item.rating)}
-          </div>
+          {/* <div className="text-yellow-500 text-base md:text-2xl mb-2 text-center">
+            {"★".repeat(item?.rating)}
+          </div> */}
 
           {/* Pricing */}
           <div className="mb-4 text-center text-sm md:text-base">
 
-            {item.oldPrice && (
+            {(display_price && display_price > sale_price) && (
               <span className="line-through mr-2 text-gray-400">
-                {item.oldPrice}
+                <span className='text-xl md:text-2xl mr-1'>৳</span> {display_price}
               </span>
             )}
-            <span className="font-bold text-pink-600">{item.price}</span>
+            <span className="font-bold text-pink-600 ">
+              <span className='text-xl md:text-2xl mr-1'>৳</span>
+              {sale_price}</span>
           </div>
-        </div>
 
+        </div>
         {/* Button */}
         <div className='w-full  flex justify-center'>
           <button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className={`px-4 py-1.5 md:px-8 md:py-2 text-xs md:text-base rounded-full font-semibold transition cursor-pointer ${isAdding
+            className={`px-4 py-1 md:px-8 md:py-1.5 text-xs sm:text-sm md:text-base rounded-sm font-semibold transition cursor-pointer ${isAdding
               ? 'bg-green-600 text-white'
-              : 'bg-[#1d81b3] text-white hover:bg-[#8CC540]'
+              : 'bg-[#0784BB] text-white hover:bg-[#8CC540]'
               }`}
           >
             {isAdding ? '✓ Added!' : cartItem ? `+ Add More (${cartItem.quantity})` : '+ Add to cart'}

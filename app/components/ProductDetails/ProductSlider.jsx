@@ -4,10 +4,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useRef, useEffect } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation } from "swiper/modules"
-import Link from "next/link"
-import { useAppDispatch } from '@/lib/redux/hooks'
-import { addItem } from '@/lib/redux/features/cart/cartSlice'
-import { showNotification } from '@/lib/redux/features/ui/uiSlice'
 
 import "swiper/css"
 import "swiper/css/navigation"
@@ -22,7 +18,6 @@ export default function ProductSlider({
   const prevRef = useRef(null)
   const nextRef = useRef(null)
   const swiperRef = useRef(null)
-  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (swiperRef.current && prevRef.current && nextRef.current) {
@@ -35,18 +30,6 @@ export default function ProductSlider({
     }
   }, [])
 
-  const handleAddToCart = (e, product) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (product.originalItem) {
-      dispatch(addItem(product.originalItem))
-      dispatch(showNotification({
-        message: `${product.originalItem.title} added to cart!`,
-        type: 'success'
-      }))
-    }
-  }
-
   return (
     <div className={`rounded-lg p-4 md:p-6 ${containerClass}`}>
       {/* Header */}
@@ -56,12 +39,12 @@ export default function ProductSlider({
         </h2>
 
         {showSeeAll && (
-          <Link
+          <a
             href={seeAllHref}
-            className="text-[#0784BB] hover:text-[#0673a3] font-semibold text-sm transition-colors"
+            className="text-teal-600 hover:text-teal-700 font-semibold text-sm"
           >
             See all
-          </Link>
+          </a>
         )}
       </div>
 
@@ -73,47 +56,38 @@ export default function ProductSlider({
           slidesPerView="auto"
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
-          {products.map((product) => (
+          {products?.map((product) => (
             <SwiperSlide key={product.id} className="!w-40">
-              <Link href={product.slug ? `/product/${product.slug}` : '#'} className="block h-full group">
-                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden
-                    group-hover:shadow-[0_4px_20px_-4px_rgba(7,132,187,0.15)] group-hover:border-[#0784BB]/30 transition-all duration-300
-                    flex flex-col h-[260px] relative">
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                <div className="aspect-square bg-gray-100 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
-                  {/* Image */}
-                  <div className="aspect-square bg-white flex items-center justify-center overflow-hidden p-2 group-hover:bg-slate-50 transition-colors">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+                <div className="p-3">
+                  <p className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">
+                    {product.name}
+                  </p>
 
-                  {/* Content */}
-                  <div className="p-3 flex flex-col flex-1 bg-white">
-                    {/* Fixed-height title */}
-                    <p className="text-sm font-semibold text-gray-800 leading-snug
-                      h-[36px] overflow-hidden group-hover:text-[#0784BB] transition-colors">
-                      {product.name}
-                    </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold text-gray-900">
+                      {product.price}
+                    </span>
 
-                    {/* Bottom row always aligned */}
-                    <div className="flex items-center justify-between mt-auto pt-2">
-                      <span className="text-sm font-bold text-[#8CC540]">
-                        {product.price}
-                      </span>
-
+                    {product.onAdd && (
                       <button
-                        onClick={(e) => handleAddToCart(e, product)}
-                        className="bg-[#0784BB] hover:bg-[#044c6b] text-white active:scale-95
-                         text-xs font-semibold px-3 py-1.5 rounded-md cursor-pointer transition-all shadow-sm hover:shadow"
+                        onClick={() => product.onAdd(product)}
+                        className="bg-teal-100 hover:bg-teal-200 text-teal-700 text-xs font-semibold px-2 py-1 rounded"
                       >
                         Add
                       </button>
-                    </div>
+                    )}
                   </div>
                 </div>
-              </Link>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -121,14 +95,14 @@ export default function ProductSlider({
         {/* Navigation */}
         <button
           ref={prevRef}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all hover:text-[#0784BB] z-10 hidden md:block"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg z-10 hidden md:block"
         >
           <ChevronLeft size={20} />
         </button>
 
         <button
           ref={nextRef}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all hover:text-[#0784BB] z-10 hidden md:block"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-md hover:shadow-lg z-10 hidden md:block"
         >
           <ChevronRight size={20} />
         </button>

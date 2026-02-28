@@ -1,7 +1,7 @@
 export default function ProductAttributes({ attributes, categorySchema }) {
   // if (!attributes) return null;
 
-  console.log("attributes", attributes)
+  // console.log("attributes", attributes)
   return (
     <div className="bg-white rounded-sm border border-gray-200  p-3 md:p-4 overflow-hidden">
       <h3 className="text-gray-900 font-black text-lg mb-8 flex items-center gap-3 tracking-tight">

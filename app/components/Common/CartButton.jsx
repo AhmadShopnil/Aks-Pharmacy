@@ -12,13 +12,13 @@ import { selectCartCount, selectCartItemsCount } from '@/lib/redux/features/cart
 export default function CartButton() {
     const dispatch = useAppDispatch();
     // const cartCount = useAppSelector(selectCartCount);
-     const cartCount = useAppSelector(selectCartItemsCount);
-    
+    const cartCount = useAppSelector(selectCartItemsCount);
+
 
     const handleClick = () => {
         dispatch(toggleCartDrawer());
     };
-    console.log("selectCartCount",selectCartCount)
+    // console.log("selectCartCount",selectCartCount)
 
     return (
         <button

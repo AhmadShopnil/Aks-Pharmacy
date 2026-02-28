@@ -1,9 +1,21 @@
 "use client";
-import React, { useMemo } from "react";
-import ProductSlider from "./ProductSlider";
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useGetProductsByCategoryQuery } from "@/lib/redux/services/productsApi";
+import ProductCardMain from "../Common/Cards/ProductCard/ProductCardMain";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import SmallProductCard from "../Common/Cards/ProductCard/SmallProductCard";
 
 export default function SimilarProducts({ productDetails }) {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const [init, setInit] = useState(false);
+
   // Extract category slug from WP-style 'terms' or 'categories' array
   const categorySlug = useMemo(() => {
     if (!productDetails) return "medicine";
@@ -14,13 +26,16 @@ export default function SimilarProducts({ productDetails }) {
       const cat = productDetails.terms.find(t => t.taxonomy === "category" || t.taxonomy === "product_categories");
       if (cat?.slug) return cat.slug;
     }
-    // Fallback if structured differently (e.g. nested deeply or string based)
     return "medicine";
   }, [productDetails]);
 
   const { data, isLoading, isError } = useGetProductsByCategoryQuery(categorySlug, {
     skip: !categorySlug
   });
+
+  useEffect(() => {
+    setInit(true);
+  }, []);
 
   if (isLoading) {
     return (
@@ -37,41 +52,69 @@ export default function SimilarProducts({ productDetails }) {
 
   if (isError || !data?.data?.length) return null;
 
-  // Map API data to the format ProductSlider expects
+  // Use the original API structure, just filter and slice
   const products = data.data
-    .filter(item => item.id !== productDetails?.id) // Exclude current product
-    .map(item => {
-      const varInfo = item?.packages?.variations?.[0];
-      const sale_price = varInfo?.sale_price || item?.price;
-      const featuredImage = varInfo?.featured_image?.file_url || varInfo?.gallery_images?.[0]?.file_url || item?.featured_image;
-      const numPrice = typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) || 0);
-
-      return {
-        id: item.id,
-        name: item.name,
-        slug: item.slug,
-        price: `৳${numPrice}`,
-        image: featuredImage || "/images/items/placeholder.jpg",
-        originalItem: {
-          id: item.id,
-          title: item.name,
-          price: numPrice,
-          img: featuredImage || "/images/items/placeholder.jpg",
-          quantity: 1,
-        }
-      };
-    })
-    .slice(0, 10); // Display max 10 similar products
+    .filter(item => item.id !== productDetails?.id)
+    .slice(0, 10);
 
   if (products.length === 0) return null;
 
   return (
-    <ProductSlider
-      title="Similar Products"
-      products={products}
-      showSeeAll={true}
-      seeAllHref={`/shop/${categorySlug}`}
-      containerClass="bg-[#8ac74038]"
-    />
+    <div className=" p-4 md:p-6 bg-[#8ac74038]">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-[#0784BB]">
+          Similar Products
+        </h2>
+        <Link
+          href={`/shop/${categorySlug}`}
+          className="text-[#0784BB] hover:text-[#0673a3] text-xl font-semibold transition-colors"
+        >
+          See all
+        </Link>
+      </div>
+
+      {/* Slider */}
+      <div className="relative w-full">
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={16}
+          slidesPerView="auto"
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+          onInit={(swiper) => {
+            // Re-assign navigation elements once initiated
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
+          }}
+          className="py-2 px-1" // Add slight padding to prevent box-shadow clipping
+        >
+          {products.map((product) => (
+            <SwiperSlide key={product.id} className="!w-[160px] md:!w-[200px] h-auto flex">
+              <SmallProductCard item={product} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Navigation Overlays */}
+        <button
+          ref={prevRef}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all text-gray-600 hover:text-[#0784BB] z-10 hidden md:flex cursor-pointer"
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        <button
+          ref={nextRef}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all text-gray-600 hover:text-[#0784BB] z-10 hidden md:flex cursor-pointer"
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+    </div>
   );
 }

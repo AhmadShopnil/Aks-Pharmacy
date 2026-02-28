@@ -25,7 +25,7 @@ export default function ProductCardMain({ item }) {
   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
 
 
-     console.log("item in product card ", item)
+  //  console.log("item in product card ", item)
 
   if (item?.offer_details) {
 
@@ -37,12 +37,12 @@ export default function ProductCardMain({ item }) {
     }
     else {
       const dicount_percentage = Number(item?.offer_details?.discount_value);
-      const discount=sale_price*dicount_percentage/100;
+      const discount = sale_price * dicount_percentage / 100;
       sale_price = sale_price - discount
 
 
     }
-  
+
 
   }
 
@@ -57,7 +57,7 @@ export default function ProductCardMain({ item }) {
       id: item.id,
       title: item?.name,
 
-      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) ),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
       img: featured_image
       ,
       discount: discount || 0,
@@ -72,7 +72,7 @@ export default function ProductCardMain({ item }) {
       id: item.id,
       title: item?.name,
       // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
-      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) ),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
       img: featured_image
       ,
       discount: discount || 0,
@@ -90,7 +90,7 @@ export default function ProductCardMain({ item }) {
 
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-auto  flex flex-col">
+      h-auto  flex flex-col bg-white">
       {/* Image */}
       <Link
         href={`/product/${item?.slug}`}
