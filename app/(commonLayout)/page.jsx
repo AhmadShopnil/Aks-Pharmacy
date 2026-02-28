@@ -29,9 +29,9 @@ export default async function Home() {
         <HeroWithMegaMenu heroSliders={heroSliders} productCategories={productCategories} />
         {filteredOffers?.length > 0 && <OfferSlider offersSlider={filteredOffers} />}
         <FeaturedProducts />
-        <Recommanded />
+        {/* <Recommanded />
         <WeaklyDeals />
-        <BrandSlider />
+        <BrandSlider /> */}
       </Container>
     </div>
   );
