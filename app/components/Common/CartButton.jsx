@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { toggleCartDrawer } from '@/lib/redux/features/ui/uiSlice';
-import { selectCartCount } from '@/lib/redux/features/cart/cartSlice';
+import { selectCartCount, selectCartItemsCount } from '@/lib/redux/features/cart/cartSlice';
 
 /**
  * Cart Icon Button Component
@@ -11,11 +11,14 @@ import { selectCartCount } from '@/lib/redux/features/cart/cartSlice';
  */
 export default function CartButton() {
     const dispatch = useAppDispatch();
-    const cartCount = useAppSelector(selectCartCount);
+    // const cartCount = useAppSelector(selectCartCount);
+    const cartCount = useAppSelector(selectCartItemsCount);
+
 
     const handleClick = () => {
         dispatch(toggleCartDrawer());
     };
+    // console.log("selectCartCount",selectCartCount)
 
     return (
         <button

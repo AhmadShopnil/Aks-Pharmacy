@@ -16,13 +16,39 @@ export default function ProductCardMain({ item }) {
 
   // extra info of product
   const varrientInfo = item?.packages?.variations[0]
-  const sale_price = varrientInfo?.sale_price
+  let sale_price = varrientInfo?.sale_price
   const display_price = varrientInfo?.display_price
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
   const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image | "/images/placeholder-product.webp "
   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
+
+
+  //  console.log("item in product card ", item)
+
+  if (item?.offer_details) {
+
+
+    if (item?.offer_details?.discount_type == "flat") {
+      const discount = item?.offer_details?.discount_value;
+      sale_price = sale_price - discount
+
+    }
+    else {
+      const dicount_percentage = Number(item?.offer_details?.discount_value);
+      const discount = sale_price * dicount_percentage / 100;
+      sale_price = sale_price - discount
+
+
+    }
+
+
+  }
+
+
+
+
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
@@ -31,23 +57,22 @@ export default function ProductCardMain({ item }) {
       id: item.id,
       title: item?.name,
 
-      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) || 0),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
       img: featured_image
       ,
       discount: discount || 0,
-      rating: item.rating
+      // rating: item.rating
     }));
   };
 
   const handleAddToCart = () => {
     setIsAdding(true);
 
-    // Dispatch add to cart action
     dispatch(addItem({
       id: item.id,
       title: item?.name,
       // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
-      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price) || 0),
+      price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
       img: featured_image
       ,
       discount: discount || 0,
@@ -65,7 +90,7 @@ export default function ProductCardMain({ item }) {
 
   return (
     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
-      h-auto  flex flex-col">
+      h-auto  flex flex-col bg-white">
       {/* Image */}
       <Link
         href={`/product/${item?.slug}`}

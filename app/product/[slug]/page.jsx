@@ -319,7 +319,7 @@ export default async function ProductDetailsPage({ params }) {
             <div className="hidden lg:block sticky ">
               <div className="flex flex-col gap-2">
                 <ProductInfo product={product} productDetails={productDetails} />
-                <AlternativeBrands alternatives={product.alternatives} productName={product.name} generic_name={generic_name} />
+                <AlternativeBrands generic_name={generic_name} />
               </div>
             </div>
           </div>

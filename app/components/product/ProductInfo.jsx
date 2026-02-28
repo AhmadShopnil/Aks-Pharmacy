@@ -5,8 +5,6 @@ import { useAppDispatch } from '@/lib/redux/hooks'
 import { addItem } from '@/lib/redux/features/cart/cartSlice'
 import { toggleWishlist, selectIsInWishlist } from '@/lib/redux/features/wishlist/wishlistSlice'
 import { showNotification } from '@/lib/redux/features/ui/uiSlice'
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Autoplay } from "swiper/modules"
 import { useAppSelector } from '@/lib/redux/hooks'
 import "swiper/css"
 import "swiper/css/navigation"
@@ -21,7 +19,7 @@ export default function ProductInfo({ product, productDetails }) {
   // extract extra infos of product-----
 
   const varrientInfo = productDetails?.packages?.variations[0]
-  const sale_price = varrientInfo?.sale_price
+  let sale_price = varrientInfo?.sale_price
   const display_price = varrientInfo?.display_price
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
@@ -43,14 +41,35 @@ export default function ProductInfo({ product, productDetails }) {
   const stripSize = getAttributeByName(attributes, "Strip Size");
 
 
+  if (productDetails?.offer_details) {
+    let updated_price
+
+    if (productDetails?.offer_details?.discount_type == "flat") {
+      const discount = productDetails?.offer_details?.discount_value;
+      sale_price = sale_price - discount
+
+    }
+    else {
+      const dicount_percentage = Number(productDetails?.offer_details?.discount_value);
+      const discount=sale_price*dicount_percentage/100;
+      sale_price = sale_price - discount
+
+    }
+  
+
+  }
+
+    // console.log("producDetails sale_price ", sale_price)
+
+
+
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
-      id: product.id,
-      title: product.name,
-      price: product.price,
-      img: product.images[0],
-      strength: product.strength,
-      brand: product.brand
+    id: productDetails?.id,
+      title: productDetails?.name,
+      price: parseFloat(sale_price),
+      img: featured_image,
+      brand: manufacturerInfo
     }))
 
     dispatch(showNotification({
@@ -62,7 +81,7 @@ export default function ProductInfo({ product, productDetails }) {
     dispatch(addItem({
       id: productDetails?.id,
       title: productDetails?.name,
-      price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')),
+      price: parseFloat(sale_price),
       img: featured_image,
       quantity: quantity,
       // strength: product.strength,
@@ -183,9 +202,9 @@ export default function ProductInfo({ product, productDetails }) {
                     <span className="text-sm text-gray-400 line-through font-bold">
                       MRP ৳{display_price}
                     </span>
-                    <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
+                    {/* <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase mt-1">
                       {product?.discount}% OFF
-                    </span>
+                    </span> */}
                   </div>
                 )}
 
