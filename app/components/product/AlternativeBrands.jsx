@@ -32,9 +32,20 @@ async function getAlternatives(generic_name) {
   }
 }
 
+
+
+
 export default async function AlternativeBrands({ generic_name }) {
   const alternatives = await getAlternatives(generic_name)
-  console.log("alternatives", alternatives)
+
+
+
+
+  // const varrientInfo = alternatives?.packages?.variations[0]
+  // const gallery_images = varrientInfo?.gallery_images
+  // const featured_image = varrientInfo?.featured_image?.file_url || gallery_images[0]?.file_url
+
+  // console.log("alternatives", alternatives)
 
   return (
     <div className="bg-white rounded-sm border border-gray-200 flex flex-col overflow-hidden">

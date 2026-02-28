@@ -8,13 +8,12 @@ import Container from "../Container";
 import CartButton from "../CartButton";
 import Link from "next/link";
 import WishlistButton from "../WishlistButton";
-import AuthModal from "../../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/lib/redux/features/user/userSlice";
+import { openAuthModal } from "@/lib/redux/features/ui/uiSlice";
 
 export default function Navbar() {
 
-  const [openAuth, setOpenAuth] = useState(false)
   const dispatch = useDispatch();
   const { isAuthenticated, profile } = useSelector((state) => state.user);
   return (
@@ -70,7 +69,7 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              onClick={() => setOpenAuth(true)}
+              onClick={() => dispatch(openAuthModal())}
               className="text-base text-gray-700 font-semibold hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer"
             >
               Login
@@ -87,14 +86,9 @@ export default function Navbar() {
 
       </Container>
 
-      {/* Mobile Search */}
       <div className="px-4  lg:hidden mt-2">
         <SearchSuggestions isMobile />
       </div>
-      <AuthModal
-        isOpen={openAuth}
-        onClose={() => setOpenAuth(false)}
-      />
     </header>
   );
 }

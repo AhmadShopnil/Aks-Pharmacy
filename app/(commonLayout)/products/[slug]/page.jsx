@@ -31,7 +31,7 @@ export default async function ShopPage({ params }) {
 
           {/* Products */}
           <div className="col-span-12 lg:col-span-10">
-            <FilterTabs />
+            {/* <FilterTabs /> */}
             <ProductGrid categorySlug={slug} />
           </div>
         </div>

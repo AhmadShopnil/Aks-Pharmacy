@@ -77,6 +77,9 @@ export default function SmallProductCard({ item }) {
       ,
       discount: discount || 0,
       quantity: 1,
+      slug: item?.slug || "",
+      size: varrientInfo?.size || "",
+      color: varrientInfo?.color || "",
     }));
 
     // Visual feedback

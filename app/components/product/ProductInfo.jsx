@@ -51,21 +51,21 @@ export default function ProductInfo({ product, productDetails }) {
     }
     else {
       const dicount_percentage = Number(productDetails?.offer_details?.discount_value);
-      const discount=sale_price*dicount_percentage/100;
+      const discount = sale_price * dicount_percentage / 100;
       sale_price = sale_price - discount
 
     }
-  
+
 
   }
 
-    // console.log("producDetails sale_price ", sale_price)
+  // console.log("producDetails sale_price ", sale_price)
 
 
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist({
-    id: productDetails?.id,
+      id: productDetails?.id,
       title: productDetails?.name,
       price: parseFloat(sale_price),
       img: featured_image,
@@ -84,7 +84,9 @@ export default function ProductInfo({ product, productDetails }) {
       price: parseFloat(sale_price),
       img: featured_image,
       quantity: quantity,
-      // strength: product.strength,
+      slug: productDetails?.slug || "",
+      size: stripSize?.value || "",
+      color: "", // Add if color variation is implemented
       brand: manufacturerInfo
     }))
 

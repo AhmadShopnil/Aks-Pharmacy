@@ -11,13 +11,21 @@ import {
     removeItem,
     incrementQuantity,
     decrementQuantity,
+    clearCart,
 } from '@/lib/redux/features/cart/cartSlice';
-import { toggleCartDrawer, selectCartDrawerOpen } from '@/lib/redux/features/ui/uiSlice';
+import {
+    toggleCartDrawer,
+    selectCartDrawerOpen,
+    showNotification,
+    openAuthModal
+} from "../../../lib/redux/features/ui/uiSlice";
+import { useCreateOrderMutation } from '@/lib/redux/services/ordersApi';
 import {
     useGetAddressesQuery,
     useCreateAddressMutation
 } from '@/lib/redux/services/addressApi';
 import AddressListModal from './AddressListModal';
+import toast from 'react-hot-toast';
 import {
     MapPin,
     Plus,
@@ -37,11 +45,15 @@ export default function CartDrawer() {
     const cartTotal = useAppSelector(selectCartTotal);
     const cartCount = useAppSelector(selectCartCount);
     const isOpen = useAppSelector(selectCartDrawerOpen);
+    const user = useAppSelector((state) => state.user?.user);
+    const profile = useAppSelector((state) => state.user?.profile);
+    const isAuthenticated = useAppSelector((state) => state.user?.isAuthenticated);
 
     const { data: addressesResponse } = useGetAddressesQuery(undefined, {
-        skip: !isOpen
+        skip: !isOpen || !isAuthenticated
     });
     const [createAddress] = useCreateAddressMutation();
+    const [createOrder, { isLoading: isPlacingOrder }] = useCreateOrderMutation();
     const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -94,6 +106,61 @@ export default function CartDrawer() {
             }
         } catch (err) {
             console.error("Failed to add address:", err);
+        }
+    };
+
+    const handlePlaceOrder = async () => {
+        if (!selectedAddress) {
+            toast.error("Please select a shipping address");
+            return;
+        }
+
+        if (!agreeTerms) {
+            toast.error("Please agree to the terms and conditions");
+            return;
+        }
+
+        const orderPayload = {
+            shipping: {
+                name: selectedAddress?.customer_name || profile?.name || "",
+                email: profile?.email || selectedAddress?.email || "",
+                phone: selectedAddress?.customer_phone || profile?.phone || "",
+                address: selectedAddress?.detailed_address || "",
+                thana: selectedAddress?.division || "",
+                district: selectedAddress?.district || "",
+                country: "Bangladesh",
+                note: ""
+            },
+            products: cartItems.map(item => ({
+                id: item.id,
+                name: item.title,
+                price: item.price,
+                qty: item.quantity,
+                original_price: (item.price + (item.discount || 0)),
+                brand_id: "",
+                vendor_id: "",
+                category_id: "",
+                icon: item.img || "",
+                slug: item.slug || "",
+                size: item.size || "",
+                color: item.color || ""
+            })),
+            paymentMethod: "Cash on Delivery",
+            promoCode: couponCode || "",
+            promoAmount: 0
+        };
+
+        try {
+            const res = await createOrder(orderPayload).unwrap();
+            if (res) {
+                toast.success("Order placed successfully!");
+                dispatch(clearCart());
+                dispatch(toggleCartDrawer());
+                // Optional: window.location.href = '/user-dashboard' or router.push 
+            }
+        } catch (error) {
+            console.error("Failed to place order:", error);
+            toast.error(error?.data?.message || "Failed to place order. Please try again.");
         }
     };
 
@@ -177,10 +244,19 @@ export default function CartDrawer() {
 
                     {cartItems?.length > 0 && (
                         <>
-                            {/* Shipping Address */}
                             <div className="bg-white p-4 ">
                                 <h3 className="font-semibold text-gray-800 mb-2.5">Shipping Address</h3>
-                                {!selectedAddress ? (
+                                {!isAuthenticated ? (
+                                    <div className="space-y-3">
+                                        <p className="text-sm text-gray-500">You need to login to add a shipping address and place an order.</p>
+                                        <button
+                                            onClick={() => dispatch(openAuthModal())}
+                                            className="w-full bg-[#1d81b3] text-white font-medium py-2.5 rounded-sm hover:bg-[#166a94] transition"
+                                        >
+                                            Login / Register
+                                        </button>
+                                    </div>
+                                ) : !selectedAddress ? (
                                     <div className="space-y-3">
                                         <p className="text-sm text-gray-500">You havent added any address yet.</p>
                                         <button
@@ -323,21 +399,30 @@ export default function CartDrawer() {
                                 </span>
                             </label>
                         </div>
-                        <div className="bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition">
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    dispatch(openAuthModal());
+                                } else {
+                                    handlePlaceOrder();
+                                }
+                            }}
+                            disabled={isPlacingOrder}
+                            className="w-full bg-[#1d81b3] p-4 flex justify-between items-center text-white shrink-0 cursor-pointer hover:bg-[#166a94] transition disabled:opacity-50 disabled:cursor-not-allowed border-none outline-none">
                             <div className="flex items-center gap-3">
                                 <div className="bg-white/20 p-2 rounded-lg">
                                     <ShoppingCart className="w-6 h-6" />
                                 </div>
-                                <div className="flex flex-col leading-tight">
+                                <div className="flex flex-col leading-tight text-left">
                                     <span className="font-bold text-sm">{cartCount} items</span>
                                     <span className="font-bold text-lg">Tk{Math.round(finalPayable)}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 font-bold">
-                                Place Order
+                                {!isAuthenticated ? "Login to Place Order" : isPlacingOrder ? "Placing..." : "Place Order"}
                                 <ChevronRight className="w-5 h-5" />
                             </div>
-                        </div>
+                        </button>
                     </div>
                 )}
             </div>
