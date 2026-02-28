@@ -1,4 +1,4 @@
-import { getAllOffers, getCategories, getSliders } from "@/lib/fetchApis";
+import { getAllOffers, getBrands, getCategories, getSliders } from "@/lib/fetchApis";
 import Container from "../components/Common/Container";
 import BestSelling from "../components/Home/BestSelling/BestSelling";
 import HeroWithMegaMenu from "../components/Home/HeroWithMegaMenu/HeroWithMegaMenu";
@@ -15,9 +15,10 @@ export default async function Home() {
   const heroSliders = await getSliders();
   const productCategories = await getCategories("product_categories") || [];
   const offersSlider = await getAllOffers()
+  const brands = await getBrands()
 
 
-  // console.log("offersSlider", offersSlider)
+  // console.log("brands", brands)
   const filteredOffers = offersSlider?.filter((item) => item?.is_special === true);
 
 
@@ -31,7 +32,7 @@ export default async function Home() {
         <FeaturedProducts />
         <Recommanded />
         <WeaklyDeals />
-        <BrandSlider />
+        <BrandSlider brands={brands} />
       </Container>
     </div>
   );

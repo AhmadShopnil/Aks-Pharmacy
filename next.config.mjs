@@ -16,12 +16,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "example.com",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
     ],
   },
 };
 
 export default nextConfig;
-
 
 
 

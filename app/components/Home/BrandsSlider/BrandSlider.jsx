@@ -11,18 +11,47 @@ import "swiper/css/navigation";
 
 
 // data/brands.js
-export const brands = [
-    { id: 1, name: "Shwapno", image: "/images/items/apple-icon.png" },
-    { id: 2, name: "ACI", image: "/images/items/28.webp" },
-    { id: 3, name: "Unilever", image: "/images/items/apple-icon.png" },
-    { id: 4, name: "Reckitt", image: "/images/items/9.jpg" },
-    { id: 5, name: "Nestle", image: "/images/items/apple-icon.png" },
-    { id: 6, name: "Marico", image: "/images/items/apple-icon.png" },
+// export const brandsData = [
+//     { id: 1, name: "Shwapno", image: "/images/items/apple-icon.png" },
+//     { id: 2, name: "ACI", image: "/images/items/28.webp" },
+//     { id: 3, name: "Unilever", image: "/images/items/apple-icon.png" },
+//     { id: 4, name: "Reckitt", image: "/images/items/9.jpg" },
+//     { id: 5, name: "Nestle", image: "/images/items/apple-icon.png" },
+//     { id: 6, name: "Marico", image: "/images/items/apple-icon.png" },
+// ];
+
+const brandsData = [
+    {
+        id: 1,
+        name: "ACI Pharma",
+        image: "/images/brands/aci.png"
+    },
+    {
+        id: 2,
+        name: "Beximco Pharma",
+        image: "/images/brands/b.png"
+    },
+    {
+        id: 3,
+        name: "Mamaearth",
+        image: "/images/brands/m.png"
+    },
+
+    {
+        id: 5,
+        name: "Renata Limited",
+        image: "/images/brands/retina.png"
+    },
+    {
+        id: 6,
+        name: "	Nova Labs",
+        image: "/images/brands/nova.png"
+    }
 ];
 
 
+export default function BrandSlider({ brands }) {
 
-export default function BrandSlider() {
     return (
         <section className="w-full py-6 md:py-10 ">
             <div className="max-w-7xl mx-auto px-4">
@@ -46,7 +75,7 @@ export default function BrandSlider() {
                         spaceBetween={20}
                         breakpoints={{
                             0: {
-                                slidesPerView: 2, // minimum 2 on mobile ✅
+                                slidesPerView: 2,
                             },
                             640: {
                                 slidesPerView: 3,
@@ -55,23 +84,23 @@ export default function BrandSlider() {
                                 slidesPerView: 4,
                             },
                             1024: {
-                                slidesPerView: 6,
+                                slidesPerView: 5,
                             },
                         }}
                     >
-                        {brands.map((brand) => (
+                        {brandsData.map((brand) => (
                             <SwiperSlide key={brand.id}>
-                                <div className="h-auto  flex flex-col items-center justify-center bg-gray-50 rounded-xl border-b-2 hover:shadow-md
+                                <div className="h-[200px] flex flex-col items-center justify-center bg-gray-50 rounded-xl border-b-2 hover:shadow-md
                                  transition">
                                     <Image
                                         src={brand.image}
                                         alt={brand.name}
                                         width={240}
                                         height={70}
-                                        className="object-contain  "
+                                        className="object-contain h-[150px] "
                                         loading="lazy"
                                     />
-                                    <span className="bg-gray-200 px-2 md:px-10 py-1 rounded-sm mt-2 font-semibold text-xs md:sm
+                                    <span className="bg-gray-200 px-2 md:px-4 py-1 rounded-sm mt-2 font-semibold text-xs md:sm
                                     lg:text-base
                                     ">{brand?.name}</span>
                                 </div>
