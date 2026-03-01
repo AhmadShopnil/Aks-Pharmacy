@@ -75,7 +75,7 @@ export default function CartDrawer() {
     const mrp = cartTotal;
     const discount = cartTotal * 1.2 / 100;
     // const finalPayable = cartTotal - discount;
-    const finalPayable = cartTotal;
+    const finalPayable = cartTotal.toFixed();
 
 
 

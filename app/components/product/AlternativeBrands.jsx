@@ -52,18 +52,20 @@ export default async function AlternativeBrands({ generic_name }) {
 
       {/* Header */}
       <div className="px-4 mt-3 border-b border-gray-50 flex items-center justify-between bg-gray-50/50 ">
-        <h3 className="font-semibold text-gray-800 text-sm md:text-lg">
+        <h3 className="font-semibold text-[#8CC640] text-sm md:text-lg">
           Alternatives for {generic_name}
         </h3>
+
+      
+      </div>
         {generic_name && (
           <Link
             href={`/generic/${encodeURIComponent(generic_name)}`}
-            className="text-sm md:text-base font-semibold text-[#0784BB] hover:underline"
+            className="text-sm md:text-base font-semibold text-[#0784BB] hover:underline text-end pr-5 mt-2"
           >
             View All
           </Link>
         )}
-      </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto max-h-[500px] scrollbar-hide px-4 py-1">
@@ -129,7 +131,7 @@ export default async function AlternativeBrands({ generic_name }) {
       </div>
 
       {/* App Promo */}
-      <div className="p-4 bg-[#0784BB] text-white">
+      {/* <div className="p-4 bg-[#0784BB] text-white">
         <div className="flex items-center gap-3">
           <div className="bg-white/10 p-2 rounded-md backdrop-blur-md">
             <Smartphone size={18} />
@@ -143,7 +145,8 @@ export default async function AlternativeBrands({ generic_name }) {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
+
     </div>
   )
 }

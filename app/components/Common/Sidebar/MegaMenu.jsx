@@ -225,7 +225,7 @@ export default function MegaMenu({ formattedCategories }) {
 
 
                     {/* LEVEL 1 */}
-                    <ul className="divide-y h-full overflow-y-auto">
+                    <ul className="divide-y h-full overflow-y-auto bg-[#f1f1f1]">
                         {formattedCategories?.map((item, i) => {
                             const Icon = menuIcons[item.name] || FaCapsules;
 
@@ -240,7 +240,7 @@ export default function MegaMenu({ formattedCategories }) {
                                hover:text-[#0784BB] cursor-pointer transition-colors ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
                                 >
 
-                                    <Link href={`/products/${item?.slug}`} className="flex items-center justify-between px-4 py-3">
+                                    <Link href={`/products/${item?.slug}`} className="flex items-center justify-between px-4 py-2.5">
                                         <div className="flex items-center gap-3">
                                             <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
                                             <span>{item.name}</span>
@@ -258,8 +258,8 @@ export default function MegaMenu({ formattedCategories }) {
                     <AnimatePresence>
                         {level1?.child?.length > 0 && (
                             <motion.div
-                                className="absolute top-0 left-full h-full bg-white shadow-sm
-                                    border-l z-30 min-w-[256px] flex flex-col"
+                                className="absolute top-0 left-full h-full bg-white shadow-2xl
+                                    border-l  z-30 min-w-[256px] flex flex-col"
                                 variants={drawerVariants}
                                 initial="hidden"
                                 animate="visible"
