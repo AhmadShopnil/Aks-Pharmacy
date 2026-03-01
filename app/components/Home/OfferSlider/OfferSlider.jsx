@@ -53,7 +53,7 @@ export default function OfferSlider({ offersSlider }) {
         >
           {offersSlider?.map((item, index) => (
             <SwiperSlide key={index}>
-              <Link href={`/offers/${item?.slug}`} className="block overflow-hidden rounded-md transition-transform hover:scale-[1.02]">
+              <Link href={`/offers/${item?.slug}`} className="block overflow-hidden transition-transform hover:scale-[1.02]">
                 <Image
                   src={item?.image}
                   alt={item?.name || "Discount Item"}

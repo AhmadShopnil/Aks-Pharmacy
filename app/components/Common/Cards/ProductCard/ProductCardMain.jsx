@@ -28,8 +28,6 @@ export default function ProductCardMain({ item }) {
   //  console.log("item in product card ", item)
 
   if (item?.offer_details) {
-
-
     if (item?.offer_details?.discount_type == "flat") {
       const discount = item?.offer_details?.discount_value;
       sale_price = sale_price - discount
@@ -97,13 +95,13 @@ export default function ProductCardMain({ item }) {
       {/* Image */}
       <Link
         href={`/product/${item?.slug}`}
-        className="relative w-full aspect-square "
+        className="relative w-full aspect-square  "
       >
         <Image
           src={featured_image || "/images/placeholder-product.webp"}
           alt={item?.name || "product image"}
           fill
-          className="object-cover"
+          className="object-cover "
         />
       </Link>
       {/* Wishlist Button */}
@@ -151,7 +149,7 @@ export default function ProductCardMain({ item }) {
             disabled={isAdding}
             className={`px-4 py-1.5 md:px-8 md:py-2 text-xs sm:text-sm md:text-base rounded-full font-semibold transition cursor-pointer ${isAdding
               ? 'bg-green-600 text-white'
-              : 'bg-[#0784BB] text-white hover:bg-[#8CC540]'
+              : 'bg-[#8CC540] text-white hover:bg-[#8CC540]'
               }`}
           >
             {isAdding ? '✓ Added!' : cartItem ? `+ Add More (${cartItem.quantity})` : '+ Add to cart'}

@@ -76,9 +76,9 @@ export default function ProductGallery({ gallery_images = [] }) {
           onMouseEnter={() => setIsZooming(true)}
           onMouseLeave={() => setIsZooming(false)}
           onMouseMove={handleMouseMove}
-          className="relative flex-1 flex items-center justify-center overflow-hidden rounded-md bg-white h-[350px] md:h-[450px]"
+          className="relative flex-1 flex items-center justify-center overflow-hidden rounded-md bg-white  w-full aspect-square"
         >
-          <Image
+          {/* <Image
             src={activeImage}
             alt="Product"
             width={620}
@@ -86,7 +86,21 @@ export default function ProductGallery({ gallery_images = [] }) {
             className={`transition-all duration-500 ${
               isZooming ? "opacity-0" : "opacity-100"
             }`}
+          /> */}
+
+            <Image
+            src={activeImage}
+            alt="Product"
+           fill
+            className={`object-cover  transition-all duration-500 ${
+              isZooming ? "opacity-0" : "opacity-100"
+            }`}
           />
+
+
+      
+
+
 
           {/* Zoom Layer */}
           {isZooming && (
@@ -112,12 +126,12 @@ export default function ProductGallery({ gallery_images = [] }) {
           </button>
 
           {/* Badges */}
-          <div className="absolute top-3 left-3">
+          {/* <div className="absolute top-3 left-3">
             <div className="bg-[#0784BB] text-white px-3 py-1.5 rounded-md flex items-center gap-2 text-[10px] font-bold shadow-md">
               <Clock size={12} className="animate-pulse" />
               12-24 HRS DELIVERY
             </div>
-          </div>
+          </div> */}
 
           <button className="absolute top-3 right-3 p-2.5 bg-white rounded-md shadow-md text-gray-300 hover:text-red-500">
             <Heart size={20} />

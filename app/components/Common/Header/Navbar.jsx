@@ -39,7 +39,7 @@ export default function Navbar() {
             <span className="text-sm ">Delivery to</span>
             <div className="flex items-center gap-1 text-base  ">
               Bangladesh
-              <ChevronDown className="w-4 h-4 text-gray-500" />
+              {/* <ChevronDown className="w-4 h-4 text-gray-500" /> */}
             </div>
           </div>
         </div>

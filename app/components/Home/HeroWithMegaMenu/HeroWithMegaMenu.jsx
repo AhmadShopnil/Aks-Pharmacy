@@ -261,12 +261,12 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                   setLevel2(null);
                 }}
                 className={`
-                           hover:text-[#0784BB] hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
+                           hover:text-[#0784BB] bg-[#f1f1f1]  hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
               >
 
                 <Link
                   href={`/products/${item?.slug}`}
-                  className="flex items-center justify-between px-4 py-3"
+                  className="flex items-center justify-between px-4 py-2.5"
                 >
                   <div className="flex items-center gap-3">
                     <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
