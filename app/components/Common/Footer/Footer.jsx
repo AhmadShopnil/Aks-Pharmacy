@@ -9,7 +9,8 @@ import {
   faTwitter,
   faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
-import { getCategories } from "@/lib/fetchApis";
+import { getCategories, getSettings } from "@/lib/fetchApis";
+import { getMediaLinkByMetaName, getMetaValueByMetaName } from "@/helper/metaHelpers";
 
 const footerData = [
   // {
@@ -57,20 +58,33 @@ const footerData = [
   }
 ];
 
-const socialLinks = [
-  { icon: faFacebook, color: "hover:text-[#1877F2]", href: "https://www.facebook.com" },
-  { icon: faInstagram, color: "hover:text-[#E4405F]", href: "https://www.instagram.com" },
-  { icon: faYoutube, color: "hover:text-[#FF0000]", href: "https://www.youtube.com" },
-  { icon: faTwitter, color: "hover:text-[#1DA1F2]", href: "https://www.twitter.com" },
-  { icon: faPinterest, color: "hover:text-[#BD081C]", href: "https://www.pinterest.com" },
-];
+
 
 export default async function Footer() {
+  const settings = await getSettings()
+
+    const logo = getMediaLinkByMetaName(settings, "site_logoimg_id");
+    const email = getMetaValueByMetaName(settings, "company_email") || "nfo@banglastar.com";
+    const phone = getMetaValueByMetaName(settings, "company_phone");
+    const phone_2 = getMetaValueByMetaName(settings, "phone_2");
+    const facebook_url = getMetaValueByMetaName(settings, "facebook_url") || "#";
+    const instagram_url = getMetaValueByMetaName(settings, "instagram_url") || "#";
+    const twitter_url = getMetaValueByMetaName(settings, "twitter_url") || "#";
+    const youtube_url = getMetaValueByMetaName(settings, "youtube_url") || "#";
+    const footer_content = getMetaValueByMetaName(settings, "footer_content") || "#"
+    const bottom_footer_content = getMetaValueByMetaName(settings, "bottom_footer_content");
+
 
 
   const productCategories = await getCategories("product_categories") || [];
 
-
+const socialLinks = [
+  { icon: faFacebook, color: "hover:text-[#1877F2]", href: facebook_url },
+  { icon: faInstagram, color: "hover:text-[#E4405F]", href: instagram_url },
+  { icon: faYoutube, color: "hover:text-[#FF0000]", href: youtube_url },
+  { icon: faTwitter, color: "hover:text-[#1DA1F2]", href: twitter_url},
+  // { icon: faPinterest, color: "hover:text-[#BD081C]", href: "https://www.pinterest.com" },
+];
 
   return (
     <footer className="bg-[#0882BB] text-white px-2 md:px-0">
@@ -105,13 +119,14 @@ export default async function Footer() {
                     key={idx}
                     href={social.href}
                     target="_blank"
-                    className={`${social.color} text-white transition`}
+                    className={` text-white transition`}
                   >
                     <FontAwesomeIcon icon={social.icon} />
                   </Link>
                 ))}
               </div>
             </div>
+
           </div>
 
 
