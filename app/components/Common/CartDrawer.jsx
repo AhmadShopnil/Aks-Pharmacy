@@ -60,6 +60,7 @@ export default function CartDrawer() {
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [couponCode, setCouponCode] = useState("");
     const [agreeTerms, setAgreeTerms] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
 
     React.useEffect(() => {
         if (!selectedAddressId && addresses.length > 0) {
@@ -145,12 +146,13 @@ export default function CartDrawer() {
                 size: item.size || "",
                 color: item.color || ""
             })),
-            paymentMethod: "Cash on Delivery",
+            paymentMethod: paymentMethod,
             promoCode: couponCode || "",
             promoAmount: 0
         };
 
         try {
+            console.log("orderPayload", orderPayload)
             const res = await createOrder(orderPayload).unwrap();
             if (res) {
                 toast.success("Order placed successfully!");
@@ -320,6 +322,46 @@ export default function CartDrawer() {
                                         <p>You will receive <span className="font-bold">Tk50</span> cashback after delivery.</p>
                                     </div>
                                 </div> */}
+                            </div>
+
+                            {/* Payment Method */}
+                            <div className="bg-white p-4 mb-2">
+                                <h3 className="font-semibold text-gray-800 mb-2.5">Payment Method</h3>
+                                <div className="space-y-2">
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="paymentMethod"
+                                            value="cash_on_delivery"
+                                            checked={paymentMethod === "cash_on_delivery"}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className="w-4 h-4 text-[#1d81b3] focus:ring-[#1d81b3]"
+                                        />
+                                        <span className="text-sm text-gray-700">Cash On Delivery</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="paymentMethod"
+                                            value="debitcredit"
+                                            checked={paymentMethod === "debitcredit"}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className="w-4 h-4 text-[#1d81b3] focus:ring-[#1d81b3]"
+                                        />
+                                        <span className="text-sm text-gray-700">Debit/Credit</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="paymentMethod"
+                                            value="mobilebanking"
+                                            checked={paymentMethod === "mobilebanking"}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className="w-4 h-4 text-[#1d81b3] focus:ring-[#1d81b3]"
+                                        />
+                                        <span className="text-sm text-gray-700">Mobile Banking(SSL)</span>
+                                    </label>
+                                </div>
                             </div>
 
                             {/* Bill Details */}

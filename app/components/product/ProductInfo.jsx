@@ -11,20 +11,20 @@ import "swiper/css/navigation"
 import { getAttributeByName, getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
 import Link from 'next/link'
 
-export default function ProductInfo({ product, productDetails }) {
+export default function ProductInfo({ product, productDetails, selectedVariation, onVariationChange }) {
   const [quantity, setQuantity] = useState(1)
+  const variations = productDetails?.packages?.variations || []
   const dispatch = useAppDispatch()
   const isInWishlist = useAppSelector(selectIsInWishlist(product?.id))
 
-  // extract extra infos of product-----
-
-  const varrientInfo = productDetails?.packages?.variations[0]
+  // extract extra infos of product — use selectedVariation prop (falls back to variations[0])
+  const varrientInfo = selectedVariation || productDetails?.packages?.variations?.[0]
   let sale_price = varrientInfo?.sale_price
   const display_price = varrientInfo?.display_price
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
-  const gallery_images = varrientInfo?.gallery_images
+  const gallery_images = varrientInfo?.gallery_images || []
   const featured_image = varrientInfo?.featured_image?.file_url || gallery_images[0]?.file_url
 
   const sale = Number(sale_price);
@@ -37,7 +37,7 @@ export default function ProductInfo({ product, productDetails }) {
   const manufacturerInfo = getMetaValueFromExtra_Fields(productDetails, "manufacturer");
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
   const generic_slug = productDetails?.packages?.medicine_details?.generic_slug
-  const attributes = productDetails?.packages?.variations[0]?.attributes
+  const attributes = varrientInfo?.attributes
   const stripSize = getAttributeByName(attributes, "Strip Size");
 
 
@@ -164,22 +164,64 @@ export default function ProductInfo({ product, productDetails }) {
         </div>
 
         {/* Company & Generic Details */}
-        <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
-          <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
-          {generic_name ? (
-            <Link
-              // href={`/generic/${generic_slug}`} 
-              href={`/generic/${encodeURIComponent(generic_name)}`}
-              className="text-[#8CC540] font-bold text-base hover:underline">
-              {generic_name}
-            </Link>
-          ) : (
-            <span className="text-gray-400 italic text-sm">Not specified</span>
-          )}
-        </div>
+        {
+          generic_name && <div className="py-3 border-b border-gray-200 flex flex-col gap-1">
+            <span className="text-xs uppercase font-black text-gray-400">Generic Name</span>
+            {generic_name ? (
+              <Link
+                // href={`/generic/${generic_slug}`} 
+                href={`/generic/${encodeURIComponent(generic_name)}`}
+                className="text-[#8CC540] font-bold text-base hover:underline">
+                {generic_name}
+              </Link>
+            ) : (
+              <span className="text-gray-400 italic text-sm">Not specified</span>
+            )}
+          </div>
+        }
+
 
         {/* Purchase Options */}
-        <div className="pt-6 flex flex-col gap-6">
+        <div className="pt-4 flex flex-col gap-5">
+
+          {/* Variation Selector */}
+          {variations.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <span className="text-xs uppercase font-black text-gray-400 tracking-wide">Select Variant</span>
+              <div className="flex flex-wrap gap-2">
+                {variations.map((v, index) => {
+                  const isSelected = (selectedVariation?.id ?? variations[0]?.id) === v.id
+                  const varImg = v.featured_image?.file_url || v.gallery_images?.[0]?.file_url
+                  const varName = v.name || v.sku || `Variant ${index + 1}`
+                  const varPrice = v.sale_price || v.display_price
+
+                  return (
+                    <button
+                      key={v.id ?? index}
+                      onClick={() => onVariationChange?.(v)}
+                      title={varName}
+                      className={`flex flex-col items-center gap-1 px-3 py-2 rounded-md border-2 text-xs font-bold transition-all duration-200 ${isSelected
+                          ? 'border-[#0784BB] bg-[#0784BB]/5 text-[#0784BB] shadow-md scale-[1.03]'
+                          : 'border-gray-200 bg-white text-gray-500 hover:border-[#0784BB]/40 hover:bg-blue-50'
+                        }`}
+                    >
+                      {varImg && (
+                        <img
+                          src={varImg}
+                          alt={varName}
+                          className="w-10 h-10 object-contain rounded"
+                        />
+                      )}
+                      <span className="max-w-[80px] truncate">{varName}</span>
+                      <span className={`text-[10px] font-semibold ${isSelected ? 'text-[#0784BB]' : 'text-gray-400'}`}>
+                        ৳{varPrice}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
 
           {stripSize && (
             <div className="flex flex-col gap-1">

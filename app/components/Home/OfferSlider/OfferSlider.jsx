@@ -15,11 +15,11 @@ export default function OfferSlider({ offersSlider }) {
 
 
   return (
-    <div className="w-full py-2 md:py-3 lg:py-4 md:mt-8 ">
+    <div className="w-full py-2 md:py-3 lg:py-4 md:mt-8  ">
       {/* <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-[#8CC540]  mb-3 md: mb-4 uppercase">
         Especially For You
       </h3> */}
-      <div className="relative w-full">
+      <div className="relative w-full  ">
 
         {/* Custom Navigation Buttons */}
         <button
@@ -59,7 +59,7 @@ export default function OfferSlider({ offersSlider }) {
                   alt={item?.name || "Discount Item"}
                   width={500}
                   height={250}
-                  className="w-full lg:w-[400px] h-auto object-cover"
+                  className="w-full  h-auto object-cover bg-blue-500"
                 />
               </Link>
             </SwiperSlide>

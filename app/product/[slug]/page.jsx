@@ -1,18 +1,9 @@
-import AlternativeBrands from "@/app/components/product/AlternativeBrands"
-import ProductGallery from "@/app/components/product/ProductGallery"
-import ProductInfo from "@/app/components/product/ProductInfo"
-import ProductOverview from "@/app/components/product/ProductOverview"
-import ProductAttributes from "@/app/components/product/ProductAttributes"
+import ProductDetailsClient from "@/app/components/product/ProductDetailsClient"
 import { ChevronRight, Home } from 'lucide-react'
-import RatingAndReviews from "@/app/components/ProductDetails/RatingAndReviews"
 import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import Link from "next/link"
-import ProductQA from "@/app/components/ProductDetails/ProductQA"
 import { getSingleProduct, getSingleProductBreadCrumb } from "@/lib/fetchApis"
-import { getAttributeByName, getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
-
-
-
+import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
 
 
 
@@ -86,8 +77,6 @@ export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
   const productDetails = await getSingleProduct(slug);
   const productBreadCrumb = await getSingleProductBreadCrumb(slug);
-
-
   const filterBreadCrumb = productBreadCrumb?.filter((item) => item?.type == "category");
 
 
@@ -226,30 +215,7 @@ export default async function ProductDetailsPage({ params }) {
     }
   }
 
-
-
-  // extract extra infos of product-----
-
-  const varrientInfo = productDetails?.packages?.variations[0]
-  const sale_price = varrientInfo?.sale_price
-  const display_price = varrientInfo?.display_price
-  const stock_quantity = varrientInfo?.stock_quantity
-  const stock_status = varrientInfo?.stock_status
-  const is_on_sale = varrientInfo?.is_on_sale
-  const featured_image = varrientInfo?.featured_image
-  const gallery_images = varrientInfo?.gallery_images
-  let all_images = [...gallery_images]
   const generic_name = getMetaValueFromExtra_Fields(productDetails, "generic_name");
-
-  const attributes = productDetails?.packages?.variations[0]?.attributes
-  const stripSize = getAttributeByName(attributes, "Strip Size");
-
-
-  if (featured_image) {
-    all_images = [featured_image, ...all_images]
-  }
-
-  // console.log("productBreadCrumb", productBreadCrumb)
 
 
   return (
@@ -292,38 +258,13 @@ export default async function ProductDetailsPage({ params }) {
         </nav> */}
 
 
-        {/* Main Grid Layout */}
+        {/* Main Grid Layout — state managed inside ProductDetailsClient */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-
-          {/* LEFT CONTENT AREA */}
-          <div className="lg:col-span-7 flex flex-col gap-3 md:gap-4">
-            <div className="w-full ">
-              <ProductGallery images={product.images} gallery_images={all_images} />
-            </div>
-
-            {/* Mobile Info */}
-            <div className="lg:hidden">
-              <ProductInfo product={product} productDetails={productDetails} />
-            </div>
-
-            <ProductOverview productDetails={productDetails} />
-
-            <ProductAttributes
-              attributes={attributes}
-              categorySchema={product.categorySchema}
-            />
-          </div>
-
-          {/* RIGHT SIDEBAR AREA */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
-            <div className="hidden lg:block sticky ">
-              <div className="flex flex-col gap-2">
-                <ProductInfo product={product} productDetails={productDetails} />
-                <AlternativeBrands generic_name={generic_name} />
-              </div>
-            </div>
-          </div>
-
+          <ProductDetailsClient
+            product={product}
+            productDetails={productDetails}
+            generic_name={generic_name}
+          />
         </div>
 
         <div className="pt-0  lg:pt-4 space-y-3 md:space-y-4  ">
