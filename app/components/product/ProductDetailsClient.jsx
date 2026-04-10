@@ -6,11 +6,7 @@ import AlternativeBrands from './AlternativeBrands'
 import ProductOverview from './ProductOverview'
 import ProductAttributes from './ProductAttributes'
 
-export default function ProductDetailsClient({
-  product,
-  productDetails,
-  generic_name,
-}) {
+export default function ProductDetailsClient({ productDetails, generic_name }) {
   const variations = productDetails?.packages?.variations || []
   const [selectedVariation, setSelectedVariation] = useState(variations[0] || null)
 
@@ -22,19 +18,19 @@ export default function ProductDetailsClient({
     return featured ? [featured, ...gallery] : gallery
   }, [selectedVariation])
 
+  // Attributes come from the selected variation (real API data)
   const attributes = selectedVariation?.attributes
 
   return (
     <>
-      {/* ─── LEFT COLUMN ─── */}
+      {/* LEFT COLUMN */}
       <div className="lg:col-span-7 flex flex-col gap-3 md:gap-4">
-        {/* Gallery — reacts to selectedVariation */}
+        {/* Gallery reacts to selectedVariation */}
         <ProductGallery gallery_images={all_images} />
 
         {/* Mobile ProductInfo (hidden on desktop) */}
         <div className="lg:hidden">
           <ProductInfo
-            product={product}
             productDetails={productDetails}
             selectedVariation={selectedVariation}
             onVariationChange={setSelectedVariation}
@@ -43,18 +39,14 @@ export default function ProductDetailsClient({
 
         <ProductOverview productDetails={productDetails} />
 
-        <ProductAttributes
-          attributes={attributes}
-          categorySchema={product?.categorySchema}
-        />
+        <ProductAttributes attributes={attributes} />
       </div>
 
-      {/* ─── RIGHT SIDEBAR ─── */}
+      {/* RIGHT SIDEBAR */}
       <div className="lg:col-span-5 flex flex-col gap-4">
         <div className="hidden lg:flex flex-col gap-2 sticky top-4">
-          {/* Desktop ProductInfo — shares the same selectedVariation state */}
+          {/* Desktop ProductInfo shares the same selectedVariation state */}
           <ProductInfo
-            product={product}
             productDetails={productDetails}
             selectedVariation={selectedVariation}
             onVariationChange={setSelectedVariation}

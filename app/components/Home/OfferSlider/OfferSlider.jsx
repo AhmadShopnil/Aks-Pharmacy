@@ -59,7 +59,7 @@ export default function OfferSlider({ offersSlider }) {
                   alt={item?.name || "Discount Item"}
                   width={500}
                   height={250}
-                  className="w-full  h-auto object-cover bg-blue-500"
+                  className="w-full  h-auto object-cover "
                 />
               </Link>
             </SwiperSlide>

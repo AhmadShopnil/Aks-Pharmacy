@@ -333,7 +333,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 {level2?.child?.map((item) => (
                   <li
                     key={item?.id || item?.name}
-                    className="px-4 py-3 hover:bg-[#0784BB]
+                    className="px-4 py-2 hover:bg-[#0784BB]
                                hover:text-white cursor-pointer
                                transition-colors"
                   >

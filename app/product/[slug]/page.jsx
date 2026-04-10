@@ -261,7 +261,7 @@ export default async function ProductDetailsPage({ params }) {
         {/* Main Grid Layout — state managed inside ProductDetailsClient */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           <ProductDetailsClient
-            product={product}
+            // product={product}
             productDetails={productDetails}
             generic_name={generic_name}
           />

@@ -11,11 +11,11 @@ import "swiper/css/navigation"
 import { getAttributeByName, getMetaValueFromExtra_Fields } from '@/helper/metaHelpers'
 import Link from 'next/link'
 
-export default function ProductInfo({ product, productDetails, selectedVariation, onVariationChange }) {
+export default function ProductInfo({ productDetails, selectedVariation, onVariationChange }) {
   const [quantity, setQuantity] = useState(1)
   const variations = productDetails?.packages?.variations || []
   const dispatch = useAppDispatch()
-  const isInWishlist = useAppSelector(selectIsInWishlist(product?.id))
+  const isInWishlist = useAppSelector(selectIsInWishlist(productDetails?.id))
 
   // extract extra infos of product — use selectedVariation prop (falls back to variations[0])
   const varrientInfo = selectedVariation || productDetails?.packages?.variations?.[0]
@@ -73,7 +73,7 @@ export default function ProductInfo({ product, productDetails, selectedVariation
     }))
 
     dispatch(showNotification({
-      message: `${product.name} ${isInWishlist ? 'removed from' : 'added to'} wishlist!`,
+      message: `${productDetails?.name} ${isInWishlist ? 'removed from' : 'added to'} wishlist!`,
       type: 'success'
     }))
   }
@@ -91,7 +91,7 @@ export default function ProductInfo({ product, productDetails, selectedVariation
     }))
 
     dispatch(showNotification({
-      message: `${product.name} added to cart!`,
+      message: `${productDetails?.name} added to cart!`,
       type: 'success'
     }))
   }
@@ -201,8 +201,8 @@ export default function ProductInfo({ product, productDetails, selectedVariation
                       onClick={() => onVariationChange?.(v)}
                       title={varName}
                       className={`flex flex-col items-center gap-1 px-3 py-2 rounded-md border-2 text-xs font-bold transition-all duration-200 ${isSelected
-                          ? 'border-[#0784BB] bg-[#0784BB]/5 text-[#0784BB] shadow-md scale-[1.03]'
-                          : 'border-gray-200 bg-white text-gray-500 hover:border-[#0784BB]/40 hover:bg-blue-50'
+                        ? 'border-[#0784BB] bg-[#0784BB]/5 text-[#0784BB] shadow-md scale-[1.03]'
+                        : 'border-gray-200 bg-white text-gray-500 hover:border-[#0784BB]/40 hover:bg-blue-50'
                         }`}
                     >
                       {varImg && (

@@ -93,8 +93,8 @@ export default function SimilarProducts({ productDetails }) {
           }}
           className="py-2 px-1" // Add slight padding to prevent box-shadow clipping
         >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="!w-[160px] md:!w-[200px] h-auto flex">
+          {products?.map((product) => (
+            <SwiperSlide key={product.id} className="!w-[160px] md:!w-[220px] h-auto flex">
               <SmallProductCard item={product} />
             </SwiperSlide>
           ))}
