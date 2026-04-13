@@ -75,10 +75,10 @@ const TrackOrder = () => {
                                 <p className="text-sm text-zinc-500 uppercase tracking-wider font-semibold">Order ID</p>
                                 <h3 className="text-xl font-bold">{trackingData.id}</h3>
                             </div>
-                            <div className="text-right">
+                            {/* <div className="text-right">
                                 <p className="text-sm text-zinc-500 uppercase tracking-wider font-semibold">Estimated Delivery</p>
                                 <h3 className="text-xl font-bold text-blue-600">{trackingData.estimatedDelivery}</h3>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="relative">

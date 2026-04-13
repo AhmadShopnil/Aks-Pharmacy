@@ -5,7 +5,9 @@ import ProductGridViewMain from '../ProductSections/ProductGridViewMain';
 
 
 export default async function FeaturedProducts() {
-  const products = await getFeaturedProducts();
+
+  const per_page=18
+  const products = await getFeaturedProducts(per_page);
 
 
 

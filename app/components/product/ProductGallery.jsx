@@ -55,7 +55,7 @@ export default function ProductGallery({ gallery_images = [] }) {
 
         {/* Desktop Thumbnails */}
         <div className="hidden md:flex flex-col gap-3 min-w-[70px]">
-          {images.map((img, i) => (
+          {images?.map((img, i) => (
             <button
               key={i}
               onMouseEnter={() => selectImage(i)}
@@ -140,7 +140,7 @@ export default function ProductGallery({ gallery_images = [] }) {
 
         {/* Mobile Thumbnails */}
         <div className="flex md:hidden gap-3 overflow-x-auto pb-2">
-          {images.map((img, i) => (
+          {images?.map((img, i) => (
             <button
               key={i}
               onClick={() => selectImage(i)}
