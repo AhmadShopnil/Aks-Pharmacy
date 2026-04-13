@@ -1,10 +1,18 @@
 'use client';
 
+import { useState } from "react";
 import ProductCardMain from "../Common/Cards/ProductCard/ProductCardMain";
 import { useGetProductsByCategoryQuery } from "@/lib/redux/services/productsApi";
 
 export default function ProductGrid({ categorySlug }) {
-  const { data, isLoading, isError } = useGetProductsByCategoryQuery(categorySlug?.toLowerCase());
+  const [perPage, setPerPage] = useState(50);
+  // const { data, isLoading, isError } = useGetProductsByCategoryQuery(categorySlug?.toLowerCase());
+
+  const { data, isLoading, isError } = useGetProductsByCategoryQuery({
+    category: categorySlug?.toLowerCase(),
+    per_page: perPage,
+    page: 1,
+  });
 
   if (isLoading) {
     return (
@@ -35,10 +43,23 @@ export default function ProductGrid({ categorySlug }) {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {products.map((item) => (
-        <ProductCardMain key={item?.id} item={item} />
-      ))}
+    <div>
+      <div className="flex justify-end mb-4">
+        <select
+          value={perPage}
+          onChange={(e) => setPerPage(Number(e.target.value))}
+          className="border px-3 py-2 rounded-md"
+        >
+          <option value={50}>Show 50</option>
+          <option value={100}>Show 100</option>
+          <option value={150}>Show 150</option>
+        </select>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {products.map((item) => (
+          <ProductCardMain key={item?.id} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

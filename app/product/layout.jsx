@@ -26,8 +26,11 @@ export default async function ProductDetailsLayout({ children }) {
 
         <div className="w-full flex  ">
           {/* Sidebar */}
-          <div className="min-h-full lg:w-[20%]">
-            <div className="hidden lg:block fixed h-full w-[18%] border-r z-20 ">
+          <div className="min-h-full lg:w-[20%] bg-[#f1f1f1]">
+            <div 
+            className="hidden lg:block border-r z-20 h-full"
+            // className="hidden lg:block fixed h-full w-[18%] border-r z-20 "
+            >
               <MegaMenu formattedCategories={formattedCategories} />
             </div>
             {/* On mobile, MegaMenu handles its own trigger */}
@@ -39,11 +42,15 @@ export default async function ProductDetailsLayout({ children }) {
           {/* Main Content */}
           <div className="w-full lg:w-[80%] min-h-screen overflow-y-auto  ">
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
 
       </Container>
+      <div className="z-[60]">
+        <Footer />
+      </div>
+
     </div>
   );
 }

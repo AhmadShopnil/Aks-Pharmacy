@@ -13,8 +13,8 @@ export default function ProductDetailsClient({ productDetails, generic_name }) {
   // Build gallery images from selected variation
   const all_images = useMemo(() => {
     if (!selectedVariation) return []
-    const featured = selectedVariation.featured_image
-    const gallery = selectedVariation.gallery_images || []
+    const featured = selectedVariation?.featured_image
+    const gallery = selectedVariation?.gallery_images || []
     return featured ? [featured, ...gallery] : gallery
   }, [selectedVariation])
 

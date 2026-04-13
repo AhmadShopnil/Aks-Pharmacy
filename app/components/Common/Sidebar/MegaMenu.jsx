@@ -63,7 +63,7 @@ export default function MegaMenu({ formattedCategories }) {
     };
 
     return (
-        <>
+        <div className="">
             {/* MOBILE TRIGGER BUTTON (Floating) */}
             <div className="lg:hidden fixed bottom-6 right-3 z-[50]">
                 <button
@@ -216,7 +216,7 @@ export default function MegaMenu({ formattedCategories }) {
             <section className="relative">
                 {/* LEFT MEGA MENU */}
                 <div
-                    className="hidden lg:block col-span-3 bg-white relative text-gray-600 font-semibold text-[17px] h-screen"
+                    className="hidden lg:block col-span-3  relative text-gray-600 font-semibold text-[17px] h-full"
                     onMouseLeave={() => {
                         setLevel1(null);
                         setLevel2(null);
@@ -319,6 +319,6 @@ export default function MegaMenu({ formattedCategories }) {
                     </AnimatePresence>
                 </div>
             </section>
-        </>
+        </div>
     );
 }

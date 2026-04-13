@@ -19,7 +19,7 @@ export default function FilterSidebar() {
         </div>
       </CollapsibleFilter>
 
-      <CollapsibleFilter title="Delivery Time">
+      {/* <CollapsibleFilter title="Delivery Time">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2">
             <input type="checkbox" /> 1–2 hours
@@ -28,7 +28,7 @@ export default function FilterSidebar() {
             <input type="checkbox" /> 2–4 hours
           </label>
         </div>
-      </CollapsibleFilter>
+      </CollapsibleFilter> */}
 
       {/* <CollapsibleFilter title="Category">
         <div className="space-y-1 text-sm">
@@ -38,12 +38,12 @@ export default function FilterSidebar() {
         </div>
       </CollapsibleFilter> */}
 
-      <CollapsibleFilter title="Weight">
+      {/* <CollapsibleFilter title="Weight">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2"><input type="checkbox" /> 500g</label>
           <label className="flex gap-2"><input type="checkbox" /> 1kg</label>
         </div>
-      </CollapsibleFilter>
+      </CollapsibleFilter> */}
 
       <CollapsibleFilter title="Free Shipping">
         <div className="space-y-1 text-sm">
