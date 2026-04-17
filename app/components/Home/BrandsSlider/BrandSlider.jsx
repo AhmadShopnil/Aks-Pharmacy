@@ -10,15 +10,6 @@ import "swiper/css/navigation";
 
 
 
-// data/brands.js
-// export const brandsData = [
-//     { id: 1, name: "Shwapno", image: "/images/items/apple-icon.png" },
-//     { id: 2, name: "ACI", image: "/images/items/28.webp" },
-//     { id: 3, name: "Unilever", image: "/images/items/apple-icon.png" },
-//     { id: 4, name: "Reckitt", image: "/images/items/9.jpg" },
-//     { id: 5, name: "Nestle", image: "/images/items/apple-icon.png" },
-//     { id: 6, name: "Marico", image: "/images/items/apple-icon.png" },
-// ];
 
 const brandsData = [
     {
@@ -88,13 +79,13 @@ export default function BrandSlider({ brands }) {
                             },
                         }}
                     >
-                        {brandsData.map((brand) => (
-                            <SwiperSlide key={brand.id}>
+                        {brands?.map((brand) => (
+                            <SwiperSlide key={brand?.id}>
                                 <div className="h-[200px] flex flex-col items-center justify-center bg-gray-50 rounded-xl border-b-2 hover:shadow-md
                                  transition">
                                     <Image
-                                        src={brand.image}
-                                        alt={brand.name}
+                                        src={brand?.icon}
+                                        alt={brand?.name}
                                         width={240}
                                         height={70}
                                         className="object-contain h-[150px] "
