@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { ChevronLeft, ChevronRight, SlidersHorizontal, Pill, PackageSearch } from 'lucide-react';
+import Pagination from '../Common/Pagination';
 
 const SORT_OPTIONS = [
     { label: 'Name: A-Z', value: 'name:asc' },
@@ -188,78 +189,12 @@ export default function GenericProductsPage({ genericSlug }) {
                     </div>
                 )}
 
-                {/* Pagination */}
-                {lastPage > 1 && !isLoading && !isError && (
-                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <div className="flex items-center gap-1.5">
-                            {/* Prev Button */}
-                            <button
-                                onClick={() => setPage(p => Math.max(1, p - 1))}
-                                disabled={page === 1 || isFetching}
-                                className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-gray-200 transition
-                  disabled:opacity-40 disabled:cursor-not-allowed
-                  hover:bg-[#0784BB] hover:text-white hover:border-[#0784BB]"
-                            >
-                                <ChevronLeft className="w-4 h-4" />
-                                <span className="hidden sm:inline">Prev</span>
-                            </button>
-
-                            {/* Page Numbers */}
-                            {pageNumbers[0] > 1 && (
-                                <>
-                                    <button
-                                        onClick={() => setPage(1)}
-                                        className="w-10 h-10 text-sm font-medium rounded-lg border border-gray-200 hover:bg-[#0784BB] hover:text-white hover:border-[#0784BB] transition"
-                                    >
-                                        1
-                                    </button>
-                                    {pageNumbers[0] > 2 && (
-                                        <span className="w-10 h-10 flex items-center justify-center text-gray-400">…</span>
-                                    )}
-                                </>
-                            )}
-                            {pageNumbers.map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => setPage(p)}
-                                    disabled={isFetching}
-                                    className={`w-10 h-10 text-sm font-medium rounded-lg border transition
-                    ${p === page
-                                            ? 'bg-[#0784BB] text-white border-[#0784BB] shadow-md shadow-[#0784BB]/20'
-                                            : 'border-gray-200 hover:bg-[#0784BB] hover:text-white hover:border-[#0784BB]'
-                                        }`}
-                                >
-                                    {p}
-                                </button>
-                            ))}
-                            {pageNumbers[pageNumbers.length - 1] < lastPage && (
-                                <>
-                                    {pageNumbers[pageNumbers.length - 1] < lastPage - 1 && (
-                                        <span className="w-10 h-10 flex items-center justify-center text-gray-400">…</span>
-                                    )}
-                                    <button
-                                        onClick={() => setPage(lastPage)}
-                                        className="w-10 h-10 text-sm font-medium rounded-lg border border-gray-200 hover:bg-[#0784BB] hover:text-white hover:border-[#0784BB] transition"
-                                    >
-                                        {lastPage}
-                                    </button>
-                                </>
-                            )}
-
-                            {/* Next Button */}
-                            <button
-                                onClick={() => setPage(p => Math.min(lastPage, p + 1))}
-                                disabled={page === lastPage || isFetching}
-                                className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-gray-200 transition
-                  disabled:opacity-40 disabled:cursor-not-allowed
-                  hover:bg-[#0784BB] hover:text-white hover:border-[#0784BB]"
-                            >
-                                <span className="hidden sm:inline">Next</span>
-                                <ChevronRight className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                )}
+                <Pagination 
+                    currentPage={page} 
+                    lastPage={lastPage} 
+                    onPageChange={setPage}
+                    isFetching={isFetching}
+                />
             </Container>
         </div>
     );

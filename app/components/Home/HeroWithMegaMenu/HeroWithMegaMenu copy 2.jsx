@@ -67,9 +67,9 @@
 //   };
 
 //   return (
-//     <section className="mt-4 grid grid-cols-12 gap-4 relative">
-//       {/* MOBILE CATEGORY STRIP */}
-//       <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
+//     <section className="md:mt-2 grid grid-cols-12 gap-4 relative ">
+//       {/* MOBILE CATEGORY slider */}
+//       {/* <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
 //         <div className="flex items-center justify-between px-1">
 //           <div className="flex items-center gap-2">
 //             <LayoutGrid className="w-5 h-5 text-[#0784BB]" />
@@ -102,7 +102,7 @@
 //             );
 //           })}
 //         </div>
-//       </div>
+//       </div> */}
 
 //       {/* MOBILE DRAWER */}
 //       <AnimatePresence>
@@ -183,7 +183,7 @@
 //                 {activeMobileCategory && !activeMobileSubCategory && (
 //                   <div className="grid grid-cols-1 gap-2">
 //                     <Link
-//                       href={`/shop/${activeMobileCategory.name}`}
+//                       href={`/products/${activeMobileCategory.name}`}
 //                       onClick={() => setIsMobileMenuOpen(false)}
 //                       className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
 //                     >
@@ -203,7 +203,7 @@
 //                         {item.child?.length > 0 ? (
 //                           <ChevronRight size={18} className="text-gray-400" />
 //                         ) : (
-//                           <Link href={`/shop/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+//                           <Link href={`/products/${item.name}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
 //                         )}
 //                       </div>
 //                     ))}
@@ -214,7 +214,7 @@
 //                 {activeMobileSubCategory && (
 //                   <div className="grid grid-cols-1 gap-2">
 //                     <Link
-//                       href={`/shop/${activeMobileSubCategory.name}`}
+//                       href={`/products/${activeMobileSubCategory.name}`}
 //                       onClick={() => setIsMobileMenuOpen(false)}
 //                       className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
 //                     >
@@ -224,7 +224,7 @@
 //                     {activeMobileSubCategory.child?.map((item, i) => (
 //                       <Link
 //                         key={i}
-//                         href={`/shop/${item.name}`}
+//                         href={`/products/${item.name}`}
 //                         onClick={() => setIsMobileMenuOpen(false)}
 //                         className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
 //                       >
@@ -241,7 +241,7 @@
 
 //       {/* left mega menu */}
 //       <div
-//         className="hidden lg:block col-span-2 bg-white relative lg:h-[250px] xl:h-[350px] 2xl:h-[400px] text-gray-600
+//         className="hidden lg:block col-span-2 bg-white relative h-[220px] md:h-[220px] lg:h-[250px] xl:h-[300px] 2xl:h-[400px] text-gray-600
 //                    font-semibold text-[17px] rounded-sm shadow-sm"
 //         onMouseLeave={() => {
 //           setLevel1(null);
@@ -261,12 +261,12 @@
 //                   setLevel2(null);
 //                 }}
 //                 className={`
-//                            hover:text-[#0784BB] hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
+//                            hover:text-[#0784BB] bg-[#f1f1f1]  hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
 //               >
 
 //                 <Link
-//                   href={`/shop/${item?.slug}`}
-//                   className="flex items-center justify-between px-4 py-3"
+//                   href={`/products/${item?.slug}`}
+//                   className="flex items-center justify-between px-4 py-2.5"
 //                 >
 //                   <div className="flex items-center gap-3">
 //                     <Icon className="text-[22px] text-[#0784BB] opacity-90 shrink-0" />
@@ -303,11 +303,11 @@
 //                                cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
 //                   >
 //                     <Link
-//                       href={`/shop/${item?.slug}`}
-//                       className="block w-full"
+//                       href={`/products/${item?.slug}`}
+//                       className="flex items-center gap-2 w-full "
 //                     >
 //                       <span>{item?.name}</span>
-//                       {item?.child?.length > 0 && <ChevronRight className="w-5 h-5" />}
+//                       {item?.child?.length > 0 && <span className="mt-1"><ChevronRight className="w-5 h-5" /></span>}
 //                     </Link>
 
 //                   </li>
@@ -333,12 +333,12 @@
 //                 {level2?.child?.map((item) => (
 //                   <li
 //                     key={item?.id || item?.name}
-//                     className="px-4 py-3 hover:bg-[#0784BB]
+//                     className="px-4 py-2 hover:bg-[#0784BB]
 //                                hover:text-white cursor-pointer
 //                                transition-colors"
 //                   >
 //                     <Link
-//                       href={`/shop/${item?.slug}`}
+//                       href={`/products/${item?.slug}`}
 //                       className="block w-full"
 //                     >
 //                       {item?.name}
@@ -356,25 +356,7 @@
 //         <HeroSlider heroSliders={heroSliders} />
 //       </div>
 
-//       {/* <div className="col-span-12 lg:col-span-9">
-//         <Swiper
-//           modules={[Pagination, Autoplay]}
-//           pagination={{ clickable: true }}
-//           autoplay={{ delay: 3000 }}
-//           loop
-//           className="overflow-hidden shadow-sm   h-[150px] lg:h-[400px]"
-//         >
-//           {heroSliders?.map((item, index) => (
-//             <SwiperSlide key={index}>
-//               <img
-//                 src={item?.featured_image}
-//                 alt="Hero Slide"
-//                 className="w-full h-full object-fit lg:object-fill"
-//               />
-//             </SwiperSlide>
-//           ))}
-//         </Swiper>
-//       </div> */}
+
 //     </section>
 //   );
 // }

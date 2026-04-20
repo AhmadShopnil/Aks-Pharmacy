@@ -87,7 +87,7 @@ export default function BrandSlider({ brands }) {
                                         src={brand?.icon}
                                         alt={brand?.name}
                                         width={240}
-                                        height={70}
+                                        height={150}
                                         className="object-contain h-[150px] "
                                         loading="lazy"
                                     />

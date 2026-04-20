@@ -36,6 +36,8 @@ const menuIcons = {
 export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
   const [level1, setLevel1] = useState(null);
   const [level2, setLevel2] = useState(null);
+  const [level3, setLevel3] = useState(null);
+  const [level4, setLevel4] = useState(null);
 
   // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -246,6 +248,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
         onMouseLeave={() => {
           setLevel1(null);
           setLevel2(null);
+          setLevel3(null);
+          setLevel4(null);
         }}
       >
         {/* LEVEL 1 */}
@@ -259,6 +263,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 onMouseEnter={() => {
                   setLevel1(item);
                   setLevel2(null);
+                  setLevel3(null);
+                  setLevel4(null);
                 }}
                 className={`
                            hover:text-[#0784BB] bg-[#f1f1f1]  hover:bg-blue-50/30 cursor-pointer transition-all ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
@@ -297,7 +303,11 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 {level1?.child?.map((item) => (
                   <li
                     key={item?.id || item?.name}
-                    onMouseEnter={() => setLevel2(item)}
+                    onMouseEnter={() => {
+                      setLevel2(item);
+                      setLevel3(null);
+                      setLevel4(null);
+                    }}
                     className={`flex items-center justify-between px-4 py-2
                                hover:bg-[#0784BB] hover:text-white
                                cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
@@ -331,6 +341,79 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
             >
               <ul className="py-2 overflow-y-auto h-full">
                 {level2?.child?.map((item) => (
+                  <li
+                    key={item?.id || item?.name}
+                    onMouseEnter={() => {
+                      setLevel3(item);
+                      setLevel4(null);
+                    }}
+                    className={`flex items-center justify-between px-4 py-2
+                               hover:bg-[#0784BB] hover:text-white
+                               cursor-pointer transition-colors ${level3?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
+                  >
+                    <Link
+                      href={`/products/${item?.slug}`}
+                      className="flex items-center gap-2 w-full "
+                    >
+                      <span>{item?.name}</span>
+                      {item?.child?.length > 0 && <span className="mt-1"><ChevronRight className="w-5 h-5" /></span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* LEVEL 4 DRAWER */}
+        <AnimatePresence mode="wait">
+          {level3?.child?.length > 0 && (
+            <motion.div
+              key={`l4-${level3.id || level3.name}`}
+              className="absolute top-0 left-[calc(100%+32rem)] h-full
+             bg-white shadow-sm border-l z-50 min-w-[256px] flex flex-col"
+              variants={drawerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <ul className="py-2 overflow-y-auto h-full">
+                {level3?.child?.map((item) => (
+                  <li
+                    key={item?.id || item?.name}
+                    onMouseEnter={() => setLevel4(item)}
+                    className={`flex items-center justify-between px-4 py-2
+                               hover:bg-[#0784BB] hover:text-white
+                               cursor-pointer transition-colors ${level4?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
+                  >
+                    <Link
+                      href={`/products/${item?.slug}`}
+                      className="flex items-center gap-2 w-full "
+                    >
+                      <span>{item?.name}</span>
+                      {item?.child?.length > 0 && <span className="mt-1"><ChevronRight className="w-5 h-5" /></span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* LEVEL 5 DRAWER */}
+        <AnimatePresence mode="wait">
+          {level4?.child?.length > 0 && (
+            <motion.div
+              key={`l5-${level4.id || level4.name}`}
+              className="absolute top-0 left-[calc(100%+48rem)] h-full
+             bg-white shadow-sm border-l z-[60] min-w-[256px] flex flex-col"
+              variants={drawerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <ul className="py-2 overflow-y-auto h-full">
+                {level4?.child?.map((item) => (
                   <li
                     key={item?.id || item?.name}
                     className="px-4 py-2 hover:bg-[#0784BB]

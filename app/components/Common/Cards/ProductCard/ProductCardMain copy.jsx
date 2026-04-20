@@ -17,8 +17,7 @@ export default function ProductCardMain({ item }) {
   // extra info of product
   const varrientInfo = item?.packages?.variations[0]
   let sale_price = varrientInfo?.sale_price
-  const display_price = varrientInfo?.price
-  // const display_price = varrientInfo?.display_price
+  const display_price = varrientInfo?.display_price
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
@@ -130,17 +129,16 @@ export default function ProductCardMain({ item }) {
           </div> */}
 
           {/* Pricing */}
-          <div className="mb-4 text-center text-sm md:text-base flex flex-wrap justify-center items-center gap-2">
-            {parseFloat(display_price) > parseFloat(sale_price) && (
-              <span className="line-through text-gray-400 font-medium">
-                <span className='text-xs md:text-sm mr-0.5'>৳</span>
-                {display_price}
+          <div className="mb-4 text-center text-sm md:text-base">
+
+            {(display_price && display_price > sale_price) && (
+              <span className="line-through mr-2 text-gray-400">
+                <span className='text-xl md:text-2xl mr-1'>৳</span> {display_price}
               </span>
             )}
-            <span className="font-bold text-pink-600 text-lg md:text-xl">
-              <span className='text-sm md:text-base mr-0.5'>৳</span>
-              {sale_price}
-            </span>
+            <span className="font-bold text-pink-600 ">
+              <span className='text-xl md:text-2xl mr-1'>৳</span>
+              {sale_price}</span>
           </div>
 
         </div>

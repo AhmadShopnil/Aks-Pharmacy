@@ -1,4 +1,4 @@
-export const megamenuFormat = (items, depth = 1, maxDepth = 3) => {
+export const megamenuFormat = (items, depth = 1, maxDepth = 5) => {
   if (!items) return [];
 
   return items.map((item) => {
@@ -36,34 +36,50 @@ export const megamenuFormat = (items, depth = 1, maxDepth = 3) => {
 };
 
 
-export function formatCategories(categories) {
-  return categories.map(top => ({
-    ...top,
-    child: (top.child || []).map(second => {
-      const flatChildren = []
+export function formatCategories(categories, depth = 1, maxDepth = 4) {
+  if (!categories) return [];
+
+  return categories.map(item => {
+    const hasChildren = item.child && item.child.length > 0;
+
+    if (!hasChildren) return item;
+
+    // If we haven't reached max depth yet, keep nesting
+    if (depth < maxDepth) {
+      return {
+        ...item,
+        child: formatCategories(item.child, depth + 1, maxDepth)
+      };
+    }
+
+    // If we've reached max depth, flatten all deeper levels into this child array
+    if (depth === maxDepth) {
+      const flattened = [];
 
       function collectAll(node) {
-        // push current node as 3rd-level sibling
-        flatChildren.push({
+        // Add the node itself (flattened)
+        flattened.push({
           ...node,
-          child: [] // stop nesting here
-        })
+          child: [] // Stop nesting here
+        });
 
-        // collect ALL deeper levels
-        if (node.child && node.child.length) {
-          node.child.forEach(collectAll)
+        // Recursively collect all its descendants
+        if (node.child && node.child.length > 0) {
+          node.child.forEach(collectAll);
         }
       }
 
-      // start from original 3rd-level nodes
-      (second.child || []).forEach(collectAll)
+      // Start collecting from the current node's children
+      item.child.forEach(collectAll);
 
       return {
-        ...second,
-        child: flatChildren
-      }
-    })
-  }))
+        ...item,
+        child: flattened
+      };
+    }
+
+    return item;
+  });
 }
 
 
