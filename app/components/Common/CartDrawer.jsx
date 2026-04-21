@@ -24,6 +24,7 @@ import {
     useGetAddressesQuery,
     useCreateAddressMutation
 } from '@/lib/redux/services/addressApi';
+import { useInitiatePaymentMutation } from '@/lib/redux/services/paymentsApi';
 import AddressListModal from './AddressListModal';
 import toast from 'react-hot-toast';
 import {
@@ -54,6 +55,7 @@ export default function CartDrawer() {
     });
     const [createAddress] = useCreateAddressMutation();
     const [createOrder, { isLoading: isPlacingOrder }] = useCreateOrderMutation();
+    const [initiatePayment, { isLoading: isInitiatingPayment }] = useInitiatePaymentMutation();
     const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -148,17 +150,60 @@ export default function CartDrawer() {
             })),
             paymentMethod: paymentMethod,
             promoCode: couponCode || "",
-            promoAmount: 0
+            promoAmount: 0,
+            amount: Number(finalPayable),
+            // transaction_id: `AKS-${Date.now()}${Math.floor(Math.random() * 1000)}`
         };
 
         try {
             console.log("orderPayload", orderPayload)
             const res = await createOrder(orderPayload).unwrap();
-            if (res) {
+
+            // The API response might be wrapped in a data property
+            const orderData = res.data || res;
+
+            if (orderData) {
+                console.log("order res", orderData)
                 toast.success("Order placed successfully!");
                 dispatch(clearCart());
-                dispatch(toggleCartDrawer());
-                // Optional: window.location.href = '/user-dashboard' or router.push 
+
+                if (paymentMethod !== "cash_on_delivery") {
+                    const origin = window.location.origin;
+                    const paymentPayload = {
+                        gateway: 'sslcommerz',
+                        amount: orderData?.order?.grand_total || orderPayload?.amount,
+                        // amount: orderData?.grand_total || orderPayload.amount,
+                        currency: 'BDT',
+                        transaction_id: orderData?.order?.transactions?.[0]?.transaction_id,
+                        // transaction_id: orderData.unique_id || orderPayload.transaction_id,
+                        customer_name: orderPayload.shipping.name,
+                        customer_email: orderPayload.shipping.email,
+                        customer_phone: orderPayload.shipping.phone,
+                        product_name: orderData.order_item?.[0]?.item_name || 'Pharmacy Items',
+                        product_category: 'Healthcare',
+                        customer_address: orderPayload.shipping.address,
+                        customer_city: orderPayload.shipping.district,
+                        customer_postcode: '1000', // Default if not available
+                        customer_country: 'Bangladesh',
+                        success_url: `${origin}/success`,
+                        fail_url: `${origin}/failed`,
+                        cancel_url: `${origin}/cancle`
+                    };
+
+                    toast.loading("Redirecting to payment gateway...");
+                    const paymentRes = await initiatePayment(paymentPayload).unwrap();
+
+                    if (paymentRes?.gateway_url) {
+                        window.location.href = paymentRes.gateway_url;
+                    } else {
+                        toast.error("Failed to get payment URL");
+                        dispatch(toggleCartDrawer());
+                    }
+                } else {
+                    // Redirect to dashboard for COD
+                    dispatch(toggleCartDrawer());
+                    window.location.href = '/dashboard';
+                }
             }
         } catch (error) {
             console.error("Failed to place order:", error);
@@ -461,7 +506,7 @@ export default function CartDrawer() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 font-bold">
-                                {!isAuthenticated ? "Login to Place Order" : isPlacingOrder ? "Placing..." : "Place Order"}
+                                {!isAuthenticated ? "Login to Place Order" : (isPlacingOrder || isInitiatingPayment) ? "Processing..." : "Place Order"}
                                 <ChevronRight className="w-5 h-5" />
                             </div>
                         </button>

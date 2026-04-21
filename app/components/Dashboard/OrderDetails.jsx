@@ -10,8 +10,11 @@ import {
     Package,
     MapPin,
     CreditCard,
-    AlertCircle
+    AlertCircle,
+    CheckCircle
 } from "lucide-react";
+import { useInitiatePaymentMutation } from "@/lib/redux/services/paymentsApi";
+import toast from "react-hot-toast";
 import { useGetOrderByIdQuery } from "@/lib/redux/services/ordersApi";
 
 // Depending on the backend mapping, assuming common status codes:
@@ -27,12 +30,70 @@ const getStatusLabel = (code) => {
 }
 
 const OrderDetails = ({ orderId }) => {
-    const { data, isLoading, isError } = useGetOrderByIdQuery(orderId);
+    const { data, isLoading: orderLoading, isError } = useGetOrderByIdQuery(orderId);
+    const [initiatePayment, { isLoading: isInitiatingPayment }] = useInitiatePaymentMutation();
 
     // Some APIs wrap single item in "data", others return it directly
     const order = data?.data || data;
 
-    if (isLoading) {
+    const handlePayNow = async () => {
+        try {
+            const origin = window.location.origin;
+            const shipping = order.shippings?.[0] || {};
+            const existingTx = order.transactions?.[0]?.transaction_id;
+            const paymentPayload = {
+                gateway: 'sslcommerz',
+                amount: order.grand_total,
+                currency: 'BDT',
+                transaction_id: existingTx,
+                customer_name: shipping?.name || "Customer",
+                customer_email: shipping?.email,
+                customer_phone: shipping?.phone,
+                product_name: order.order_item?.[0]?.item_name || 'Unknown Product',
+                product_category: 'Healthcare',
+                customer_address: shipping?.address,
+                customer_city: shipping?.district,
+                // customer_postcode: '1000',
+                customer_country: 'Bangladesh',
+                success_url: `${origin}/success`,
+                fail_url: `${origin}/failed`,
+                cancel_url: `${origin}/cancle`
+            };
+
+            // const paymentPayload = {
+            //     gateway: 'sslcommerz',
+            //     amount: order.grand_total,
+            //     currency: 'BDT',
+            //     transaction_id: existingTx || order.unique_id,
+            //     customer_name: shipping.name || "Customer",
+            //     customer_email: shipping.email || "customer@example.com",
+            //     customer_phone: shipping.phone || "01700000000",
+            //     product_name: order.order_item?.[0]?.item_name || 'Pharmacy Order',
+            //     product_category: 'Healthcare',
+            //     customer_address: shipping.address || 'Dhaka',
+            //     customer_city: shipping.district || 'Dhaka',
+            //     customer_postcode: '1000',
+            //     customer_country: 'Bangladesh',
+            //     success_url: `${origin}/success`,
+            //     fail_url: `${origin}/failed`,
+            //     cancel_url: `${origin}/cancle`
+            // };
+
+            toast.loading("Redirecting to payment gateway...");
+            const res = await initiatePayment(paymentPayload).unwrap();
+
+            if (res?.gateway_url) {
+                window.location.href = res.gateway_url;
+            } else {
+                toast.error("Failed to get payment URL");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.data?.message || "Failed to initiate payment. Please try again.");
+        }
+    };
+
+    if (orderLoading) {
         return (
             <div className="space-y-6 animate-pulse">
                 <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
@@ -171,11 +232,21 @@ const OrderDetails = ({ orderId }) => {
                                             {transaction.payment_method || 'Cash on Delivery'}
                                         </span>
                                         <span className={`text-xs font-bold px-2 py-0.5 w-max rounded-full ${order.payment_status?.toLowerCase() === 'paid'
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'bg-yellow-100 text-yellow-700'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-yellow-100 text-yellow-700'
                                             }`}>
                                             {order.payment_status || 'Due'}
                                         </span>
+                                        {order.payment_status?.toLowerCase() !== 'paid' && (
+                                            <button
+                                                onClick={handlePayNow}
+                                                disabled={isInitiatingPayment}
+                                                className="mt-3 w-full flex items-center justify-center gap-2 bg-[#8CC540] hover:bg-[#7ab332] text-white font-bold py-2 px-4 rounded-md transition-colors disabled:opacity-50"
+                                            >
+                                                <CreditCard className="w-4 h-4" />
+                                                {isInitiatingPayment ? "Redirecting..." : "Pay Now"}
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
