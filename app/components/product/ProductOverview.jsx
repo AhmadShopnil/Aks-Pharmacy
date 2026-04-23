@@ -51,14 +51,14 @@ export default function ProductOverview({ productDetails }) {
         className="p-3 md:p-4 prose prose-gray max-w-none prose-headings:text-[#0784BB]"
         dangerouslySetInnerHTML={{ __html: productDetails?.description }}
       />
-
+      {/* only for medicine products but currently off */}
       {/* Disclaimer */}
-      <div className=" p-2 md: bg-amber-50  border border-amber-100">
+      {/* <div className=" p-2 md: bg-amber-50  border border-amber-100">
         <p className="text-xs md:text-sm text-amber-900 font-bold italic opacity-80">
           DISCLAIMER: This information is for educational purposes only.
           Always consult a licensed healthcare professional.
         </p>
-      </div>
+      </div> */}
     </div>
   )
 }

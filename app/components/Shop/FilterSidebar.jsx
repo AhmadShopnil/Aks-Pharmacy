@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useGetBrandsQuery } from "@/lib/redux/services/productsApi";
+import { useGetBrandsQuery, useGetBrandsByCategoryQuery } from "@/lib/redux/services/productsApi";
 import { CollapsibleFilter } from "./CollapsibleFilter";
 import { useState, useEffect } from "react";
 
@@ -9,7 +9,31 @@ export default function FilterSidebar({ categorySlug }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const { data: brandsData, isLoading: isBrandsLoading } = useGetBrandsQuery();
+  const { data: categoryBrandsData, isLoading: isCategoryBrandsLoading } = useGetBrandsByCategoryQuery(
+    { category_slug: categorySlug },
+    { skip: !categorySlug }
+  );
+
+  const { data: allBrandsData, isLoading: isAllBrandsLoading } = useGetBrandsQuery(
+    undefined,
+    { skip: !!categorySlug }
+  );
+
+  const brandsData = categorySlug ? categoryBrandsData : allBrandsData;
+  const isBrandsLoading = categorySlug ? isCategoryBrandsLoading : isAllBrandsLoading;
+
+  const formattedBrands = categorySlug
+    ? brandsData?.data?.map(item => ({
+      id: item.resource.id,
+      name: item.resource.name,
+      products_count: item.products_count
+    }))
+    : brandsData?.data?.map(brand => ({
+      id: brand.id,
+      name: brand.name,
+      products_count: null
+    }));
+
   const [brandSearch, setBrandSearch] = useState("");
 
   const [minPrice, setMinPrice] = useState(searchParams.get("min_price") || "");
@@ -69,7 +93,7 @@ export default function FilterSidebar({ categorySlug }) {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const filteredBrands = brandsData?.data?.filter((brand) =>
+  const filteredBrands = formattedBrands?.filter((brand) =>
     brand.name.toLowerCase().includes(brandSearch.toLowerCase())
   ) || [];
 
@@ -149,9 +173,14 @@ export default function FilterSidebar({ categorySlug }) {
                     checked={selectedBrands.includes(brand.id.toString())}
                     onChange={() => handleBrandChange(brand.id)}
                   />
-                  <span className="group-hover:text-primary transition-colors truncate">
+                  <span className="group-hover:text-primary transition-colors truncate flex-1">
                     {brand.name}
                   </span>
+                  {/* {brand.products_count !== null && brand.products_count !== undefined && (
+                    <span className="text-xs text-gray-500">
+                      ({brand.products_count})
+                    </span>
+                  )} */}
                 </label>
               ))
             ) : (

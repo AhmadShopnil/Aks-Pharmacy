@@ -4,6 +4,7 @@ import SimilarProducts from "@/app/components/ProductDetails/SimilarProducts"
 import Link from "next/link"
 import { getSingleProduct, getSingleProductBreadCrumb } from "@/lib/fetchApis"
 import { getMetaValueFromExtra_Fields } from "@/helper/metaHelpers"
+import BreadCrumbs from "@/app/components/Shop/BreadCrumbs"
 
 
 
@@ -88,8 +89,8 @@ export default async function ProductDetailsPage({ params }) {
     <div className="min-h-screen bg-gray-50/50  selection:bg-blue-100 selection:text-blue-900">
       <div className="px-2 md:px-4 py-8">
         {/* Breadcrumb */}
-
-        <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <BreadCrumbs slug={slug} />
+        {/* <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
             <span className=""><Home size={16} /> </span>
             <span className="-mt-0.5">Home</span>
@@ -105,23 +106,8 @@ export default async function ProductDetailsPage({ params }) {
           }
           <span className="text-[#0784BB] font-semibold">{productDetails?.name} </span>
 
-        </nav>
-        {/* <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
-          <Link href="/" className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
-            <span className=""><Home size={16} /> </span>
-            <span className="-mt-0.5">Home</span>
-          </Link>
-          <ChevronRight size={12} />
-          {
-            productDetails?.categories?.map((category, index) => (
-              <Link key={index} href={`/category/${category.slug}`} className="hover:text-[#0784BB] flex items-center gap-1 transition-colors ">
-                <span className="">{category.name}</span>
-                <ChevronRight size={12} />
-              </Link>
-            ))
-          }
-          <span className="text-gray-900 font-semibold">{productDetails?.name} </span>
         </nav> */}
+
 
 
         {/* Main Grid Layout — state managed inside ProductDetailsClient */}
