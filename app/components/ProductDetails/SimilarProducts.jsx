@@ -29,8 +29,17 @@ export default function SimilarProducts({ productDetails }) {
     return "medicine";
   }, [productDetails]);
 
-  const { data, isLoading, isError } = useGetProductsByCategoryQuery(categorySlug, {
-    skip: !categorySlug
+
+console.log("category slug for similar products: ", categorySlug)
+
+  // const { data, isLoading, isError } = useGetProductsByCategoryQuery(categorySlug, {
+  //   skip: !categorySlug
+  // });
+
+
+    const { data, isLoading, isError, isFetching } = useGetProductsByCategoryQuery({
+    category: categorySlug,
+  
   });
 
   useEffect(() => {
@@ -55,7 +64,7 @@ export default function SimilarProducts({ productDetails }) {
   // Use the original API structure, just filter and slice
   const products = data.data
     .filter(item => item.id !== productDetails?.id)
-    .slice(0, 10);
+    .slice(0, 20);
 
   if (products.length === 0) return null;
 
@@ -67,7 +76,7 @@ export default function SimilarProducts({ productDetails }) {
           Similar Products
         </h2>
         <Link
-          href={`/shop/${categorySlug}`}
+          href={`/products/${categorySlug}`}
           className="text-[#0784BB] hover:text-[#0673a3] text-xl font-semibold transition-colors"
         >
           See all

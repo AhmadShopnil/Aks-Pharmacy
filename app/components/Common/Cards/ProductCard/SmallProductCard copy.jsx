@@ -1,0 +1,175 @@
+// 'use client';
+
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import React, { useState } from 'react';
+// import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+// import { addItem, selectCartItemById } from '@/lib/redux/features/cart/cartSlice';
+// import { toggleWishlist, selectIsInWishlist } from '@/lib/redux/features/wishlist/wishlistSlice';
+// import { Heart } from 'lucide-react';
+
+// export default function SmallProductCard({ item }) {
+//   const dispatch = useAppDispatch();
+//   const [isAdding, setIsAdding] = useState(false);
+//   const cartItem = useAppSelector(selectCartItemById(item?.id));
+//   const isInWishlist = useAppSelector(selectIsInWishlist(item?.id));
+
+//   // extra info of product
+//   const varrientInfo = item?.packages?.variations[0]
+//   let sale_price = varrientInfo?.sale_price
+//   const display_price = varrientInfo?.display_price
+//   const stock_quantity = varrientInfo?.stock_quantity
+//   const stock_status = varrientInfo?.stock_status
+//   const is_on_sale = varrientInfo?.is_on_sale
+//   const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image | "/images/placeholder-product.webp "
+//   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
+
+
+//   const displayPriceNum = parseFloat(display_price) || 0;
+//   const salePriceNum = parseFloat(sale_price) || 0;
+//   const discountPercentage = displayPriceNum > 0 && displayPriceNum > salePriceNum
+//     ? Math.round(((displayPriceNum - salePriceNum) / displayPriceNum) * 100)
+//     : 0;
+
+
+//   //  console.log("item in product card ", item)
+
+//   if (item?.offer_details) {
+
+
+//     if (item?.offer_details?.discount_type == "flat") {
+//       const discount = item?.offer_details?.discount_value;
+//       sale_price = sale_price - discount
+
+//     }
+//     else {
+//       const dicount_percentage = Number(item?.offer_details?.discount_value);
+//       const discount = sale_price * dicount_percentage / 100;
+//       sale_price = sale_price - discount
+
+
+//     }
+
+
+//   }
+
+
+
+
+
+//   const handleToggleWishlist = (e) => {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     dispatch(toggleWishlist({
+//       id: item.id,
+//       title: item?.name,
+
+//       price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
+//       img: featured_image
+//       ,
+//       discount: discount || 0,
+//       // rating: item.rating
+//     }));
+//   };
+
+//   const handleAddToCart = () => {
+//     setIsAdding(true);
+
+//     dispatch(addItem({
+//       id: item.id,
+//       title: item?.name,
+//       // price: parseFloat(sale_price.replace(/[^0-9.-]+/g, '')), // Extract numeric price
+//       price: typeof sale_price === 'string' ? parseFloat(sale_price.replace(/[^0-9.-]+/g, '')) : (parseFloat(sale_price)),
+//       img: featured_image
+//       ,
+//       discount: discount || 0,
+//       quantity: 1,
+//       slug: item?.slug || "",
+//       size: varrientInfo?.size || "",
+//       color: varrientInfo?.color || "",
+//     }));
+
+//     // Visual feedback
+//     setTimeout(() => {
+//       setIsAdding(false);
+//     }, 800);
+//   };
+
+//   // console.log("product from generic page", item)
+//   // console.log("featured_image from generic page", featured_image)
+
+//   return (
+//     <div className="border p-1.5 md:p-3 border-gray-100 hover:shadow-lg transition duration-300 relative
+//       h-auto  flex flex-col bg-white rounded-sm">
+//       {/* Image */}
+//       <Link
+//         href={`/product/${item?.slug}`}
+//         className="relative w-full aspect-square "
+//       >
+//         <Image
+//           src={featured_image || "/images/placeholder-product.webp"}
+//           alt={item?.name || "product image"}
+//           fill
+//           className="object-cover"
+//         />
+//           {discountPercentage > 0 && (
+//           <span className="absolute top-2 left-2 bg-pink-600 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow">
+//             -{discountPercentage}%
+//           </span>
+//         )}
+//       </Link>
+//       {/* Wishlist Button */}
+//       <button
+//         onClick={handleToggleWishlist}
+//         className={`absolute top-4 right-4 z-20 p-2 rounded-full shadow-md transition-all duration-300 group/wishlist ${isInWishlist ? 'bg-pink-50 text-pink-600' : 'bg-white/80 text-gray-400 hover:text-pink-600 hover:bg-white'
+//           }`}
+//       >
+//         <Heart className={`w-5 h-5 ${isInWishlist ? 'fill-current' : 'group-hover/wishlist:scale-110'}`} />
+//       </button>
+
+//       <div className='flex flex-col flex-1 justify-between pb-2'>
+
+//         <div className='text-center'>
+//           {/* Title */}
+//           <Link
+//             href={`/product/${item?.slug}`}
+//             className="text-sm md:text-[15px] font-semibold mb-1 text-center">
+//             {item?.name}
+//           </Link>
+
+//           {/* Rating */}
+//           {/* <div className="text-yellow-500 text-base md:text-2xl mb-2 text-center">
+//             {"★".repeat(item?.rating)}
+//           </div> */}
+
+//           {/* Pricing */}
+//           <div className="mb-4 text-center text-sm md:text-base">
+
+//             {(display_price && display_price > sale_price) && (
+//               <span className="line-through mr-2 text-gray-400">
+//                 <span className='text-xl md:text-2xl mr-1'>৳</span> {display_price}
+//               </span>
+//             )}
+//             <span className="font-bold text-pink-600 ">
+//               <span className='text-xl md:text-2xl mr-1'>৳</span>
+//               {sale_price}</span>
+//           </div>
+
+//         </div>
+//         {/* Button */}
+//         <div className='w-full  flex justify-center'>
+//           <button
+//             onClick={handleAddToCart}
+//             disabled={isAdding}
+//             className={`px-4 py-1 md:px-8 md:py-1.5 text-xs sm:text-sm md:text-base rounded-sm font-semibold transition cursor-pointer ${isAdding
+//               ? 'bg-green-600 text-white'
+//               : 'bg-[#0784BB] text-white hover:bg-[#8CC540]'
+//               }`}
+//           >
+//             {isAdding ? '✓ Added!' : cartItem ? `+ Add More (${cartItem.quantity})` : '+ Add to cart'}
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

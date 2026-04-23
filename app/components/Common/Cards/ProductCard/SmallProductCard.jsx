@@ -25,6 +25,9 @@ export default function SmallProductCard({ item }) {
   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
 
 
+
+
+  
   //  console.log("item in product card ", item)
 
   if (item?.offer_details) {

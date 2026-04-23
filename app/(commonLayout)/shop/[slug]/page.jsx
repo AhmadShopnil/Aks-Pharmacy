@@ -26,12 +26,12 @@ export default async function ShopPage({ params }) {
         <div className="grid grid-cols-12 gap-6 mt-6 ">
           {/* Sidebar */}
           <div className="col-span-12 lg:col-span-2">
-            <FilterSidebar />
+            <FilterSidebar categorySlug={slug}/>
           </div>
 
           {/* Products */}
           <div className="col-span-12 lg:col-span-10">
-            <FilterTabs />
+            {/* <FilterTabs /> */}
             <ProductGrid categorySlug={slug} />
           </div>
         </div>
