@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Eye, Download, Package, Truck, CheckCircle, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Eye, Download, Package, Truck, CheckCircle, Clock, ChevronLeft, ChevronRight, CreditCard } from "lucide-react";
 import { useGetOrdersQuery } from "@/lib/redux/services/ordersApi";
+import { useInitiatePaymentMutation } from "@/lib/redux/services/paymentsApi";
+import { useAppSelector } from "@/lib/redux/hooks";
+import toast from "react-hot-toast";
 
 // Depending on the backend mapping, assuming common status codes:
 // "0": Pending, "1": Processing, "2": Shipped, "3": Delivered, "4": Cancelled
@@ -36,8 +39,57 @@ const statusIcons = {
 const OrderList = () => {
     const [page, setPage] = useState(1);
     const { data, isLoading, isError, isFetching } = useGetOrdersQuery({ page });
+    const [initiatePayment, { isLoading: isInitiatingPayment }] = useInitiatePaymentMutation();
+    const profile = useAppSelector((state) => state.user?.profile);
 
     const orders = data?.data || [];
+
+    const handlePayNow = async (order) => {
+        const toastId = toast.loading("Redirecting to payment gateway...");
+        try {
+            const origin = window.location.origin;
+
+            // In the list view, shippings might not be present. 
+            // We use profile as fallback or dummy data.
+            const shipping = order.shippings?.[0] || {};
+            const existingTx = order.transactions?.[0]?.transaction_id;
+
+            const paymentPayload = {
+                gateway: 'sslcommerz',
+                amount: order.grand_total,
+                currency: 'BDT',
+                transaction_id: existingTx || order.unique_id,
+                customer_name: shipping.name || profile?.name || "Customer",
+                customer_email: shipping.email || profile?.email || "customer@example.com",
+                customer_phone: shipping.phone || profile?.phone || "01700000000",
+                product_name: order.order_item?.[0]?.item_name || 'Pharmacy Order',
+                product_category: 'Healthcare',
+                customer_address: shipping.address || 'Dhaka',
+                customer_city: shipping.district || 'Dhaka',
+                customer_postcode: '1000',
+                customer_country: 'Bangladesh',
+                success_url: `${origin}/success`,
+                fail_url: `${origin}/failed`,
+                cancel_url: `${origin}/cancle`
+            };
+
+
+            const res = await initiatePayment(paymentPayload).unwrap();
+
+            if (res?.gateway_url) {
+                toast.dismiss(toastId); //  close loader
+                window.location.href = res.gateway_url;
+            } else {
+                toast.error("Failed to get payment URL", { id: toastId }); //  replaces loading
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error(
+                err?.data?.message || "Failed to initiate payment. Please try again.",
+                { id: toastId } //  replaces loading
+            );
+        }
+    };
     const meta = data || {}; // API returns pagination top level: current_page, last_page
     const currentPage = meta.current_page || 1;
     const lastPage = meta.last_page || 1;
@@ -81,7 +133,8 @@ const OrderList = () => {
                             </tr>
                         ) : (
                             orders.map((order) => {
-                                const statusName = getStatusLabel(order.status);
+                                // const statusName = getStatusLabel(order.status);
+                                const statusName = order.status;
                                 const StatusIcon = statusIcons[statusName] || Clock;
                                 const dateFormatted = new Date(order.created_at).toLocaleDateString('en-GB', {
                                     day: 'numeric', month: 'short', year: 'numeric'
@@ -109,6 +162,16 @@ const OrderList = () => {
                                                 >
                                                     <Eye className="w-5 h-5" />
                                                 </Link>
+                                                {order.payment_status?.toLowerCase() !== 'paid' && order.status !== '4' && (
+                                                    <button
+                                                        onClick={() => handlePayNow(order)}
+                                                        disabled={isInitiatingPayment}
+                                                        className="p-2 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg text-green-600 dark:text-green-400 transition-colors"
+                                                        title="Pay Now"
+                                                    >
+                                                        <CreditCard className="w-5 h-5" />
+                                                    </button>
+                                                )}
                                                 {/* <button
                                                     className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-zinc-600 dark:text-zinc-400 transition-colors"
                                                     title="Download Invoice"

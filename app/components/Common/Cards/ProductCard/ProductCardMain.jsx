@@ -49,6 +49,12 @@ export default function ProductCardMain({ item }) {
 
 
 
+  const displayPriceNum = parseFloat(display_price) || 0;
+  const salePriceNum = parseFloat(sale_price) || 0;
+  const discountPercentage = displayPriceNum > 0 && displayPriceNum > salePriceNum
+    ? Math.round(((displayPriceNum - salePriceNum) / displayPriceNum) * 100)
+    : 0;
+
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -104,6 +110,11 @@ export default function ProductCardMain({ item }) {
           fill
           className="object-cover "
         />
+        {discountPercentage > 0 && (
+          <span className="absolute top-2 left-2 bg-pink-600 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow">
+            -{discountPercentage}%
+          </span>
+        )}
       </Link>
       {/* Wishlist Button */}
       <button

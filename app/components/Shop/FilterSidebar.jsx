@@ -1,18 +1,82 @@
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useGetBrandsQuery } from "@/lib/redux/services/productsApi";
+import { useGetBrandsQuery, useGetBrandsByCategoryQuery } from "@/lib/redux/services/productsApi";
 import { CollapsibleFilter } from "./CollapsibleFilter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ categorySlug }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const { data: brandsData, isLoading: isBrandsLoading } = useGetBrandsQuery();
+  const { data: categoryBrandsData, isLoading: isCategoryBrandsLoading } = useGetBrandsByCategoryQuery(
+    { category_slug: categorySlug },
+    { skip: !categorySlug }
+  );
+
+  const { data: allBrandsData, isLoading: isAllBrandsLoading } = useGetBrandsQuery(
+    undefined,
+    { skip: !!categorySlug }
+  );
+
+  const brandsData = categorySlug ? categoryBrandsData : allBrandsData;
+  const isBrandsLoading = categorySlug ? isCategoryBrandsLoading : isAllBrandsLoading;
+
+  const formattedBrands = categorySlug
+    ? brandsData?.data?.map(item => ({
+      id: item.resource.id,
+      name: item.resource.name,
+      products_count: item.products_count
+    }))
+    : brandsData?.data?.map(brand => ({
+      id: brand.id,
+      name: brand.name,
+      products_count: null
+    }));
+
   const [brandSearch, setBrandSearch] = useState("");
 
+  const [minPrice, setMinPrice] = useState(searchParams.get("min_price") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("max_price") || "");
+
+  useEffect(() => {
+    setMinPrice(searchParams.get("min_price") || "");
+    setMaxPrice(searchParams.get("max_price") || "");
+  }, [searchParams]);
+
   const selectedBrands = searchParams.get("brands")?.split(",") || [];
+
+  const handlePriceApply = () => {
+    const params = new URLSearchParams(searchParams);
+    if (minPrice) {
+      params.set("min_price", minPrice);
+    } else {
+      params.delete("min_price");
+    }
+    if (maxPrice) {
+      params.set("max_price", maxPrice);
+    } else {
+      params.delete("max_price");
+    }
+    params.set("page", "1");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handlePriceClear = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    const params = new URLSearchParams(searchParams);
+    params.delete("min_price");
+    params.delete("max_price");
+    params.set("page", "1");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleClearAll = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    router.push(`${pathname}`, { scroll: false });
+  };
 
   const handleBrandChange = (brandId) => {
     const idStr = brandId.toString();
@@ -29,12 +93,60 @@ export default function FilterSidebar() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const filteredBrands = brandsData?.data?.filter((brand) =>
+  const filteredBrands = formattedBrands?.filter((brand) =>
     brand.name.toLowerCase().includes(brandSearch.toLowerCase())
   ) || [];
 
   return (
     <div className="bg-white space-y-4">
+      {searchParams.toString() && (
+        <div className="flex justify-between items-center pb-2 border-b">
+          <span className="font-semibold text-gray-800">Active Filters</span>
+          <button
+            onClick={handleClearAll}
+            className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors cursor-pointer"
+          >
+            Clear All
+          </button>
+        </div>
+      )}
+
+      <CollapsibleFilter title="Price Range">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-full border px-2 py-1.5 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
+            />
+            <span className="text-gray-500">-</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-full border px-2 py-1.5 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePriceClear}
+              className="w-full bg-gray-100 text-gray-700 py-1.5 rounded cursor-pointer text-sm hover:bg-gray-200 transition-colors"
+            >
+              Clear
+            </button>
+            <button
+              onClick={handlePriceApply}
+              className="w-full bg-[#0784BB] text-white py-1.5 rounded text-sm hover:bg-[#8CC540]
+              cursor-pointer transition-colors"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      </CollapsibleFilter>
       {/* Brands Filter */}
       <CollapsibleFilter title="Brands">
         <div className="space-y-3">
@@ -61,9 +173,14 @@ export default function FilterSidebar() {
                     checked={selectedBrands.includes(brand.id.toString())}
                     onChange={() => handleBrandChange(brand.id)}
                   />
-                  <span className="group-hover:text-primary transition-colors truncate">
+                  <span className="group-hover:text-primary transition-colors truncate flex-1">
                     {brand.name}
                   </span>
+                  {/* {brand.products_count !== null && brand.products_count !== undefined && (
+                    <span className="text-xs text-gray-500">
+                      ({brand.products_count})
+                    </span>
+                  )} */}
                 </label>
               ))
             ) : (
@@ -73,22 +190,9 @@ export default function FilterSidebar() {
         </div>
       </CollapsibleFilter>
 
-      <CollapsibleFilter title="Price Range">
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            placeholder="Min"
-            className="w-full border px-2 py-1 rounded text-sm"
-          />
-          <input
-            type="number"
-            placeholder="Max"
-            className="w-full border px-2 py-1 rounded text-sm"
-          />
-        </div>
-      </CollapsibleFilter>
 
-      <CollapsibleFilter title="Free Shipping">
+
+      {/* <CollapsibleFilter title="Free Shipping">
         <div className="space-y-1 text-sm">
           <label className="flex gap-2 cursor-pointer">
             <input type="checkbox" className="accent-primary" /> Yes
@@ -97,7 +201,7 @@ export default function FilterSidebar() {
             <input type="checkbox" className="accent-primary" /> No
           </label>
         </div>
-      </CollapsibleFilter>
+      </CollapsibleFilter> */}
     </div>
   );
 }
