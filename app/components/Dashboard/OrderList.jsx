@@ -133,7 +133,8 @@ const OrderList = () => {
                             </tr>
                         ) : (
                             orders.map((order) => {
-                                const statusName = getStatusLabel(order.status);
+                                // const statusName = getStatusLabel(order.status);
+                                const statusName = order.status;
                                 const StatusIcon = statusIcons[statusName] || Clock;
                                 const dateFormatted = new Date(order.created_at).toLocaleDateString('en-GB', {
                                     day: 'numeric', month: 'short', year: 'numeric'

@@ -150,8 +150,9 @@ const OrderDetails = ({ orderId }) => {
                         <Download className="w-4 h-4" />
                         Invoice
                     </button> */}
-                    <span className="px-4 py-2 bg-blue-50 text-blue-600 rounded-md font-semibold text-sm">
-                        Status: {getStatusLabel(order.status)}
+                    <span className="px-4 py-2 bg-blue-50 text-blue-600 rounded-md font-semibold text-sm uppercase">
+                        Status: {order.status}
+                        {/* Status: {getStatusLabel(order.status)} */}
                     </span>
                 </div>
             </div>
