@@ -43,6 +43,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMobileCategory, setActiveMobileCategory] = useState(null); // Level 1
   const [activeMobileSubCategory, setActiveMobileSubCategory] = useState(null); // Level 2
+  const [activeMobileLevel3, setActiveMobileLevel3] = useState(null); // Level 3
+  const [activeMobileLevel4, setActiveMobileLevel4] = useState(null); // Level 4
 
   const formattedCategories = formatCategories(productCategories || []);
   console.log("formattedCategories", formattedCategories)
@@ -128,10 +130,12 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
               {/* Header */}
               <div className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-10">
                 <div className="flex items-center gap-3">
-                  {(activeMobileCategory || activeMobileSubCategory) && (
+                  {(activeMobileCategory || activeMobileSubCategory || activeMobileLevel3 || activeMobileLevel4) && (
                     <button
                       onClick={() => {
-                        if (activeMobileSubCategory) setActiveMobileSubCategory(null);
+                        if (activeMobileLevel4) setActiveMobileLevel4(null);
+                        else if (activeMobileLevel3) setActiveMobileLevel3(null);
+                        else if (activeMobileSubCategory) setActiveMobileSubCategory(null);
                         else setActiveMobileCategory(null);
                       }}
                       className="p-1.5 bg-gray-100 rounded-full text-gray-600 active:scale-90 transition-all"
@@ -140,7 +144,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                     </button>
                   )}
                   <h2 className="font-bold text-lg text-gray-800">
-                    {!activeMobileCategory ? "Browse Categories" : activeMobileSubCategory ? activeMobileSubCategory.name : activeMobileCategory.name}
+                    {!activeMobileCategory ? "Browse Categories" : activeMobileLevel4 ? activeMobileLevel4.name : activeMobileLevel3 ? activeMobileLevel3.name : activeMobileSubCategory ? activeMobileSubCategory.name : activeMobileCategory.name}
                   </h2>
                 </div>
                 <button
@@ -148,6 +152,8 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                     setIsMobileMenuOpen(false);
                     setActiveMobileCategory(null);
                     setActiveMobileSubCategory(null);
+                    setActiveMobileLevel3(null);
+                    setActiveMobileLevel4(null);
                   }}
                   className="p-1.5 bg-gray-100 rounded-full text-gray-600 active:scale-90 transition-all"
                 >
@@ -213,10 +219,10 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                 )}
 
                 {/* Level 3 List */}
-                {activeMobileSubCategory && (
+                {activeMobileSubCategory && !activeMobileLevel3 && (
                   <div className="grid grid-cols-1 gap-2">
                     <Link
-                      href={`/products/${activeMobileSubCategory.name}`}
+                      href={`/products/${activeMobileSubCategory.slug}`}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
                     >
@@ -224,9 +230,71 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
                       <ChevronRight size={18} />
                     </Link>
                     {activeMobileSubCategory.child?.map((item, i) => (
+                      <div
+                        key={i}
+                        onClick={() => {
+                          if (item.child?.length > 0) setActiveMobileLevel3(item);
+                          else setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
+                      >
+                        <span className="font-medium text-gray-700">{item.name}</span>
+                        {item.child?.length > 0 ? (
+                          <ChevronRight size={18} className="text-gray-400" />
+                        ) : (
+                          <Link href={`/products/${item.slug}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Level 4 List */}
+                {activeMobileLevel3 && !activeMobileLevel4 && (
+                  <div className="grid grid-cols-1 gap-2">
+                    <Link
+                      href={`/products/${activeMobileLevel3.slug}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
+                    >
+                      View All {activeMobileLevel3.name}
+                      <ChevronRight size={18} />
+                    </Link>
+                    {activeMobileLevel3.child?.map((item, i) => (
+                      <div
+                        key={i}
+                        onClick={() => {
+                          if (item.child?.length > 0) setActiveMobileLevel4(item);
+                          else setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
+                      >
+                        <span className="font-medium text-gray-700">{item.name}</span>
+                        {item.child?.length > 0 ? (
+                          <ChevronRight size={18} className="text-gray-400" />
+                        ) : (
+                          <Link href={`/products/${item.slug}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Level 5 List */}
+                {activeMobileLevel4 && (
+                  <div className="grid grid-cols-1 gap-2">
+                    <Link
+                      href={`/products/${activeMobileLevel4.slug}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-4 bg-[#0784BB] text-white rounded-xl shadow-sm font-bold mb-2"
+                    >
+                      View All {activeMobileLevel4.name}
+                      <ChevronRight size={18} />
+                    </Link>
+                    {activeMobileLevel4.child?.map((item, i) => (
                       <Link
                         key={i}
-                        href={`/products/${item.name}`}
+                        href={`/products/${item.slug}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-blue-50 transition-colors"
                       >

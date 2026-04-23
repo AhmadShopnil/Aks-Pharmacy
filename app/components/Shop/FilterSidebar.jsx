@@ -5,7 +5,7 @@ import { useGetBrandsQuery } from "@/lib/redux/services/productsApi";
 import { CollapsibleFilter } from "./CollapsibleFilter";
 import { useState, useEffect } from "react";
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ categorySlug }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

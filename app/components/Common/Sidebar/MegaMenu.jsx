@@ -33,11 +33,15 @@ const menuIcons = {
 export default function MegaMenu({ formattedCategories }) {
     const [level1, setLevel1] = useState(null);
     const [level2, setLevel2] = useState(null);
+    const [level3, setLevel3] = useState(null);
+    const [level4, setLevel4] = useState(null);
 
     // Mobile Menu State
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeMobileCategory, setActiveMobileCategory] = useState(null);
     const [activeMobileSubCategory, setActiveMobileSubCategory] = useState(null);
+    const [activeMobileLevel3, setActiveMobileLevel3] = useState(null);
+    const [activeMobileLevel4, setActiveMobileLevel4] = useState(null);
 
 
 
@@ -96,10 +100,12 @@ export default function MegaMenu({ formattedCategories }) {
                             {/* Header */}
                             <div className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-10">
                                 <div className="flex items-center gap-3">
-                                    {(activeMobileCategory || activeMobileSubCategory) && (
+                                    {(activeMobileCategory || activeMobileSubCategory || activeMobileLevel3 || activeMobileLevel4) && (
                                         <button
                                             onClick={() => {
-                                                if (activeMobileSubCategory) setActiveMobileSubCategory(null);
+                                                if (activeMobileLevel4) setActiveMobileLevel4(null);
+                                                else if (activeMobileLevel3) setActiveMobileLevel3(null);
+                                                else if (activeMobileSubCategory) setActiveMobileSubCategory(null);
                                                 else setActiveMobileCategory(null);
                                             }}
                                             className="p-1.5 bg-gray-100 rounded-full text-gray-600 active:scale-90 transition-all font-bold"
@@ -108,7 +114,7 @@ export default function MegaMenu({ formattedCategories }) {
                                         </button>
                                     )}
                                     <h2 className="font-bold text-gray-800">
-                                        {!activeMobileCategory ? "Categories" : activeMobileSubCategory ? activeMobileSubCategory.name : activeMobileCategory.name}
+                                        {!activeMobileCategory ? "Categories" : activeMobileLevel4 ? activeMobileLevel4.name : activeMobileLevel3 ? activeMobileLevel3.name : activeMobileSubCategory ? activeMobileSubCategory.name : activeMobileCategory.name}
                                     </h2>
                                 </div>
                                 <button
@@ -116,6 +122,8 @@ export default function MegaMenu({ formattedCategories }) {
                                         setIsMobileMenuOpen(false);
                                         setActiveMobileCategory(null);
                                         setActiveMobileSubCategory(null);
+                                        setActiveMobileLevel3(null);
+                                        setActiveMobileLevel4(null);
                                     }}
                                     className="p-1.5 bg-gray-100 rounded-full text-gray-600 active:scale-90 transition-all"
                                 >
@@ -185,10 +193,10 @@ export default function MegaMenu({ formattedCategories }) {
                                     </div>
                                 )}
 
-                                {activeMobileSubCategory && (
+                                {activeMobileSubCategory && !activeMobileLevel3 && (
                                     <div className="grid grid-cols-1 ">
                                         <Link
-                                            href={`/products/${activeMobileSubCategory.name}`}
+                                            href={`/products/${activeMobileSubCategory.slug}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm shadow-sm font-bold mb-2"
                                         >
@@ -196,11 +204,71 @@ export default function MegaMenu({ formattedCategories }) {
                                             <ChevronRight size={18} />
                                         </Link>
                                         {activeMobileSubCategory.child?.map((item, i) => (
+                                            <div
+                                                key={i}
+                                                onClick={() => {
+                                                    if (item.child?.length > 0) setActiveMobileLevel3(item);
+                                                    else setIsMobileMenuOpen(false);
+                                                }}
+                                                className="flex items-center justify-between p-3 bg-white rounded-sm border border-gray-200 active:bg-blue-50 transition-colors relative"
+                                            >
+                                                <span className="font-semibold text-sm text-gray-700">{item.name}</span>
+                                                {item.child?.length > 0 ? (
+                                                    <ChevronRight size={18} className="text-gray-400" />
+                                                ) : (
+                                                    <Link href={`/products/${item.slug}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {activeMobileLevel3 && !activeMobileLevel4 && (
+                                    <div className="grid grid-cols-1 ">
+                                        <Link
+                                            href={`/products/${activeMobileLevel3.slug}`}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm shadow-sm font-bold mb-2"
+                                        >
+                                            View All {activeMobileLevel3.name}
+                                            <ChevronRight size={18} />
+                                        </Link>
+                                        {activeMobileLevel3.child?.map((item, i) => (
+                                            <div
+                                                key={i}
+                                                onClick={() => {
+                                                    if (item.child?.length > 0) setActiveMobileLevel4(item);
+                                                    else setIsMobileMenuOpen(false);
+                                                }}
+                                                className="flex items-center justify-between p-3 bg-white rounded-sm border border-gray-200 active:bg-blue-50 transition-colors relative"
+                                            >
+                                                <span className="font-semibold text-sm text-gray-700">{item.name}</span>
+                                                {item.child?.length > 0 ? (
+                                                    <ChevronRight size={18} className="text-gray-400" />
+                                                ) : (
+                                                    <Link href={`/products/${item.slug}`} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 z-0" />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {activeMobileLevel4 && (
+                                    <div className="grid grid-cols-1 ">
+                                        <Link
+                                            href={`/products/${activeMobileLevel4.slug}`}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="flex items-center justify-between p-3 bg-[#0784BB] text-white rounded-sm shadow-sm font-bold mb-2"
+                                        >
+                                            View All {activeMobileLevel4.name}
+                                            <ChevronRight size={18} />
+                                        </Link>
+                                        {activeMobileLevel4.child?.map((item, i) => (
                                             <Link
                                                 key={i}
-                                                href={`/products/${item.name}`}
+                                                href={`/products/${item.slug}`}
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="flex items-center justify-between p-3 bg-white rounded-sm  border border-gray-200 active:bg-blue-50 transition-colors"
+                                                className="flex items-center justify-between p-3 bg-white rounded-sm border border-gray-200 active:bg-blue-50 transition-colors"
                                             >
                                                 <span className="font-medium text-sm text-gray-700">{item.name}</span>
                                             </Link>
@@ -220,6 +288,8 @@ export default function MegaMenu({ formattedCategories }) {
                     onMouseLeave={() => {
                         setLevel1(null);
                         setLevel2(null);
+                        setLevel3(null);
+                        setLevel4(null);
                     }}
                 >
 
@@ -235,6 +305,8 @@ export default function MegaMenu({ formattedCategories }) {
                                     onMouseEnter={() => {
                                         setLevel1(item);
                                         setLevel2(null);
+                                        setLevel3(null);
+                                        setLevel4(null);
                                     }}
                                     className={`
                                hover:text-[#0784BB] cursor-pointer transition-colors ${level1?.name === item.name ? 'text-[#0784BB] bg-blue-50/50' : ''}`}
@@ -269,7 +341,11 @@ export default function MegaMenu({ formattedCategories }) {
                                     {level1.child.map((item) => (
                                         <li
                                             key={item.name}
-                                            onMouseEnter={() => setLevel2(item)}
+                                            onMouseEnter={() => {
+                                                setLevel2(item);
+                                                setLevel3(null);
+                                                setLevel4(null);
+                                            }}
                                             className={`flex items-center justify-between px-4 py-2
                                    hover:bg-[#0784BB] hover:text-white
                                    cursor-pointer transition-colors ${level2?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
@@ -302,6 +378,73 @@ export default function MegaMenu({ formattedCategories }) {
                             >
                                 <ul className="py-2 h-full overflow-y-auto">
                                     {level2.child.map((item) => (
+                                        <li
+                                            key={item.name}
+                                            onMouseEnter={() => {
+                                                setLevel3(item);
+                                                setLevel4(null);
+                                            }}
+                                            className={`flex items-center justify-between px-4 py-2
+                                   hover:bg-[#0784BB] hover:text-white
+                                   cursor-pointer transition-colors ${level3?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
+                                        >
+                                            <Link href={`/products/${item?.slug}`} className="flex gap-2 items-center w-full">
+                                                <span>{item.name}</span>
+                                                {item?.child?.length > 0 && <span className="mt-1">
+                                                    <ChevronRight className="w-5 h-5 opacity-50" /></span>}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* LEVEL 4 DRAWER */}
+                    <AnimatePresence>
+                        {level3?.child?.length > 0 && (
+                            <motion.div
+                                className="absolute top-0 left-[calc(100%+32rem)] h-full
+                              bg-white shadow-sm border-r z-50 min-w-[256px] flex flex-col"
+                                variants={drawerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                            >
+                                <ul className="py-2 h-full overflow-y-auto">
+                                    {level3.child.map((item) => (
+                                        <li
+                                            key={item.name}
+                                            onMouseEnter={() => setLevel4(item)}
+                                            className={`flex items-center justify-between px-4 py-2
+                                   hover:bg-[#0784BB] hover:text-white
+                                   cursor-pointer transition-colors ${level4?.name === item.name ? 'bg-[#0784BB] text-white' : ''}`}
+                                        >
+                                            <Link href={`/products/${item?.slug}`} className="flex gap-2 items-center w-full">
+                                                <span>{item.name}</span>
+                                                {item?.child?.length > 0 && <span className="mt-1">
+                                                    <ChevronRight className="w-5 h-5 opacity-50" /></span>}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* LEVEL 5 DRAWER */}
+                    <AnimatePresence>
+                        {level4?.child?.length > 0 && (
+                            <motion.div
+                                className="absolute top-0 left-[calc(100%+48rem)] h-full
+                              bg-white shadow-sm border-r z-[60] min-w-[256px] flex flex-col"
+                                variants={drawerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                            >
+                                <ul className="py-2 h-full overflow-y-auto">
+                                    {level4.child.map((item) => (
                                         <li
                                             key={item.name}
                                             className="px-4 py-2 hover:bg-[#0784BB]
