@@ -22,7 +22,7 @@ export default async function Home() {
   const filteredOffers = offersSlider?.filter((item) => item?.is_special === true);
 
 
-// console.log("brands",brands)
+  // console.log("brands",brands)
 
   return (
     <div>

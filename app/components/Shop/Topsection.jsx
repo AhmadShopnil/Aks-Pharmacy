@@ -6,11 +6,11 @@ import Link from "next/link";
 import { getBreadComeByCategorySlug, getSingleCategory } from "@/lib/fetchApis";
 
 export default async function Topsection({ slug }) {
+    if (!slug) return null;
 
     const category = await getSingleCategory(slug)
     const breadCrumbs = await getBreadComeByCategorySlug(slug)
-    // console.log("breadCome", breadCrumbs)
-    const filteredBreadCrumbs = breadCrumbs?.filter((item) => item?.type !== "term_type");
+    const filteredBreadCrumbs = breadCrumbs?.filter((item) => item?.type !== "term_type") || [];
 
     return (
         <div className="border-b py-2">

@@ -7,11 +7,11 @@ import { getBreadComeByCategorySlug, getBreadComeByProductSlug, getSingleCategor
 import { ChevronRight, Home } from "lucide-react";
 
 export default async function BreadCrumbs({ slug }) {
+    if (!slug) return null;
 
     const category = await getSingleCategory(slug)
     const breadCrumbs = await getBreadComeByProductSlug(slug)
-    // console.log("breadCome from product", breadCrumbs)
-    const filteredBreadCrumbs = breadCrumbs?.filter((item) => item?.type !== "term_type");
+    const filteredBreadCrumbs = breadCrumbs?.filter((item) => item?.type !== "term_type") || [];
 
     return (
         <nav className="flex items-center gap-2 text-xs md:text-lg text-gray-500 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">

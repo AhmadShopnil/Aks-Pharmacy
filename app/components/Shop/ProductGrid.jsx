@@ -34,7 +34,7 @@ export default function ProductGrid({ categorySlug }) {
     order_by: order_by,
     min_price: min_price,
     max_price: max_price,
-  });
+  }, { skip: !categorySlug });
 
   const handleSortChange = (newSort) => {
     const params = new URLSearchParams(searchParams.toString());
