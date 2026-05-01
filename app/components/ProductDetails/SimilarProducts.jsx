@@ -40,7 +40,7 @@ console.log("category slug for similar products: ", categorySlug)
     const { data, isLoading, isError, isFetching } = useGetProductsByCategoryQuery({
     category: categorySlug,
   
-  });
+  }, { skip: !categorySlug });
 
   useEffect(() => {
     setInit(true);

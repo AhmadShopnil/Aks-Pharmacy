@@ -21,13 +21,14 @@ export default function SmallProductCard({ item }) {
   const stock_quantity = varrientInfo?.stock_quantity
   const stock_status = varrientInfo?.stock_status
   const is_on_sale = varrientInfo?.is_on_sale
+
   const featured_image = varrientInfo?.featured_image?.file_url || varrientInfo?.gallery_images[0]?.file_url || item?.featured_image | "/images/placeholder-product.webp "
   const discount = (parseFloat(display_price) || 0) - (parseFloat(sale_price) || 0)
 
 
 
 
-  
+
   //  console.log("item in product card ", item)
 
   if (item?.offer_details) {

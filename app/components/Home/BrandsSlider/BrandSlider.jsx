@@ -11,35 +11,6 @@ import "swiper/css/navigation";
 
 
 
-const brandsData = [
-    {
-        id: 1,
-        name: "ACI Pharma",
-        image: "/images/brands/aci.png"
-    },
-    {
-        id: 2,
-        name: "Beximco Pharma",
-        image: "/images/brands/b.png"
-    },
-    {
-        id: 3,
-        name: "Mamaearth",
-        image: "/images/brands/m.png"
-    },
-
-    {
-        id: 5,
-        name: "Renata Limited",
-        image: "/images/brands/retina.png"
-    },
-    {
-        id: 6,
-        name: "	Nova Labs",
-        image: "/images/brands/nova.png"
-    }
-];
-
 
 export default function BrandSlider({ brands }) {
 
@@ -84,8 +55,8 @@ export default function BrandSlider({ brands }) {
                                 <div className="h-[200px] flex flex-col items-center justify-center bg-gray-50 rounded-xl border-b-2 hover:shadow-md
                                  transition">
                                     <Image
-                                        src={brand?.icon}
-                                        alt={brand?.name}
+                                        src={(typeof brand?.icon === 'string' && brand?.icon.trim() !== "") ? brand.icon : "/images/placeholder-product.webp"}
+                                        alt={brand?.name || "Brand"}
                                         width={240}
                                         height={150}
                                         className="object-contain h-[150px] "
