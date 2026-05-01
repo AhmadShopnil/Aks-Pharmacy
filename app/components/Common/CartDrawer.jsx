@@ -13,13 +13,8 @@ import {
     decrementQuantity,
     clearCart,
 } from '@/lib/redux/features/cart/cartSlice';
-import {
-    toggleCartDrawer,
-    selectCartDrawerOpen,
-    showNotification,
-    openAuthModal
-} from "../../../lib/redux/features/ui/uiSlice";
-import { useCreateOrderMutation } from '@/lib/redux/services/ordersApi';
+import { toggleCartDrawer, selectCartDrawerOpen, showNotification, openAuthModal } from "../../../lib/redux/features/ui/uiSlice";
+import { useCreateOrderMutation, useValidateCouponMutation } from '@/lib/redux/services/ordersApi';
 import {
     useGetAddressesQuery,
     useCreateAddressMutation
@@ -55,12 +50,15 @@ export default function CartDrawer() {
     });
     const [createAddress] = useCreateAddressMutation();
     const [createOrder, { isLoading: isPlacingOrder }] = useCreateOrderMutation();
+    const [validateCoupon, { isLoading: isApplyingCoupon }] = useValidateCouponMutation();
     const [initiatePayment, { isLoading: isInitiatingPayment }] = useInitiatePaymentMutation();
     const addresses = addressesResponse?.data || [];
 
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [couponCode, setCouponCode] = useState("");
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [couponDiscount, setCouponDiscount] = useState(0);
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
 
@@ -78,7 +76,7 @@ export default function CartDrawer() {
     const mrp = cartTotal;
     const discount = cartTotal * 1.2 / 100;
     // const finalPayable = cartTotal - discount;
-    const finalPayable = cartTotal.toFixed();
+    const finalPayable = (cartTotal - couponDiscount).toFixed();
 
 
 
@@ -110,6 +108,45 @@ export default function CartDrawer() {
         } catch (err) {
             console.error("Failed to add address:", err);
         }
+    };
+
+    const handleApplyCoupon = async () => {
+        if (!couponCode) {
+            toast.error("Please enter a coupon code");
+            return;
+        }
+        
+        if (!isAuthenticated) {
+            toast.error("Please login to apply coupon");
+            return;
+        }
+
+        try {
+            const response = await validateCoupon({
+                coupon_code: couponCode,
+                order_total: cartTotal
+            }).unwrap();
+            
+            if (response.success && response.data) {
+                setAppliedCoupon(response.data.coupon);
+                setCouponDiscount(response.data.discount_amount);
+                toast.success(`Coupon applied successfully!`);
+            } else {
+                toast.error(response.message || "Invalid coupon code");
+            }
+        } catch (error) {
+            console.error("Failed to apply coupon:", error);
+            toast.error(error?.data?.message || "Failed to apply coupon.");
+            setAppliedCoupon(null);
+            setCouponDiscount(0);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setAppliedCoupon(null);
+        setCouponDiscount(0);
+        setCouponCode("");
+        toast.success("Coupon removed");
     };
 
     const handlePlaceOrder = async () => {
@@ -149,8 +186,8 @@ export default function CartDrawer() {
                 color: item.color || ""
             })),
             paymentMethod: paymentMethod,
-            promoCode: couponCode || "",
-            promoAmount: 0,
+            promoCode: appliedCoupon?.code || "",
+            promoAmount: couponDiscount || 0,
             amount: Number(finalPayable),
             // transaction_id: `AKS-${Date.now()}${Math.floor(Math.random() * 1000)}`
         };
@@ -166,6 +203,9 @@ export default function CartDrawer() {
                 console.log("order res", orderData)
                 toast.success("Order placed successfully!");
                 dispatch(clearCart());
+                setAppliedCoupon(null);
+                setCouponDiscount(0);
+                setCouponCode("");
 
                 if (paymentMethod !== "cash_on_delivery") {
                     const origin = window.location.origin;
@@ -353,20 +393,31 @@ export default function CartDrawer() {
                                             className="w-full pl-10 pr-4 py-2 border rounded-sm focus:ring-2 focus:ring-[#1d81b3] outline-none text-sm"
                                             value={couponCode}
                                             onChange={(e) => setCouponCode(e.target.value)}
+                                            disabled={!!appliedCoupon || isApplyingCoupon}
                                         />
                                     </div>
-                                    <button className="bg-[#1d81b3] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#166a94] transition">
-                                        Apply
-                                    </button>
+                                    {!appliedCoupon ? (
+                                        <button 
+                                            onClick={handleApplyCoupon}
+                                            disabled={isApplyingCoupon || !couponCode}
+                                            className="bg-[#1d81b3] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#166a94] transition disabled:opacity-50"
+                                        >
+                                            {isApplyingCoupon ? "..." : "Apply"}
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={handleRemoveCoupon}
+                                            className="bg-red-500 text-white px-4 py-2 rounded-sm font-medium hover:bg-red-600 transition"
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
                                 </div>
-                                {/* saving amount after cupon add */}
-                                {/* <div className="bg-blue-50 border border-blue-100 rounded-sm p-3 flex gap-3">
-                                    <div className="w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center shrink-0 text-white text-xs">Tk</div>
-                                    <div className="text-xs text-[#1d81b3]">
-                                        <p>You are saving <span className="font-bold">Tk{discount?.toFixed(1)}</span> in this order.</p>
-                                        <p>You will receive <span className="font-bold">Tk50</span> cashback after delivery.</p>
+                                {appliedCoupon && (
+                                    <div className="mt-2 text-sm text-green-600 font-medium">
+                                        Coupon '{appliedCoupon.code}' applied! You save Tk {couponDiscount}.
                                     </div>
-                                </div> */}
+                                )}
                             </div>
 
                             {/* Payment Method */}
@@ -415,6 +466,12 @@ export default function CartDrawer() {
                                     <span className="text-gray-600 text-sm md:text-base">Subtotal (MRP)</span>
                                     <span className="font-medium text-sm md:text-base">Tk{mrp?.toFixed(1)}</span>
                                 </div>
+                                {appliedCoupon && (
+                                    <div className="flex justify-between mb-2 text-sm md:text-base">
+                                        <span className="text-gray-600">Coupon Discount</span>
+                                        <span className="text-red-500 font-medium">-Tk{couponDiscount?.toFixed(1)}</span>
+                                    </div>
+                                )}
                                 {/* <div className="flex justify-between mb-2 text-sm md:text-base">
                                     <span className="text-gray-600">Discount Applied</span>
                                     <span className="text-red-500 font-medium">-Tk{discount.toFixed(1)}</span>
