@@ -68,9 +68,9 @@ const OrderList = () => {
                 customer_city: shipping.district || 'Dhaka',
                 customer_postcode: '1000',
                 customer_country: 'Bangladesh',
-                success_url: `${origin}/success`,
-                fail_url: `${origin}/failed`,
-                cancel_url: `${origin}/cancle`
+                success_url: `${origin}/api/payment/callback?status=success`,
+                fail_url: `${origin}/api/payment/callback?status=failed`,
+                cancel_url: `${origin}/api/payment/callback?status=cancle`
             };
 
 

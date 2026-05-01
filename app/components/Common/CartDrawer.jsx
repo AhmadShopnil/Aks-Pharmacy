@@ -225,9 +225,9 @@ export default function CartDrawer() {
                         customer_city: orderPayload.shipping.district,
                         customer_postcode: '1000', // Default if not available
                         customer_country: 'Bangladesh',
-                        success_url: `${origin}/success`,
-                        fail_url: `${origin}/failed`,
-                        cancel_url: `${origin}/cancle`
+                        success_url: `${origin}/api/payment/callback?status=success`,
+                        fail_url: `${origin}/api/payment/callback?status=failed`,
+                        cancel_url: `${origin}/api/payment/callback?status=cancle`
                     };
 
                     toast.loading("Redirecting to payment gateway...");
