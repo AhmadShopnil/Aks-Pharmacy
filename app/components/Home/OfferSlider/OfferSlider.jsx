@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,27 +10,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function OfferSlider({ offersSlider }) {
-
-
-
-
   return (
-    <div className="w-full py-2 md:py-3 lg:py-4 md:mt-8  ">
-      {/* <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-[#8CC540]  mb-3 md: mb-4 uppercase">
-        Especially For You
-      </h3> */}
-      <div className="relative w-full  ">
+    <div className="w-full py-2 md:py-4 md:mt-8">
+      <div className="relative w-full">
 
-        {/* Custom Navigation Buttons */}
+        {/* Navigation Buttons */}
         <button
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white p-1 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
+          className="absolute left-1 md:left-3 top-1/2 -translate-y-1/2 z-30 bg-white p-2 md:p-3 rounded-full shadow hover:scale-110 transition"
           id="discount-prev"
         >
           <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
         </button>
 
         <button
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white p-1 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
+          className="absolute right-1 md:right-3 top-1/2 -translate-y-1/2 z-30 bg-white p-2 md:p-3 rounded-full shadow hover:scale-110 transition"
           id="discount-next"
         >
           <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -38,29 +31,40 @@ export default function OfferSlider({ offersSlider }) {
 
         <Swiper
           modules={[Navigation]}
-          navigation={{ prevEl: '#discount-prev', nextEl: '#discount-next' }}
-          spaceBetween={20}
-          slidesPerView={2}
+          navigation={{
+            prevEl: "#discount-prev",
+            nextEl: "#discount-next",
+          }}
+          spaceBetween={12}
           loop={true}
           breakpoints={{
-            400: { slidesPerView: 2 },   // Mobile: 2 slides
-            640: { slidesPerView: 2 },   // Small tablets: 2 slides
-            768: { slidesPerView: 3 },   // Tablets: 3 slides
-            1024: { slidesPerView: 3 },  // Desktop: 3 slides
-            1280: { slidesPerView: 4 },  // Large screens: 4 slides
+            0: { slidesPerView: 1.2 },   // small mobile
+            480: { slidesPerView: 1.5 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 2.2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 },
           }}
-          className="w-full"
         >
           {offersSlider?.map((item, index) => (
             <SwiperSlide key={index}>
-              <Link href={`/offers/${item?.slug}`} className="block overflow-hidden transition-transform hover:scale-[1.02]">
-                <Image
-                  src={item?.image}
-                  alt={item?.name || "Discount Item"}
-                  width={500}
-                  height={250}
-                  className="w-full  h-auto object-cover "
-                />
+              <Link
+                href={`/offers/${item?.slug}`}
+                className="block group"
+              >
+                {/* Image Wrapper with fixed ratio */}
+                <div className="relative w-full aspect-[5/3] overflow-hidden  ">
+                  <Image
+                    src={item?.image}
+                    alt={item?.name || "Offer"}
+                    fill
+                    sizes="(max-width: 640px) 100vw,
+                           (max-width: 1024px) 50vw,
+                           (max-width: 1280px) 23vw,
+                           25vw"
+                    className="object-cover group-hover:scale-105 transition duration-300"
+                  />
+                </div>
               </Link>
             </SwiperSlide>
           ))}
