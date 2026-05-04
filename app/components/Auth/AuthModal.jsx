@@ -16,11 +16,24 @@ const AuthModal = ({ isOpen, onClose }) => {
   const apiError = loginError || registerError;
   const errorMessage = apiError
     ? (() => {
-      const validationErrors = apiError.data?.errors;
-      if (validationErrors && typeof validationErrors === "object") {
-        return Object.values(validationErrors).flat().join(" ");
+      const errorData = apiError.data || apiError;
+
+      // Handle the case where message is an object containing validation errors
+      if (errorData.message && typeof errorData.message === "object") {
+        return Object.values(errorData.message).flat().join(" ");
       }
-      return apiError.data?.message || apiError.message || "An unexpected error occurred";
+
+      // Handle the case where message is a string
+      if (typeof errorData.message === "string") {
+        return errorData.message;
+      }
+
+      // Fallback for other common error structures
+      if (errorData.errors && typeof errorData.errors === "object") {
+        return Object.values(errorData.errors).flat().join(" ");
+      }
+
+      return errorData.error || apiError.error || apiError.message || "An unexpected error occurred";
     })()
     : "";
 
@@ -68,6 +81,12 @@ const AuthModal = ({ isOpen, onClose }) => {
         return;
       } else {
         await ensureCsrfCookie();
+
+        if (form.phone && form.phone.length !== 11) {
+          setLocalError("Phone number must be exactly 11 characters");
+          return;
+        }
+
         if (form.password !== form.password_confirmation) {
           setLocalError("Passwords do not match")
           return
@@ -101,12 +120,22 @@ const AuthModal = ({ isOpen, onClose }) => {
         }
       }
     } catch (err) {
-
       console.error("Auth failed:", err);
 
-      if (!apiError) {
-        setLocalError(err.message || "Operation failed");
+      const errorData = err.data || err;
+      
+      let parsedMessage = "Operation failed";
+      if (errorData.message && typeof errorData.message === "object") {
+        parsedMessage = Object.values(errorData.message).flat().join(" ");
+      } else if (typeof errorData.message === "string") {
+        parsedMessage = errorData.message;
+      } else if (errorData.errors && typeof errorData.errors === "object") {
+        parsedMessage = Object.values(errorData.errors).flat().join(" ");
+      } else if (errorData.error || err.error || err.message) {
+        parsedMessage = errorData.error || err.error || err.message;
       }
+
+      setLocalError(parsedMessage);
     }
   }
 

@@ -115,7 +115,7 @@ export default function CartDrawer() {
             toast.error("Please enter a coupon code");
             return;
         }
-        
+
         if (!isAuthenticated) {
             toast.error("Please login to apply coupon");
             return;
@@ -126,7 +126,7 @@ export default function CartDrawer() {
                 coupon_code: couponCode,
                 order_total: cartTotal
             }).unwrap();
-            
+
             if (response.success && response.data) {
                 setAppliedCoupon(response.data.coupon);
                 setCouponDiscount(response.data.discount_amount);
@@ -193,14 +193,14 @@ export default function CartDrawer() {
         };
 
         try {
-            console.log("orderPayload", orderPayload)
+            // console.log("orderPayload", orderPayload)
             const res = await createOrder(orderPayload).unwrap();
 
             // The API response might be wrapped in a data property
             const orderData = res.data || res;
 
             if (orderData) {
-                console.log("order res", orderData)
+                // console.log("order res", orderData)
                 toast.success("Order placed successfully!");
                 dispatch(clearCart());
                 setAppliedCoupon(null);
@@ -397,7 +397,7 @@ export default function CartDrawer() {
                                         />
                                     </div>
                                     {!appliedCoupon ? (
-                                        <button 
+                                        <button
                                             onClick={handleApplyCoupon}
                                             disabled={isApplyingCoupon || !couponCode}
                                             className="bg-[#1d81b3] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#166a94] transition disabled:opacity-50"
@@ -405,7 +405,7 @@ export default function CartDrawer() {
                                             {isApplyingCoupon ? "..." : "Apply"}
                                         </button>
                                     ) : (
-                                        <button 
+                                        <button
                                             onClick={handleRemoveCoupon}
                                             className="bg-red-500 text-white px-4 py-2 rounded-sm font-medium hover:bg-red-600 transition"
                                         >
