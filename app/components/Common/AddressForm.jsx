@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AddressForm = ({ onSave, onCancel }) => {
     const [formData, setFormData] = useState({
@@ -10,6 +10,40 @@ const AddressForm = ({ onSave, onCancel }) => {
         division: "",
         district: "",
     });
+
+    const [divisions, setDivisions] = useState([]);
+    const [districts, setDistricts] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/proxy/api/v1/locations/divisions?per_page=100')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setDivisions(data.data);
+                }
+            })
+            .catch(console.error);
+    }, []);
+
+    useEffect(() => {
+        if (formData.division && divisions.length > 0) {
+            const selectedDiv = divisions.find(d => d.name === formData.division);
+            if (selectedDiv) {
+                fetch(`/api/proxy/api/v1/locations/districts?division_id=${selectedDiv.id}&per_page=100`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            setDistricts(data.data);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                setDistricts([]);
+            }
+        } else {
+            setDistricts([]);
+        }
+    }, [formData.division, divisions]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -69,23 +103,36 @@ const AddressForm = ({ onSave, onCancel }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
                     <label className="text-sm font-semibold">Division</label>
-                    <input
-                        type="text"
-                        placeholder="Division"
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
+                    <select
+                        required
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3] outline-none"
                         value={formData.division}
-                        onChange={e => setFormData({ ...formData, division: e.target.value })}
-                    />
+                        onChange={(e) => {
+                            setFormData({ ...formData, division: e.target.value, district: "" })
+                        }}
+                    >
+                        <option value="" disabled>Select Division</option>
+                        {divisions.map((div) => (
+                            <option key={div.id} value={div.name}>{div.name}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className="space-y-1">
                     <label className="text-sm font-semibold">District</label>
-                    <input
-                        type="text"
-                        placeholder="District"
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3]"
+                    <select
+                        required
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#1d81b3] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                         value={formData.district}
-                        onChange={e => setFormData({ ...formData, district: e.target.value })}
-                    />
+                        onChange={(e) =>
+                            setFormData({ ...formData, district: e.target.value })
+                        }
+                        disabled={!formData.division || districts.length === 0}
+                    >
+                        <option value="" disabled>Select District</option>
+                        {districts.map((dist) => (
+                            <option key={dist.id} value={dist.name}>{dist.name}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
 

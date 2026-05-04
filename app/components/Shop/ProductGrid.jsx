@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import ProductCardMain from "../Common/Cards/ProductCard/ProductCardMain";
 import { useGetProductsByCategoryQuery } from "@/lib/redux/services/productsApi";
 import Pagination from "../Common/Pagination";
+import { SlidersHorizontal, ChevronDown, LayoutGrid } from "lucide-react";
 
 export default function ProductGrid({ categorySlug }) {
   const searchParams = useSearchParams();
@@ -14,7 +15,7 @@ export default function ProductGrid({ categorySlug }) {
   const min_price = searchParams.get("min_price");
   const max_price = searchParams.get("max_price");
   const initialPage = Number(searchParams.get("page")) || 1;
-  
+
   const [page, setPage] = useState(initialPage);
   const [perPage, setPerPage] = useState(50);
 
@@ -96,30 +97,50 @@ export default function ProductGrid({ categorySlug }) {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <select
-          value={order_by || ""}
-          onChange={(e) => handleSortChange(e.target.value)}
-          className="border px-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary/50 text-sm"
-        >
-          <option value="">Sort By: Default</option>
-          <option value="price:asc">Price: Low to High</option>
-          <option value="price:desc">Price: High to Low</option>
-          <option value="name:asc">Alphabetical (A-Z)</option>
-          <option value="name:desc">Alphabetical (Z-A)</option>
-        </select>
-        <select
-          value={perPage}
-          onChange={(e) => handlePerPageChange(Number(e.target.value))}
-          className="border px-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary/50 text-sm"
-        >
-          <option value={20}>Show 20</option>
-          <option value={50}>Show 50</option>
-          <option value={100}>Show 100</option>
-          <option value={150}>Show 150</option>
-        </select>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        {/* Sort By */}
+        <div className="relative group w-full sm:w-auto">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <SlidersHorizontal className="w-4 h-4 text-gray-400 group-hover:text-[#1d81b3] transition-colors" />
+          </div>
+          <select
+            value={order_by || ""}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="appearance-none w-full sm:w-[260px] bg-white border border-gray-200 text-gray-700 py-2.5 pl-10 pr-10
+             rounded-xs hover:border-[#1d81b3] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1d81b3]/20 focus:border-[#1d81b3] transition-all cursor-pointer text-sm font-semibold shadow-sm"
+          >
+            <option value="">Sort By: Default Sorting</option>
+            <option value="price:asc">Sort By: Price (Low to High)</option>
+            <option value="price:desc">Sort By: Price (High to Low)</option>
+            <option value="name:asc">Sort By: Alphabetical (A-Z)</option>
+            <option value="name:desc">Sort By: Alphabetical (Z-A)</option>
+          </select>
+          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+            <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-[#1d81b3] transition-colors" />
+          </div>
+        </div>
+
+        {/* Show Per Page */}
+        <div className="relative group w-full sm:w-auto">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <LayoutGrid className="w-4 h-4 text-gray-400 group-hover:text-[#1d81b3] transition-colors" />
+          </div>
+          <select
+            value={perPage}
+            onChange={(e) => handlePerPageChange(Number(e.target.value))}
+            className="appearance-none w-full sm:w-[180px] bg-white border border-gray-200 text-gray-700 py-2.5 pl-10 pr-10 rounded-xs hover:border-[#1d81b3] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1d81b3]/20 focus:border-[#1d81b3] transition-all cursor-pointer text-sm font-semibold shadow-sm"
+          >
+            <option value={20}>Show: 20 per page</option>
+            <option value={50}>Show: 50 per page</option>
+            <option value={100}>Show: 100 per page</option>
+            <option value={150}>Show: 150 per page</option>
+          </select>
+          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+            <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-[#1d81b3] transition-colors" />
+          </div>
+        </div>
       </div>
-      
+
       <div className={`transition-opacity duration-300 ${isFetching ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {products.map((item) => (
@@ -128,9 +149,9 @@ export default function ProductGrid({ categorySlug }) {
         </div>
       </div>
 
-      <Pagination 
-        currentPage={page} 
-        lastPage={lastPage} 
+      <Pagination
+        currentPage={page}
+        lastPage={lastPage}
         onPageChange={handlePageChange}
         isFetching={isFetching}
       />
