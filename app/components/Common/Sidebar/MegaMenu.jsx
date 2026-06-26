@@ -16,6 +16,7 @@ import {
     FaSeedling,
     FaBroom,
 } from "react-icons/fa";
+import ExpressDeliveryButton from "../../expressDelivery/ExpressDeliveryButton";
 
 const menuIcons = {
     Medicine: FaPills,
@@ -68,6 +69,7 @@ export default function MegaMenu({ formattedCategories }) {
 
     return (
         <div className="">
+
             {/* MOBILE TRIGGER BUTTON (Floating) */}
             <div className="lg:hidden fixed bottom-6 right-3 z-[50]">
                 <button
@@ -292,7 +294,9 @@ export default function MegaMenu({ formattedCategories }) {
                         setLevel4(null);
                     }}
                 >
-
+                    <div className=" p-4 bg-[#0784BB]">
+                        <ExpressDeliveryButton />
+                    </div>
 
                     {/* LEVEL 1 */}
                     <ul className="divide-y h-full overflow-y-auto bg-[#f1f1f1]">
