@@ -11,6 +11,8 @@ import WishlistButton from "../WishlistButton";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/lib/redux/features/user/userSlice";
 import { openAuthModal } from "@/lib/redux/features/ui/uiSlice";
+import ExpressDeliveryButton from "../../expressDelivery/ExpressDeliveryButton";
+import DeliveryMethod from "../../expressDelivery/DeliveryMethod";
 
 export default function Navbar() {
 
@@ -43,7 +45,10 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
+<div>
+    {/* <DeliveryMethod /> */}
+  {/* <ExpressDeliveryButton /> */}
+</div>
         {/* Search bar */}
         <div className="flex-1 hidden lg:flex">
           <SearchSuggestions />

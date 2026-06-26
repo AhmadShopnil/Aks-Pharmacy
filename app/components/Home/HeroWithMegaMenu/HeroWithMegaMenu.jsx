@@ -21,6 +21,7 @@ import "swiper/css/pagination";
 import { formatCategories, megamenuFormat, } from "@/helper/megamenuFormat";
 import Link from "next/link";
 import HeroSlider from "./HeroSlider";
+import ExpressDeliveryButton from "../../expressDelivery/ExpressDeliveryButton";
 
 
 const menuIcons = {
@@ -72,6 +73,7 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
 
   return (
     <section className="md:mt-2 grid grid-cols-12 gap-4 relative ">
+     
       {/* MOBILE CATEGORY slider */}
       {/* <div className="lg:hidden col-span-12  px-1.5 py-2 bg-white rounded-sm shadow-sm border border-gray-100">
         <div className="flex items-center justify-between px-1">
@@ -320,6 +322,9 @@ export default function HeroWithMegaMenu({ heroSliders, productCategories }) {
           setLevel4(null);
         }}
       >
+          <div className=" p-4 bg-[#0784BB]">
+            <ExpressDeliveryButton />
+          </div>
         {/* LEVEL 1 */}
         <ul className="divide-y h-full overflow-y-auto">
           {formattedCategories?.map((item, i) => {

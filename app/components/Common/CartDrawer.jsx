@@ -33,6 +33,7 @@ import {
     X,
     ShoppingCart
 } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 
 export default function CartDrawer() {
@@ -61,6 +62,10 @@ export default function CartDrawer() {
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
+     const expressDelivery = useSelector(
+        (state) => state.expressDelivery
+      );
+    
 
     React.useEffect(() => {
         if (!selectedAddressId && addresses.length > 0) {
@@ -159,15 +164,49 @@ export default function CartDrawer() {
             toast.error("Please agree to the terms and conditions");
             return;
         }
+         console.log("expressDelivery", expressDelivery)
 
-        const orderPayload = {
+        // const orderPayload = {
+        //     shipping: {
+        //         name: selectedAddress?.customer_name || profile?.name || "",
+        //         email: profile?.email || selectedAddress?.email || "",
+        //         phone: selectedAddress?.customer_phone || profile?.phone || "",
+        //         address: selectedAddress?.detailed_address || "",
+        //         thana: selectedAddress?.division || "",
+        //         district: selectedAddress?.district || "",
+        //         country: "Bangladesh",
+        //         note: ""
+        //     },
+        //     products: cartItems.map(item => ({
+        //         id: item.id,
+        //         name: item.title,
+        //         price: item.price,
+        //         qty: item.quantity,
+        //         original_price: (item.price + (item.discount || 0)),
+        //         brand_id: "",
+        //         vendor_id: "",
+        //         category_id: "",
+        //         icon: item.img || "",
+        //         slug: item.slug || "",
+        //         size: item.size || "",
+        //         color: item.color || ""
+        //     })),
+        //     paymentMethod: paymentMethod,
+        //     promoCode: appliedCoupon?.code || "",
+        //     promoAmount: couponDiscount || 0,
+        //     amount: Number(finalPayable),
+        //     deliveryType:expressDelivery?.enabled ? "express-delivery" : "normal"
+        //     // transaction_id: `AKS-${Date.now()}${Math.floor(Math.random() * 1000)}`
+        // };
+         const orderPayload = {
             shipping: {
                 name: selectedAddress?.customer_name || profile?.name || "",
                 email: profile?.email || selectedAddress?.email || "",
                 phone: selectedAddress?.customer_phone || profile?.phone || "",
-                address: selectedAddress?.detailed_address || "",
-                thana: selectedAddress?.division || "",
-                district: selectedAddress?.district || "",
+                address:expressDelivery?.enabled ? expressDelivery?.area?.name : selectedAddress?.detailed_address || "",
+                thana: expressDelivery?.enabled ? expressDelivery?.thana?.name : selectedAddress?.division || "",
+                division: expressDelivery?.enabled ? expressDelivery?.district?.name : selectedAddress?.division || "",
+                district: expressDelivery?.enabled ? expressDelivery?.district?.name : selectedAddress?.district || "",
                 country: "Bangladesh",
                 note: ""
             },
@@ -189,11 +228,14 @@ export default function CartDrawer() {
             promoCode: appliedCoupon?.code || "",
             promoAmount: couponDiscount || 0,
             amount: Number(finalPayable),
+            delivery_mode:expressDelivery?.enabled ? "quick" : "regular",
+            outlet_id:expressDelivery?.area?.id,
+            area_id:expressDelivery?.area?.id
             // transaction_id: `AKS-${Date.now()}${Math.floor(Math.random() * 1000)}`
         };
 
         try {
-            // console.log("orderPayload", orderPayload)
+            console.log("orderPayload", orderPayload)
             const res = await createOrder(orderPayload).unwrap();
 
             // The API response might be wrapped in a data property
@@ -435,7 +477,8 @@ export default function CartDrawer() {
                                         />
                                         <span className="text-sm text-gray-700">Cash On Delivery</span>
                                     </label>
-                                    <label className="flex items-center gap-2 cursor-pointer">
+                                    {/* for bank payment------ currently off */}
+                                    {/* <label className="flex items-center gap-2 cursor-pointer">
                                         <input
                                             type="radio"
                                             name="paymentMethod"
@@ -445,7 +488,7 @@ export default function CartDrawer() {
                                             className="w-4 h-4 text-[#1d81b3] focus:ring-[#1d81b3]"
                                         />
                                         <span className="text-sm text-gray-700">Debit/Credit</span>
-                                    </label>
+                                    </label> */}
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
                                             type="radio"
