@@ -203,7 +203,8 @@ export default function CartDrawer() {
                 name: selectedAddress?.customer_name || profile?.name || "",
                 email: profile?.email || selectedAddress?.email || "",
                 phone: selectedAddress?.customer_phone || profile?.phone || "",
-                address:expressDelivery?.enabled ? expressDelivery?.area?.name : selectedAddress?.detailed_address || "",
+                address: selectedAddress?.detailed_address || expressDelivery?.area?.name,
+                // address:expressDelivery?.enabled ? expressDelivery?.area?.name : selectedAddress?.detailed_address || "",
                 thana: expressDelivery?.enabled ? expressDelivery?.thana?.name : selectedAddress?.division || "",
                 division: expressDelivery?.enabled ? expressDelivery?.district?.name : selectedAddress?.division || "",
                 district: expressDelivery?.enabled ? expressDelivery?.district?.name : selectedAddress?.district || "",
@@ -265,7 +266,7 @@ export default function CartDrawer() {
                         product_category: 'Healthcare',
                         customer_address: orderPayload.shipping.address,
                         customer_city: orderPayload.shipping.district,
-                        customer_postcode: '1000', // Default if not available
+                        customer_postcode: '', // Default if not available
                         customer_country: 'Bangladesh',
                         success_url: `${origin}/api/payment/callback?status=success`,
                         fail_url: `${origin}/api/payment/callback?status=failed`,
@@ -284,7 +285,7 @@ export default function CartDrawer() {
                 } else {
                     // Redirect to dashboard for COD
                     dispatch(toggleCartDrawer());
-                    window.location.href = '/dashboard';
+                    // window.location.href = '/dashboard';
                 }
             }
         } catch (error) {
