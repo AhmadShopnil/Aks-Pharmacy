@@ -285,7 +285,7 @@ export default function CartDrawer() {
                 } else {
                     // Redirect to dashboard for COD
                     dispatch(toggleCartDrawer());
-                    // window.location.href = '/dashboard';
+                    window.location.href = '/dashboard';
                 }
             }
         } catch (error) {
