@@ -239,7 +239,7 @@ export default function ExpressDeliveryModal({
                 !areaId
               }
               onClick={handleSubmit}
-              className="w-full rounded-xl bg-black py-3 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="w-full rounded-xl bg-[#0784BB] py-3 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Enable Express Delivery
             </button>
