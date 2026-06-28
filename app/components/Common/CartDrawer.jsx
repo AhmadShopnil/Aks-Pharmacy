@@ -230,7 +230,7 @@ export default function CartDrawer() {
             promoAmount: couponDiscount || 0,
             amount: Number(finalPayable),
             delivery_mode:expressDelivery?.enabled ? "quick" : "regular",
-            outlet_id:expressDelivery?.area?.id,
+            outlet_id:expressDelivery?.outlets[0]?.id,
             area_id:expressDelivery?.area?.id
             // transaction_id: `AKS-${Date.now()}${Math.floor(Math.random() * 1000)}`
         };
